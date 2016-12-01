@@ -24,10 +24,6 @@
 
 struct stRegs {
 	unsigned char R_2A03[0x20];
-	unsigned char R_VRC6[0x10];
-	unsigned char R_VRC7[0x40];
-	unsigned char R_FDS[0x10];
-	unsigned char R_MMC5[0x08];
 	// // //
 };
 

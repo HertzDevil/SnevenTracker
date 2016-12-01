@@ -28,10 +28,6 @@
 enum chip_level_t {
 	CHIP_LEVEL_APU1,
 	CHIP_LEVEL_APU2,
-	CHIP_LEVEL_VRC6,
-	CHIP_LEVEL_VRC7,
-	CHIP_LEVEL_MMC5,
-	CHIP_LEVEL_FDS,
 	// // //
 };
 
@@ -66,9 +62,6 @@ private:
 
 	void MixInternal1(int Time);
 	void MixInternal2(int Time);
-	void MixFDS(int Value, int Time);
-	void MixVRC6(int Value, int Time);
-	void MixMMC5(int Value, int Time);
 	// // //
 
 	void StoreChannelLevel(int Channel, int Value);
@@ -80,9 +73,6 @@ private:
 	// Blip buffer synths
 	Blip_Synth<blip_good_quality, -500>		Synth2A03SS;
 	Blip_Synth<blip_good_quality, -500>		Synth2A03TND;
-	Blip_Synth<blip_good_quality, -500>		SynthVRC6;
-	Blip_Synth<blip_good_quality, -130>		SynthMMC5;	
-	Blip_Synth<blip_good_quality, -3500>	SynthFDS;
 	// // //
 	
 	// Blip buffer object
@@ -105,9 +95,6 @@ private:
 
 	float		m_fLevelAPU1;
 	float		m_fLevelAPU2;
-	float		m_fLevelVRC6;
-	float		m_fLevelMMC5;
-	float		m_fLevelFDS;
 	// // //
 };
 

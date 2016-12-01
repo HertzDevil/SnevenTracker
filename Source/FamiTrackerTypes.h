@@ -20,8 +20,6 @@
 
 #pragma once
 
-#include "DSample.h"
-
 #define MIDI_NOTE(octave, note)		((octave) * 12 + (note) - 1)
 #define GET_OCTAVE(midi_note)		((midi_note) / 12)
 #define GET_NOTE(midi_note)			((midi_note) % 12 + 1)
@@ -79,8 +77,7 @@ const int MIN_SPEED = 1;
 const int MAX_CHANNELS	 = 5 + 3 + 2 + 6 + 1 + 8 + 3;		
 
 const int CHANNELS_DEFAULT = 5;
-const int CHANNELS_VRC6	   = 3;
-const int CHANNELS_VRC7	   = 6;
+// // //
 
 const int OCTAVE_RANGE = 8;
 const int NOTE_RANGE   = 12;

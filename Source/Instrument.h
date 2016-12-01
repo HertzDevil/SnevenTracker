@@ -26,9 +26,6 @@
 enum inst_type_t {
 	INST_NONE = 0,
 	INST_2A03 = 1,
-	INST_VRC6,
-	INST_VRC7,
-	INST_FDS,
 	// // //
 };
 
@@ -135,116 +132,6 @@ private:
 	char	m_cSampleLoopOffset[OCTAVE_RANGE][12];		// Loop offset
 	char	m_cSampleDelta[OCTAVE_RANGE][12];			// Delta setting
 
-};
-
-class CInstrumentVRC6 : public CInstrument {
-public:
-	CInstrumentVRC6();
-	virtual inst_type_t	GetType() const { return INST_VRC6; };
-	virtual CInstrument* CreateNew() const { return new CInstrumentVRC6(); };
-	virtual CInstrument* Clone() const;
-	virtual void Setup();
-	virtual void Store(CDocumentFile *pDocFile);
-	virtual bool Load(CDocumentFile *pDocFile);
-	virtual void SaveFile(CInstrumentFile *pFile, const CFamiTrackerDoc *pDoc);
-	virtual bool LoadFile(CInstrumentFile *pFile, int iVersion, CFamiTrackerDoc *pDoc);
-	virtual int Compile(CFamiTrackerDoc *pDoc, CChunk *pChunk, int Index);
-	virtual bool CanRelease() const;
-
-public:
-	int		GetSeqEnable(int Index) const;
-	int		GetSeqIndex(int Index) const;
-	void	SetSeqEnable(int Index, int Value);
-	void	SetSeqIndex(int Index, int Value);
-
-public:
-	static const int SEQUENCE_COUNT = 5;
-	static const int SEQUENCE_TYPES[];
-
-private:
-	int		m_iSeqEnable[SEQ_COUNT];
-	int		m_iSeqIndex[SEQ_COUNT];
-};
-
-class CInstrumentVRC7 : public CInstrument {
-public:
-	CInstrumentVRC7();
-	virtual inst_type_t	GetType() const { return INST_VRC7; };
-	virtual CInstrument* CreateNew() const { return new CInstrumentVRC7(); };
-	virtual CInstrument* Clone() const;
-	virtual void Setup();
-	virtual void Store(CDocumentFile *pDocFile);
-	virtual bool Load(CDocumentFile *pDocFile);
-	virtual void SaveFile(CInstrumentFile *pFile, const CFamiTrackerDoc *pDoc);
-	virtual bool LoadFile(CInstrumentFile *pFile, int iVersion, CFamiTrackerDoc *pDoc);
-	virtual int Compile(CFamiTrackerDoc *pDoc, CChunk *pChunk, int Index);
-	virtual bool CanRelease() const;
-
-public:
-	void		 SetPatch(unsigned int Patch);
-	unsigned int GetPatch() const;
-	void		 SetCustomReg(int Reg, unsigned int Value);
-	unsigned int GetCustomReg(int Reg) const;
-
-private:
-	unsigned int m_iPatch;
-	unsigned int m_iRegs[8];		// Custom patch settings
-};
-
-class CInstrumentFDS : public CInstrument {
-public:
-	CInstrumentFDS();
-	virtual ~CInstrumentFDS();
-	virtual inst_type_t GetType() const { return INST_FDS; };
-	virtual CInstrument* CreateNew() const { return new CInstrumentFDS(); };
-	virtual CInstrument* Clone() const;
-	virtual void Setup();
-	virtual void Store(CDocumentFile *pDocFile);
-	virtual bool Load(CDocumentFile *pDocFile);
-	virtual void SaveFile(CInstrumentFile *pFile, const CFamiTrackerDoc *pDoc);
-	virtual bool LoadFile(CInstrumentFile *pFile, int iVersion, CFamiTrackerDoc *pDoc);
-	virtual int Compile(CFamiTrackerDoc *pDoc, CChunk *pChunk, int Index);
-	virtual bool CanRelease() const;
-
-public:
-	unsigned char GetSample(int Index) const;
-	void	SetSample(int Index, int Sample);
-	int		GetModulationSpeed() const;
-	void	SetModulationSpeed(int Speed);
-	int		GetModulation(int Index) const;
-	void	SetModulation(int Index, int Value);
-	int		GetModulationDepth() const;
-	void	SetModulationDepth(int Depth);
-	int		GetModulationDelay() const;
-	void	SetModulationDelay(int Delay);
-	bool	GetModulationEnable() const;
-	void	SetModulationEnable(bool Enable);
-	CSequence* GetVolumeSeq() const;
-	CSequence* GetArpSeq() const;
-	CSequence* GetPitchSeq() const;
-
-private:
-	void StoreSequence(CDocumentFile *pDocFile, CSequence *pSeq);
-	bool LoadSequence(CDocumentFile *pDocFile, CSequence *pSeq);
-	void StoreInstSequence(CInstrumentFile *pDocFile, CSequence *pSeq);
-	bool LoadInstSequence(CInstrumentFile *pFile, CSequence *pSeq);
-
-public:
-	static const int WAVE_SIZE = 64;
-	static const int MOD_SIZE = 32;
-
-private:
-	// Instrument data
-	unsigned char m_iSamples[64];
-	unsigned char m_iModulation[32];
-	int			  m_iModulationSpeed;
-	int			  m_iModulationDepth;
-	int			  m_iModulationDelay;
-	bool		  m_bModulationEnable;
-
-	CSequence*	  m_pVolume;
-	CSequence*	  m_pArpeggio;
-	CSequence*	  m_pPitch;
 };
 
 // // //

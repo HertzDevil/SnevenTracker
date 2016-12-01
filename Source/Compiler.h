@@ -117,8 +117,7 @@ private:
 	void	ClearSongBanks();
 	void	EnableBankswitching();
 
-	// FDS
-	void	AddWavetable(CInstrumentFDS *pInstrument, CChunk *pChunk);
+	// // //
 
 	// File writing
 	void	WriteAssembly(CFile *pFile);
@@ -158,8 +157,6 @@ public:
 	static const char LABEL_SAMPLE[];
 	static const char LABEL_WAVES[];
 	static const char LABEL_SEQ_2A03[];
-	static const char LABEL_SEQ_VRC6[];
-	static const char LABEL_SEQ_FDS[];
 	// // //
 	static const char LABEL_INSTRUMENT[];
 	static const char LABEL_SONG[];
@@ -209,7 +206,6 @@ private:
 	unsigned int	m_iInstruments;
 	unsigned int	m_iAssignedInstruments[MAX_INSTRUMENTS];
 	bool			m_bSequencesUsed2A03[MAX_SEQUENCES][SEQ_COUNT];
-	bool			m_bSequencesUsedVRC6[MAX_SEQUENCES][SEQ_COUNT];
 	// // //
 
 	// Sample variables
@@ -244,8 +240,7 @@ private:
 	unsigned int	m_iSamplePointerBank;
 	unsigned int	m_iSamplePointerOffset;
 
-	// FDS
-	unsigned int	m_iWaveTables;
+	// // //
 
 	// Optimization
 	CMap<UINT, UINT, CChunk*, CChunk*> m_PatternMap;

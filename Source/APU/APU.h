@@ -31,12 +31,6 @@ class CSquare;
 class CTriangle;
 class CNoise;
 class CDPCM;
-
-class CVRC6;
-class CVRC7;
-class CFDS;
-class CMMC5;
-class CExternal;
 // // //
 
 #ifdef LOGGING
@@ -97,8 +91,6 @@ private:
 	inline void RunAPU2(uint32 Time);
 
 	void EndFrame();
-	
-	void LogExternalWrite(uint16 Address, uint8 Value);
 
 private:
 	CMixer		*m_pMixer;
@@ -111,11 +103,6 @@ private:
 	CNoise		*m_pNoise;
 	CDPCM		*m_pDPCM;
 
-	// Expansion chips
-	CVRC6		*m_pVRC6;
-	CMMC5		*m_pMMC5;
-	CFDS		*m_pFDS;
-	CVRC7		*m_pVRC7;
 	// // //
 
 	uint8		m_iExternalSoundChip;				// External sound chip, if used
@@ -139,10 +126,6 @@ private:
 	int16		*m_pSoundBuffer;					// Sound transfer buffer
 
 	uint8		m_iRegs[0x20];
-	uint8		m_iRegsVRC6[0x10];
-	uint8		m_iRegsFDS[0x10];
-
-	float		m_fLevelVRC7;
 	// // //
 
 #ifdef LOGGING

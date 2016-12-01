@@ -23,10 +23,6 @@
 #include "../Common.h"
 
 const uint8 SNDCHIP_NONE  = 0;
-const uint8 SNDCHIP_VRC6  = 1;			// Konami VRCVI
-const uint8 SNDCHIP_VRC7  = 2;			// Konami VRCVII
-const uint8 SNDCHIP_FDS	  = 4;			// Famicom Disk Sound
-const uint8 SNDCHIP_MMC5  = 8;			// Nintendo MMC5
 // // //
 
 enum chan_id_t {
@@ -34,24 +30,7 @@ enum chan_id_t {
 	CHANID_SQUARE2,
 	CHANID_TRIANGLE,
 	CHANID_NOISE,
-	CHANID_DPCM,
-
-	CHANID_VRC6_PULSE1,
-	CHANID_VRC6_PULSE2,
-	CHANID_VRC6_SAWTOOTH,
-
-	CHANID_MMC5_SQUARE1,
-	CHANID_MMC5_SQUARE2,
-	CHANID_MMC5_VOICE,
-
-	CHANID_FDS,
-
-	CHANID_VRC7_CH1,
-	CHANID_VRC7_CH2,
-	CHANID_VRC7_CH3,
-	CHANID_VRC7_CH4,
-	CHANID_VRC7_CH5,
-	CHANID_VRC7_CH6,
+	CHANID_DPCM,		// TODO: remove
 	// // //
 	CHANNELS		/* Total number of channels */
 };

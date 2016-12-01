@@ -178,10 +178,7 @@ public:
 	// Other
 	uint8		GetReg(int Chip, int Reg) const;
 
-	// FDS & N163 wave preview
-	void		WaveChanged();
-	bool		HasWaveChanged() const;
-	void		ResetWaveChanged();
+	// // //
 
 	void		WriteRegister(uint16 Reg, uint8 Value);
 	void		WriteExternalRegister(uint16 Reg, uint8 Value);
@@ -333,8 +330,6 @@ private:
 	unsigned int		*m_pNoteLookupTable;				// NTSC or PAL
 	unsigned int		m_iNoteLookupTableNTSC[96];			// For 2A03
 	unsigned int		m_iNoteLookupTablePAL[96];			// For 2A07
-	unsigned int		m_iNoteLookupTableSaw[96];			// For VRC6 sawtooth
-	unsigned int		m_iNoteLookupTableFDS[96];			// For FDS
 	// // //
 	int					m_iVibratoTable[VIBRATO_LENGTH];
 
@@ -357,9 +352,7 @@ private:
 
 	CWaveFile			m_wfWaveFile;
 
-	// FDS & N163 waves
-	volatile bool		m_bWaveChanged;
-	volatile bool		m_bInternalWaveChanged;
+	// // //
 
 	// Player state
 	int					m_iQueuedFrame;					// Queued frame

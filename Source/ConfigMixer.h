@@ -40,10 +40,6 @@ public:
 private:
 	int m_iLevelAPU1;
 	int m_iLevelAPU2;
-	int m_iLevelVRC6;
-	int m_iLevelVRC7;
-	int m_iLevelMMC5;
-	int m_iLevelFDS;
 	// // //
 
 protected:

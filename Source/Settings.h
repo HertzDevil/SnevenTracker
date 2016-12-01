@@ -179,10 +179,6 @@ public:
 	struct {
 		int		iLevelAPU1;
 		int		iLevelAPU2;
-		int		iLevelVRC6;
-		int		iLevelVRC7;
-		int		iLevelMMC5;
-		int		iLevelFDS;
 		// // //
 	} ChipLevels;
 

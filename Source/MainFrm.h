@@ -298,10 +298,6 @@ public:
 	afx_msg void OnNewInstrumentMenu(NMHDR * pNotifyStruct, LRESULT * result);
 	afx_msg void OnLoadInstrumentMenu(NMHDR * pNotifyStruct, LRESULT * result);
 	afx_msg void OnAddInstrument2A03();
-	afx_msg void OnAddInstrumentVRC6();
-	afx_msg void OnAddInstrumentVRC7();
-	afx_msg void OnAddInstrumentFDS();
-	afx_msg void OnAddInstrumentMMC5();
 	afx_msg void OnEditUndo();
 	afx_msg void OnEditRedo();
 	afx_msg void OnEditCut();

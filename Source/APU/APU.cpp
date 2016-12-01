@@ -28,10 +28,6 @@
 #include "Triangle.h"
 #include "Noise.h"
 #include "DPCM.h"
-#include "VRC6.h"
-#include "MMC5.h"
-#include "FDS.h"
-#include "VRC7.h"
 
 const int	 CAPU::SEQUENCER_PERIOD		= 7458;
 //const int	 CAPU::SEQUENCER_PERIOD_PAL	= 7458;			// ????
@@ -62,13 +58,6 @@ CAPU::CAPU(IAudioCallback *pCallback, CSampleMem *pSampleMem) :
 	m_pTriangle = new CTriangle(m_pMixer, CHANID_TRIANGLE);
 	m_pNoise = new CNoise(m_pMixer, CHANID_NOISE);
 	m_pDPCM = new CDPCM(m_pMixer, pSampleMem, CHANID_DPCM);
-
-	m_pMMC5 = new CMMC5(m_pMixer);
-	m_pVRC6 = new CVRC6(m_pMixer);
-	m_pVRC7 = new CVRC7(m_pMixer);
-	m_pFDS = new CFDS(m_pMixer);
-
-	m_fLevelVRC7 = 1.0f;
 	// // //
 
 #ifdef LOGGING
@@ -84,11 +73,6 @@ CAPU::~CAPU()
 	SAFE_RELEASE(m_pTriangle);
 	SAFE_RELEASE(m_pNoise);
 	SAFE_RELEASE(m_pDPCM);
-
-	SAFE_RELEASE(m_pMMC5);
-	SAFE_RELEASE(m_pVRC6);
-	SAFE_RELEASE(m_pVRC7);
-	SAFE_RELEASE(m_pFDS);
 	// // //
 
 	SAFE_RELEASE(m_pMixer);
@@ -204,9 +188,7 @@ void CAPU::Process()
 		RunAPU1(Time);
 		RunAPU2(Time);
 
-		for (std::vector<CExternal*>::iterator iter = ExChips.begin(); iter != ExChips.end(); ++iter) {
-			(*iter)->Process(Time);
-		}
+		// // //
 
 		m_iFrameCycles	  += Time;
 		m_iSequencerClock -= Time;
@@ -231,10 +213,7 @@ void CAPU::EndFrame()
 	m_pTriangle->EndFrame();
 	m_pNoise->EndFrame();
 	m_pDPCM->EndFrame();
-
-	for (std::vector<CExternal*>::iterator iter = ExChips.begin(); iter != ExChips.end(); ++iter) {
-		(*iter)->EndFrame();
-	}
+	// // //
 
 	int SamplesAvail = m_pMixer->FinishBuffer(m_iFrameCycles);
 	int ReadSamples	= m_pMixer->ReadBuffer(SamplesAvail, m_pSoundBuffer, m_bStereoEnabled);
@@ -267,10 +246,7 @@ void CAPU::Reset()
 	m_pTriangle->Reset();
 	m_pNoise->Reset();
 	m_pDPCM->Reset();
-
-	for (std::vector<CExternal*>::iterator iter = ExChips.begin(); iter != ExChips.end(); ++iter) {
-		(*iter)->Reset();
-	}
+	// // //
 
 #ifdef LOGGING
 	m_iFrame = 0;
@@ -281,7 +257,7 @@ void CAPU::SetupMixer(int LowCut, int HighCut, int HighDamp, int Volume) const
 {
 	// New settings
 	m_pMixer->UpdateSettings(LowCut, HighCut, HighDamp, float(Volume) / 100.0f);
-	m_pVRC7->SetVolume((float(Volume) / 100.0f) * m_fLevelVRC7);
+	// // //
 }
 
 void CAPU::SetExternalSound(uint8 Chip)
@@ -292,14 +268,6 @@ void CAPU::SetExternalSound(uint8 Chip)
 
 	ExChips.clear();
 
-	if (Chip & SNDCHIP_VRC6)
-		ExChips.push_back(m_pVRC6);
-	if (Chip & SNDCHIP_VRC7)
-		ExChips.push_back(m_pVRC7);
-	if (Chip & SNDCHIP_FDS)
-		ExChips.push_back(m_pFDS);
-	if (Chip & SNDCHIP_MMC5)
-		ExChips.push_back(m_pMMC5);
 	// // //
 
 	Reset();
@@ -353,9 +321,6 @@ bool CAPU::SetupSound(int SampleRate, int NrChannels, int Machine)
 		return false;
 
 	ChangeMachine(Machine);
-
-	// VRC7 generates samples on it's own
-	m_pVRC7->SetSampleSpeed(SampleRate, BaseFreq, FrameRate);
 
 	// // //
 
@@ -469,11 +434,7 @@ void CAPU::ExternalWrite(uint16 Address, uint8 Value)
 
 	Process();
 
-	for (std::vector<CExternal*>::iterator iter = ExChips.begin(); iter != ExChips.end(); ++iter) {
-		(*iter)->Write(Address, Value);
-	}
-
-	LogExternalWrite(Address, Value);
+	// // //
 }
 
 uint8 CAPU::ExternalRead(uint16 Address)
@@ -486,10 +447,7 @@ uint8 CAPU::ExternalRead(uint16 Address)
 
 	Process();
 
-	for (std::vector<CExternal*>::iterator iter = ExChips.begin(); iter != ExChips.end(); ++iter) {
-		if (!Mapped)
-			Value = (*iter)->Read(Address, Mapped);
-	}
+	// // //
 
 	if (!Mapped)
 		Value = Address >> 8;	// open bus
@@ -535,36 +493,17 @@ void CAPU::SetChipLevel(chip_level_t Chip, float Level)
 {
 	float fLevel = powf(10, Level / 20.0f);		// Convert dB to linear
 
-	switch (Chip) {
-		case CHIP_LEVEL_VRC7:
-			m_fLevelVRC7 = fLevel;
-			break;
-		default:
-			m_pMixer->SetChipLevel(Chip, fLevel);
-	}
+	// // //
+	m_pMixer->SetChipLevel(Chip, fLevel);
 }
 
-void CAPU::LogExternalWrite(uint16 Address, uint8 Value)
-{
-	if (Address >= 0x9000 && Address <= 0x9003)
-		m_iRegsVRC6[Address - 0x9000] = Value;
-	else if (Address >= 0xA000 && Address <= 0xA003)
-		m_iRegsVRC6[Address - 0xA000 + 3] = Value;
-	else if (Address >= 0xB000 && Address <= 0xB003)
-		m_iRegsVRC6[Address - 0xB000 + 6] = Value;
-	else if (Address >= 0x4080 && Address <= 0x408F)
-		m_iRegsFDS[Address - 0x4080] = Value;
-}
+// // //
 
 uint8 CAPU::GetReg(int Chip, int Reg) const 
 {
 	switch (Chip) {
 		case SNDCHIP_NONE:
 			return m_iRegs[Reg & 0x1F]; 
-		case SNDCHIP_VRC6:
-			return m_iRegsVRC6[Reg & 0x0F]; 
-		case SNDCHIP_FDS:
-			return m_iRegsFDS[Reg & 0x1F];
 		// // //
 	}
 

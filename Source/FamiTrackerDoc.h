@@ -29,7 +29,7 @@
 // Constants, types and enums
 #include "FamiTrackerTypes.h"
 
-#define TRANSPOSE_FDS
+// // //
 
 // Default song settings
 const unsigned int DEFAULT_TEMPO_NTSC		 = 150;
@@ -284,11 +284,6 @@ public:
 	int				GetSequenceItemCount(unsigned int Index, int Type) const;
 	int				GetFreeSequence(int Type) const;
 
-	CSequence*		GetSequenceVRC6(unsigned int Index, int Type);
-	CSequence*		GetSequenceVRC6(unsigned int Index, int Type) const;
-	int				GetSequenceItemCountVRC6(unsigned int Index, int Type) const;
-	int				GetFreeSequenceVRC6(int Type) const;
-
 	// DPCM samples
 	CDSample*		GetSample(unsigned int Index);
 	const CDSample*	GetSample(unsigned int Index) const;
@@ -353,7 +348,6 @@ private:
 	bool			WriteBlock_DSamples(CDocumentFile *pDocFile) const;
 	bool			WriteBlock_Comments(CDocumentFile *pDocFile) const;
 	bool			WriteBlock_ChannelLayout(CDocumentFile *pDocFile) const;
-	bool			WriteBlock_SequencesVRC6(CDocumentFile *pDocFile) const;
 	// // //
 
 	bool			ReadBlock_Parameters(CDocumentFile *pDocFile);
@@ -365,7 +359,6 @@ private:
 	bool			ReadBlock_DSamples(CDocumentFile *pDocFile);
 	bool			ReadBlock_Comments(CDocumentFile *pDocFile);
 	bool			ReadBlock_ChannelLayout(CDocumentFile *pDocFile);
-	bool			ReadBlock_SequencesVRC6(CDocumentFile *pDocFile);
 	// // //
 
 	// For file version compability
@@ -418,9 +411,7 @@ private:
 
 	bool			m_bForceBackup;
 	bool			m_bBackupDone;
-#ifdef TRANSPOSE_FDS
-	bool			m_bAdjustFDSArpeggio;
-#endif
+// // //
 
 #ifdef AUTOSAVE
 	// Auto save
@@ -443,7 +434,6 @@ private:
 	CInstrument		*m_pInstruments[MAX_INSTRUMENTS];
 	CDSample		m_DSamples[MAX_DSAMPLES];					// The DPCM sample list
 	CSequence		*m_pSequences2A03[MAX_SEQUENCES][SEQ_COUNT];
-	CSequence		*m_pSequencesVRC6[MAX_SEQUENCES][SEQ_COUNT];
 	// // //
 
 	// Module properties

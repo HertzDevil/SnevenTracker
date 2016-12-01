@@ -55,7 +55,6 @@
 #include <cmath>
 #include "Mixer.h"
 #include "APU.h"
-#include "emu2413.h"
 
 //#define LINEAR_MIXING
 
@@ -72,9 +71,6 @@ CMixer::CMixer()
 
 	m_fLevelAPU1 = 1.0f;
 	m_fLevelAPU2 = 1.0f;
-	m_fLevelVRC6 = 1.0f;
-	m_fLevelMMC5 = 1.0f;
-	m_fLevelFDS = 1.0f;
 	// // //
 
 	m_iExternalChip = 0;
@@ -129,42 +125,18 @@ void CMixer::SetChipLevel(chip_level_t Chip, float Level)
 		case CHIP_LEVEL_APU2:
 			m_fLevelAPU2 = Level;
 			break;
-		case CHIP_LEVEL_VRC6:
-			m_fLevelVRC6 = Level;
-			break;
-		case CHIP_LEVEL_MMC5:
-			m_fLevelMMC5 = Level;
-			break;
-		case CHIP_LEVEL_FDS:
-			m_fLevelFDS = Level;
-			break;
 		// // //
 	}
 }
 
 float CMixer::GetAttenuation() const
 {
-	const float ATTENUATION_VRC6 = 0.80f;
-	const float ATTENUATION_VRC7 = 0.64f;
-	const float ATTENUATION_MMC5 = 0.83f;
-	const float ATTENUATION_FDS  = 0.90f;
 	// // //
 
 	float Attenuation = 1.0f;
 
 	// Increase headroom if some expansion chips are enabled
 
-	if (m_iExternalChip & SNDCHIP_VRC7)
-		Attenuation *= ATTENUATION_VRC7;
-
-	if (m_iExternalChip & SNDCHIP_VRC6)
-		Attenuation *= ATTENUATION_VRC6;
-
-	if (m_iExternalChip & SNDCHIP_MMC5)
-		Attenuation *= ATTENUATION_MMC5;
-
-	if (m_iExternalChip & SNDCHIP_FDS)
-		Attenuation *= ATTENUATION_FDS;
 	// // //
 
 	return Attenuation;
@@ -181,21 +153,11 @@ void CMixer::UpdateSettings(int LowCut,	int HighCut, int HighDamp, float Overall
 
 	Synth2A03SS.treble_eq(eq);
 	Synth2A03TND.treble_eq(eq);
-	SynthVRC6.treble_eq(eq);
-	SynthMMC5.treble_eq(eq);
-
-	// FDS special filtering (TODO fix this for high sample rates)
-	blip_eq_t fds_eq(-48, 1000, m_iSampleRate);
-
-	SynthFDS.treble_eq(fds_eq);
 	// // //
 
 	// Volume levels
 	Synth2A03SS.volume(Volume * m_fLevelAPU1);
 	Synth2A03TND.volume(Volume * m_fLevelAPU2);
-	SynthVRC6.volume(Volume * 3.98333f * m_fLevelVRC6);
-	SynthFDS.volume(Volume * 1.00f * m_fLevelFDS);
-	SynthMMC5.volume(Volume * 1.18421f * m_fLevelMMC5);
 	// // //
 
 	m_iLowCut = LowCut;
@@ -252,10 +214,6 @@ int CMixer::FinishBuffer(int t)
 {
 	BlipBuffer.end_frame(t);
 
-	// Get channel levels for VRC7
-	for (int i = 0; i < 6; ++i)
-		StoreChannelLevel(CHANID_VRC7_CH1 + i, OPLL_getchanvol(i));
-
 	// // //
 
 	for (int i = 0; i < CHANNELS; ++i) {
@@ -306,21 +264,6 @@ void CMixer::MixInternal2(int Time)
 	m_dSumTND = Sum;
 }
 
-void CMixer::MixFDS(int Value, int Time)
-{
-	SynthFDS.offset(Time, Value, &BlipBuffer);
-}
-
-void CMixer::MixVRC6(int Value, int Time)
-{
-	SynthVRC6.offset(Time, Value, &BlipBuffer);
-}
-
-void CMixer::MixMMC5(int Value, int Time)
-{
-	SynthMMC5.offset(Time, Value, &BlipBuffer);
-}
-
 // // //
 
 void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCycles)
@@ -346,15 +289,6 @@ void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCy
 					break;
 			}
 			break;
-		case SNDCHIP_FDS:
-			MixFDS(Value, FrameCycles);
-			break;
-		case SNDCHIP_MMC5:
-			MixMMC5(Delta, FrameCycles);
-			break;
-		case SNDCHIP_VRC6:
-			MixVRC6(Value, FrameCycles);
-			break;
 		// // //
 	}
 }
@@ -374,19 +308,6 @@ void CMixer::StoreChannelLevel(int Channel, int Value)
 	int AbsVol = abs(Value);
 
 	// Adjust channel levels for some channels
-	if (Channel == CHANID_VRC6_SAWTOOTH)
-		AbsVol = (AbsVol * 3) / 4;
-
-	if (Channel == CHANID_DPCM)
-		AbsVol /= 8;
-
-	if (Channel == CHANID_FDS)
-		AbsVol = AbsVol / 38;
-
-	if (Channel >= CHANID_VRC7_CH1 && Channel <= CHANID_VRC7_CH6) {
-		AbsVol = (int)(logf((float)AbsVol) * 3.0f);
-	}
-
 	// // //
 
 	if (float(AbsVol) >= m_fChannelLevels[Channel]) {
