@@ -55,7 +55,6 @@
 #include <cmath>
 #include "Mixer.h"
 #include "APU.h"
-#include "blip_buf.h"		// // //
 
 //#define LINEAR_MIXING
 
@@ -159,10 +158,8 @@ void CMixer::UpdateSettings(int LowCut,	int HighCut, int HighDamp, float Overall
 	// // //
 
 	// Volume levels
-	Synth2A03SS.volume(Volume * m_fLevelAPU1);
-	Synth2A03TND.volume(Volume * m_fLevelAPU2);
-	SynthSN76489Left.volume(Volume * m_fLevelAPU1);
-//	SynthSN76489Right.volume(Volume * m_fLevelAPU2);
+	SynthSN76489Left.volume(Volume * 0.4f * m_fLevelAPU1);
+	SynthSN76489Right.volume(0);
 	// // //
 
 	m_iLowCut = LowCut;
@@ -280,6 +277,11 @@ void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCy
 			switch (ChanID) {
 				case CHANID_SQUARE1:
 				case CHANID_SQUARE2:
+				case CHANID_TRIANGLE:
+					SynthSN76489Left.offset(FrameCycles, Value, &BlipBuffer);
+				/*
+				case CHANID_SQUARE1:
+				case CHANID_SQUARE2:
 					MixInternal1(FrameCycles);
 					break;
 				case CHANID_TRIANGLE:
@@ -287,6 +289,7 @@ void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCy
 				// // //
 					MixInternal2(FrameCycles);
 					break;
+				*/
 			}
 			break;
 		// // //

@@ -75,8 +75,8 @@ private:
 	// Blip buffer synths
 	Blip_Synth<blip_good_quality, -500>		Synth2A03SS;
 	Blip_Synth<blip_good_quality, -500>		Synth2A03TND;
-	Blip_Synth<blip_good_quality, -500>		SynthSN76489Left;		// // //
-	Blip_Synth<blip_good_quality, -500>		SynthSN76489Right;
+	Blip_Synth<blip_good_quality, -3000>		SynthSN76489Left;		// // //
+	Blip_Synth<blip_good_quality, -3000>		SynthSN76489Right;
 	// // //
 	
 	// Blip buffer object

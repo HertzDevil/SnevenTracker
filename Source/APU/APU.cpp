@@ -27,7 +27,7 @@
 #include "Square.h"
 #include "Triangle.h"
 #include "Noise.h"
-#include "DCSG.h"		// // //
+#include "SN76489_new.h"		// // //
 
 const int	 CAPU::SEQUENCER_PERIOD		= 7458;
 //const int	 CAPU::SEQUENCER_PERIOD_PAL	= 7458;			// ????
@@ -57,7 +57,7 @@ CAPU::CAPU(IAudioCallback *pCallback) :		// // //
 	m_pSquare2 = new CSquare(m_pMixer, CHANID_SQUARE2, SNDCHIP_NONE);
 	m_pTriangle = new CTriangle(m_pMixer, CHANID_TRIANGLE);
 	m_pNoise = new CNoise(m_pMixer, CHANID_NOISE);
-	m_pSN76489 = new CDCSG(m_pMixer);
+	m_pSN76489 = new CSN76489(m_pMixer);
 	// // //
 
 #ifdef LOGGING

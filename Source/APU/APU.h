@@ -30,7 +30,7 @@
 class CSquare;
 class CTriangle;
 class CNoise;
-class CDCSG;		// // //
+class CSN76489;		// // //
 
 #ifdef LOGGING
 class CFile;
@@ -99,7 +99,7 @@ private:
 	CSquare		*m_pSquare2;
 	CTriangle	*m_pTriangle;
 	CNoise		*m_pNoise;
-	CDCSG		*m_pSN76489;		// // //
+	CSN76489	*m_pSN76489;		// // //
 
 	// // //
 

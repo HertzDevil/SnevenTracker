@@ -21,16 +21,73 @@
 
 #pragma once
 
-// // // The SN76489 adaptor class
+// // // port of sn76489 emulation code
 
+#include "../Common.h"
+#include "Mixer.h"
+#include "Channel.h"
 #include "External.h"
-#include "sn76489.h"
 
-class CDCSG : public CExternal
+class CSNSquare : public CExChannel
 {
 public:
-	CDCSG(CMixer *pMixer);
-	virtual ~CDCSG();
+	CSNSquare(CMixer *pMixer, int ID);
+	~CSNSquare();
+
+	void	Reset();
+	void	Write(uint16 Address, uint8 Value);
+	void	Process(uint32 Time);
+
+private:
+	uint16	m_iSquarePeriod;
+	uint8	m_iAttenuation;
+
+	bool	m_bSqaureActive;
+	uint32	m_iSquareCounter;
+};
+
+
+
+enum SN_noise_cfg_t
+{
+	SN_NOI_DISCRETE,
+	SN_NOI_INTEGRATED,
+};
+
+enum SN_noise_fb_t
+{
+	SN_NOI_DIV_512,
+	SN_NOI_DIV_1024,
+	SN_NOI_DIV_2048,
+	SN_NOI_DIV_CH3,
+};
+
+class CSNNoise : public CExChannel
+{
+public:
+	CSNNoise(CMixer *pMixer);
+	~CSNNoise();
+
+	void	Reset();
+	void	Write(uint16 Address, uint8 Value);
+	void	Process(uint32 Time);
+
+private:
+	uint8	m_iFeedbackMode;
+	bool	m_bShortNoise;
+	uint8	m_iAttenuation;
+
+	uint16	m_iLFSRState;
+	static const uint16 LFSR_INIT;
+};
+
+
+
+class CSN76489 : public CExternal
+{
+public:
+	CSN76489(CMixer *pMixer);
+	virtual ~CSN76489();
 
 	void	Reset() override;
 	void	Process(uint32 Time) override;
@@ -38,4 +95,9 @@ public:
 
 	void	Write(uint16 Address, uint8 Value) override;
 	uint8	Read(uint16 Address, bool &Mapped) override;
+
+private:
+	CSNSquare *m_SquareChannel[3];
+	CSNNoise *m_NoiseChannel;
+	uint8	m_iAddressLatch;
 };
