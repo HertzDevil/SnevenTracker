@@ -134,7 +134,7 @@ public:
 	void		 SetupVibratoTable(int Type);
 	int			 ReadVibratoTable(int index) const;
 
-	int			 ReadNamcoPeriodTable(int index) const;
+	// // //
 
 	// Player interface
 	void		 StartPlayer(play_mode_t Mode, int Track);	
@@ -335,7 +335,7 @@ private:
 	unsigned int		m_iNoteLookupTablePAL[96];			// For 2A07
 	unsigned int		m_iNoteLookupTableSaw[96];			// For VRC6 sawtooth
 	unsigned int		m_iNoteLookupTableFDS[96];			// For FDS
-	unsigned int		m_iNoteLookupTableN163[96];			// For N163
+	// // //
 	int					m_iVibratoTable[VIBRATO_LENGTH];
 
 	unsigned int		m_iMachineType;						// NTSC/PAL

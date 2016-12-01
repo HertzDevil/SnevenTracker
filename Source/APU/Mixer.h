@@ -32,8 +32,7 @@ enum chip_level_t {
 	CHIP_LEVEL_VRC7,
 	CHIP_LEVEL_MMC5,
 	CHIP_LEVEL_FDS,
-	CHIP_LEVEL_N163,
-	CHIP_LEVEL_S5B
+	// // //
 };
 
 class CMixer
@@ -60,7 +59,6 @@ public:
 	int32	GetChanOutput(uint8 Chan) const;
 	void	SetChipLevel(chip_level_t Chip, float Level);
 	uint32	ResampleDuration(uint32 Time) const;
-	void	SetNamcoVolume(float fVol);
 
 private:
 	inline double CalcPin1(double Val1, double Val2);
@@ -68,7 +66,6 @@ private:
 
 	void MixInternal1(int Time);
 	void MixInternal2(int Time);
-	void MixN163(int Value, int Time);
 	void MixFDS(int Value, int Time);
 	void MixVRC6(int Value, int Time);
 	void MixMMC5(int Value, int Time);
@@ -85,7 +82,6 @@ private:
 	Blip_Synth<blip_good_quality, -500>		Synth2A03TND;
 	Blip_Synth<blip_good_quality, -500>		SynthVRC6;
 	Blip_Synth<blip_good_quality, -130>		SynthMMC5;	
-	Blip_Synth<blip_good_quality, -1600>	SynthN163;
 	Blip_Synth<blip_good_quality, -3500>	SynthFDS;
 	// // //
 	
@@ -112,7 +108,7 @@ private:
 	float		m_fLevelVRC6;
 	float		m_fLevelMMC5;
 	float		m_fLevelFDS;
-	float		m_fLevelN163;
+	// // //
 };
 
 #endif /* MIXER_H */

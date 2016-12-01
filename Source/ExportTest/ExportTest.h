@@ -28,7 +28,7 @@ struct stRegs {
 	unsigned char R_VRC7[0x40];
 	unsigned char R_FDS[0x10];
 	unsigned char R_MMC5[0x08];
-	unsigned char R_N163[0x100];
+	// // //
 };
 
 // DLL imports

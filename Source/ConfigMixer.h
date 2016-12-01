@@ -44,7 +44,6 @@ private:
 	int m_iLevelVRC7;
 	int m_iLevelMMC5;
 	int m_iLevelFDS;
-	int m_iLevelN163;
 	// // //
 
 protected:

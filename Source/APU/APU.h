@@ -36,10 +36,8 @@ class CVRC6;
 class CVRC7;
 class CFDS;
 class CMMC5;
-class CN163;
-class CS5B;
-
 class CExternal;
+// // //
 
 #ifdef LOGGING
 class CFile;
@@ -117,7 +115,6 @@ private:
 	CVRC6		*m_pVRC6;
 	CMMC5		*m_pMMC5;
 	CFDS		*m_pFDS;
-	CN163		*m_pN163;
 	CVRC7		*m_pVRC7;
 	// // //
 

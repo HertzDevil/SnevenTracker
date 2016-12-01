@@ -29,7 +29,6 @@ enum inst_type_t {
 	INST_VRC6,
 	INST_VRC7,
 	INST_FDS,
-	INST_N163,
 	// // //
 };
 
@@ -246,57 +245,6 @@ private:
 	CSequence*	  m_pVolume;
 	CSequence*	  m_pArpeggio;
 	CSequence*	  m_pPitch;
-};
-
-class CInstrumentN163 : public CInstrument {
-public:
-	CInstrumentN163();
-	virtual inst_type_t GetType() const { return INST_N163; };
-	virtual CInstrument* CreateNew() const { return new CInstrumentN163(); };
-	virtual CInstrument* Clone() const;
-	virtual void Setup();
-	virtual void Store(CDocumentFile *pDocFile);
-	virtual bool Load(CDocumentFile *pDocFile);
-	virtual void SaveFile(CInstrumentFile *pFile, const CFamiTrackerDoc *pDoc);
-	virtual bool LoadFile(CInstrumentFile *pFile, int iVersion, CFamiTrackerDoc *pDoc);
-	virtual int Compile(CFamiTrackerDoc *pDoc, CChunk *pChunk, int Index);
-	virtual bool CanRelease() const;
-
-public:	
-	int		GetSeqEnable(int Index) const;
-	int		GetSeqIndex(int Index) const;
-	void	SetSeqEnable(int Index, int Value);
-	void	SetSeqIndex(int Index, int Value);
-	int		GetWaveSize() const;
-	void	SetWaveSize(int size);
-	int		GetWavePos() const;
-	void	SetWavePos(int pos);
-	int		GetSample(int wave, int pos) const;
-	void	SetSample(int wave, int pos, int sample);
-	/*
-	void	SetAutoWavePos(bool Enable);
-	bool	GetAutoWavePos() const;
-	*/
-	void	SetWaveCount(int count);
-	int		GetWaveCount() const;
-
-	int		StoreWave(CChunk *pChunk) const;
-	bool	IsWaveEqual(CInstrumentN163 *pInstrument);
-
-public:
-	static const int SEQUENCE_COUNT = 5;
-	static const int SEQUENCE_TYPES[];
-	static const int MAX_WAVE_SIZE = 32 /*128*/;		// Wave size (32 samples)
-	static const int MAX_WAVE_COUNT = 16;		// Number of waves
-
-private:
-	int		m_iSeqEnable[SEQ_COUNT];
-	int		m_iSeqIndex[SEQ_COUNT];
-	int		m_iSamples[MAX_WAVE_COUNT][MAX_WAVE_SIZE];
-	int		m_iWaveSize;
-	int		m_iWavePos;
-//	bool	m_bAutoWavePos;
-	int		m_iWaveCount;
 };
 
 // // //

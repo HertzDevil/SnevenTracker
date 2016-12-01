@@ -31,7 +31,6 @@
 #include "VRC6.h"
 #include "MMC5.h"
 #include "FDS.h"
-#include "N163.h"
 #include "VRC7.h"
 
 const int	 CAPU::SEQUENCER_PERIOD		= 7458;
@@ -68,7 +67,6 @@ CAPU::CAPU(IAudioCallback *pCallback, CSampleMem *pSampleMem) :
 	m_pVRC6 = new CVRC6(m_pMixer);
 	m_pVRC7 = new CVRC7(m_pMixer);
 	m_pFDS = new CFDS(m_pMixer);
-	m_pN163 = new CN163(m_pMixer);
 
 	m_fLevelVRC7 = 1.0f;
 	// // //
@@ -91,7 +89,6 @@ CAPU::~CAPU()
 	SAFE_RELEASE(m_pVRC6);
 	SAFE_RELEASE(m_pVRC7);
 	SAFE_RELEASE(m_pFDS);
-	SAFE_RELEASE(m_pN163);
 	// // //
 
 	SAFE_RELEASE(m_pMixer);
@@ -303,8 +300,6 @@ void CAPU::SetExternalSound(uint8 Chip)
 		ExChips.push_back(m_pFDS);
 	if (Chip & SNDCHIP_MMC5)
 		ExChips.push_back(m_pMMC5);
-	if (Chip & SNDCHIP_N163)
-		ExChips.push_back(m_pN163);
 	// // //
 
 	Reset();
@@ -568,10 +563,9 @@ uint8 CAPU::GetReg(int Chip, int Reg) const
 			return m_iRegs[Reg & 0x1F]; 
 		case SNDCHIP_VRC6:
 			return m_iRegsVRC6[Reg & 0x0F]; 
-		case SNDCHIP_N163:
-			return m_pN163->ReadMem(Reg);
 		case SNDCHIP_FDS:
 			return m_iRegsFDS[Reg & 0x1F];
+		// // //
 	}
 
 	return 0;

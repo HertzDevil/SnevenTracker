@@ -160,7 +160,7 @@ public:
 	static const char LABEL_SEQ_2A03[];
 	static const char LABEL_SEQ_VRC6[];
 	static const char LABEL_SEQ_FDS[];
-	static const char LABEL_SEQ_N163[];
+	// // //
 	static const char LABEL_INSTRUMENT[];
 	static const char LABEL_SONG[];
 	static const char LABEL_SONG_FRAMES[];
@@ -210,9 +210,7 @@ private:
 	unsigned int	m_iAssignedInstruments[MAX_INSTRUMENTS];
 	bool			m_bSequencesUsed2A03[MAX_SEQUENCES][SEQ_COUNT];
 	bool			m_bSequencesUsedVRC6[MAX_SEQUENCES][SEQ_COUNT];
-	bool			m_bSequencesUsedN163[MAX_SEQUENCES][SEQ_COUNT];
-
-	int				m_iWaveBanks[MAX_INSTRUMENTS];	// N163 waves
+	// // //
 
 	// Sample variables
 	unsigned char	m_iSamplesLookUp[MAX_INSTRUMENTS][OCTAVE_RANGE][NOTE_RANGE];

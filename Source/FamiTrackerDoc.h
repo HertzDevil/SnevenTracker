@@ -289,11 +289,6 @@ public:
 	int				GetSequenceItemCountVRC6(unsigned int Index, int Type) const;
 	int				GetFreeSequenceVRC6(int Type) const;
 
-	CSequence*		GetSequenceN163(unsigned int Index, int Type);
-	CSequence*		GetSequenceN163(unsigned int Index, int Type) const;
-	int				GetSequenceItemCountN163(unsigned int Index, int Type) const;
-	int				GetFreeSequenceN163(int Type) const;
-
 	// DPCM samples
 	CDSample*		GetSample(unsigned int Index);
 	const CDSample*	GetSample(unsigned int Index) const;
@@ -359,7 +354,7 @@ private:
 	bool			WriteBlock_Comments(CDocumentFile *pDocFile) const;
 	bool			WriteBlock_ChannelLayout(CDocumentFile *pDocFile) const;
 	bool			WriteBlock_SequencesVRC6(CDocumentFile *pDocFile) const;
-	bool			WriteBlock_SequencesN163(CDocumentFile *pDocFile) const;
+	// // //
 
 	bool			ReadBlock_Parameters(CDocumentFile *pDocFile);
 	bool			ReadBlock_Header(CDocumentFile *pDocFile);
@@ -371,7 +366,7 @@ private:
 	bool			ReadBlock_Comments(CDocumentFile *pDocFile);
 	bool			ReadBlock_ChannelLayout(CDocumentFile *pDocFile);
 	bool			ReadBlock_SequencesVRC6(CDocumentFile *pDocFile);
-	bool			ReadBlock_SequencesN163(CDocumentFile *pDocFile);
+	// // //
 
 	// For file version compability
 	void			ReorderSequences();
@@ -449,7 +444,6 @@ private:
 	CDSample		m_DSamples[MAX_DSAMPLES];					// The DPCM sample list
 	CSequence		*m_pSequences2A03[MAX_SEQUENCES][SEQ_COUNT];
 	CSequence		*m_pSequencesVRC6[MAX_SEQUENCES][SEQ_COUNT];
-	CSequence		*m_pSequencesN163[MAX_SEQUENCES][SEQ_COUNT];
 	// // //
 
 	// Module properties

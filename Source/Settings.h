@@ -183,7 +183,6 @@ public:
 		int		iLevelVRC7;
 		int		iLevelMMC5;
 		int		iLevelFDS;
-		int		iLevelN163;
 		// // //
 	} ChipLevels;
 

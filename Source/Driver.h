@@ -64,7 +64,6 @@ const char NSF_CALLER_BIN_VRC6[] = {
 #include "drivers/drv_vrc7.h"
 #include "drivers/drv_mmc5.h"
 #include "drivers/drv_fds.h"
-#include "drivers/drv_n163.h"
 // // //
 
 #include "drivers/config.h"
@@ -129,14 +128,4 @@ const driver_t DRIVER_PACK_FDS = {
 	sizeof(DRIVER_RELOC_LOW_FDS)
 };
 
-const driver_t DRIVER_PACK_N163 = { 
-	DRIVER_N163, 
-	sizeof(DRIVER_N163),
-	DRIVER_RELOC_WORD_N163, 
-	sizeof(DRIVER_RELOC_WORD_N163), 
-	DRIVER_RELOC_LOW_N163, 
-	DRIVER_RELOC_HIGH_N163, 
-	sizeof(DRIVER_RELOC_LOW_N163)
-};
-/*
 // // //

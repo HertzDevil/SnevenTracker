@@ -27,7 +27,6 @@ const uint8 SNDCHIP_VRC6  = 1;			// Konami VRCVI
 const uint8 SNDCHIP_VRC7  = 2;			// Konami VRCVII
 const uint8 SNDCHIP_FDS	  = 4;			// Famicom Disk Sound
 const uint8 SNDCHIP_MMC5  = 8;			// Nintendo MMC5
-const uint8 SNDCHIP_N163  = 16;			// Namco N-106
 // // //
 
 enum chan_id_t {
@@ -44,15 +43,6 @@ enum chan_id_t {
 	CHANID_MMC5_SQUARE1,
 	CHANID_MMC5_SQUARE2,
 	CHANID_MMC5_VOICE,
-
-	CHANID_N163_CHAN1,
-	CHANID_N163_CHAN2,
-	CHANID_N163_CHAN3,
-	CHANID_N163_CHAN4,
-	CHANID_N163_CHAN5,
-	CHANID_N163_CHAN6,
-	CHANID_N163_CHAN7,
-	CHANID_N163_CHAN8,
 
 	CHANID_FDS,
 
