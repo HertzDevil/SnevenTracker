@@ -56,14 +56,7 @@ public:
 	void	SetChipLevel(chip_level_t Chip, float Level);
 	uint32	ResampleDuration(uint32 Time) const;
 
-	void	MixSN76489(int Time, int Level, bool Right);		// // //
-
 private:
-	inline double CalcPin1(double Val1, double Val2);
-	inline double CalcPin2(double Val1, double Val2, double Val3);
-
-	void MixInternal1(int Time);
-	void MixInternal2(int Time);
 	// // //
 
 	void StoreChannelLevel(int Channel, int Value);
@@ -101,7 +94,5 @@ private:
 	float		m_fLevelAPU2;
 	// // //
 };
-
-extern "C" void MixSN76489(void *Mixer, int Time, int Level, bool Right);		// // //
 
 #endif /* MIXER_H */

@@ -33,11 +33,10 @@
 
 CChannelHandler2A03::CChannelHandler2A03() : 
 	CChannelHandler(0x7FF, 0x0F),
-	m_cSweep(0),
+	// // //
 	m_bManualVolume(0),
 	m_iInitVolume(0),
-	m_bSweeping(0),
-	m_iSweep(0),
+	// // //
 	m_iPostEffect(0),
 	m_iPostEffectParam(0)
 {
@@ -47,8 +46,7 @@ void CChannelHandler2A03::HandleNoteData(stChanNote *pNoteData, int EffColumns)
 {
 	m_iPostEffect = 0;
 	m_iPostEffectParam = 0;
-	m_iSweep = 0;
-	m_bSweeping = false;
+	// // //
 	m_iInitVolume = 0x0F;
 	m_bManualVolume = false;
 
@@ -69,21 +67,7 @@ void CChannelHandler2A03::HandleCustomEffects(int EffNum, int EffParam)
 	if (!CheckCommonEffects(EffNum, EffParam)) {
 		// Custom effects
 		switch (EffNum) {
-			case EF_VOLUME:
-				// Kill this eventually
-				m_iInitVolume = EffParam;
-				m_bManualVolume = true;
-				break;
-			case EF_SWEEPUP:
-				m_iSweep = 0x88 | (EffParam & 0x77);
-				m_iLastPeriod = 0xFFFF;
-				m_bSweeping = true;
-				break;
-			case EF_SWEEPDOWN:
-				m_iSweep = 0x80 | (EffParam & 0x77);
-				m_iLastPeriod = 0xFFFF;
-				m_bSweeping = true;
-				break;
+			// // //
 			case EF_DUTY_CYCLE:
 				m_iDefaultDuty = m_iDutyPeriod = EffParam;
 				break;
@@ -123,9 +107,7 @@ void CChannelHandler2A03::HandleEmptyNote()
 {
 	if (m_bManualVolume)
 		m_iSeqVolume = m_iInitVolume;
-	
-	if (m_bSweeping)
-		m_cSweep = m_iSweep;
+	// // //
 }
 
 void CChannelHandler2A03::HandleCut()
@@ -139,17 +121,7 @@ void CChannelHandler2A03::HandleRelease()
 		ReleaseNote();
 		ReleaseSequences();
 	}
-/*
-	if (!m_bSweeping && (m_cSweep != 0 || m_iSweep != 0)) {
-		m_iSweep = 0;
-		m_cSweep = 0;
-		m_iLastPeriod = 0xFFFF;
-	}
-	else if (m_bSweeping) {
-		m_cSweep = m_iSweep;
-		m_iLastPeriod = 0xFFFF;
-	}
-	*/
+	// // //
 }
 
 void CChannelHandler2A03::HandleNote(int Note, int Octave)
@@ -160,15 +132,7 @@ void CChannelHandler2A03::HandleNote(int Note, int Octave)
 
 	m_iArpState = 0;
 
-	if (!m_bSweeping && (m_cSweep != 0 || m_iSweep != 0)) {
-		m_iSweep = 0;
-		m_cSweep = 0;
-		m_iLastPeriod = 0xFFFF;
-	}
-	else if (m_bSweeping) {
-		m_cSweep = m_iSweep;
-		m_iLastPeriod = 0xFFFF;
-	}
+	// // //
 }
 
 void CChannelHandler2A03::ProcessChannel()
@@ -196,33 +160,26 @@ void CSquare1Chan::RefreshChannel()
 {
 	int Period = CalculatePeriod();
 	int Volume = CalculateVolume();
-	char DutyCycle = (m_iDutyPeriod & 0x03);
-
+	// // //
 	unsigned char HiFreq = (Period >> 4) & 0x3F;
 	unsigned char LoFreq = (Period & 0xF);
 
 	if (!m_bGate || !Volume) {
-		WriteRegister(0x01, 0xF);		// // //
-		//WriteRegister(0x4000, 0x30);
-		m_iLastPeriod = 0xFFFF;
+		WriteRegister(0x01 + m_iChannelID * 2, 0xF);		// // //
 		return;
 	}
 
-	WriteRegister(0x4000, (DutyCycle << 6) | 0x30 | Volume);
-	WriteRegister(0x01, 0xF ^ Volume);		// // //
-	WriteRegister(0x00, LoFreq);
+	WriteRegister(0x01 + m_iChannelID * 2, 0xF ^ Volume);		// // //
+	WriteRegister(0x00 + m_iChannelID * 2, LoFreq);
 	WriteRegister(  -1, HiFreq); // double-byte
-
-	m_iLastPeriod = Period;
 }
 
 void CSquare1Chan::ClearRegisters()
 {
-	WriteRegister(0x4000, 0x30);
-	WriteRegister(0x4001, 0x08);
-	WriteRegister(0x4002, 0x00);
-	WriteRegister(0x4003, 0x00);
-	m_iLastPeriod = 0xFFFF;
+	// // //
+	WriteRegister(0x00 + m_iChannelID * 2, 0x00);
+	WriteRegister(  -1, 0x00); // double-byte
+	WriteRegister(0x01 + m_iChannelID * 2, 0xF);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

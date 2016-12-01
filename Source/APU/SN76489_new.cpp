@@ -20,7 +20,7 @@
 
 #include "SN76489_new.h"
 
-static const uint16 VOLUME_TABLE[] = {
+const uint16 CSNSquare::VOLUME_TABLE[] = {
 	1516, 1205, 957, 760, 603, 479, 381, 303, 240, 191, 152, 120, 96, 76, 60, 0
 };
 

@@ -38,6 +38,8 @@ public:
 	void	Write(uint16 Address, uint8 Value);
 	void	Process(uint32 Time);
 
+	static const uint16 VOLUME_TABLE[16];
+
 private:
 	uint16	m_iSquarePeriod;
 	uint8	m_iAttenuation;

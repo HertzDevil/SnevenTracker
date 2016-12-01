@@ -44,8 +44,7 @@ protected:
 
 	bool	m_bManualVolume;		// Flag for Exx
 	int		m_iInitVolume;			// Initial volume
-	bool	m_bSweeping;			// Flag for HW sweep
-	int		m_iSweep;
+	// // //
 	int		m_iPostEffect;
 	int		m_iPostEffectParam;
 };

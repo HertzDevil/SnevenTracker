@@ -55,6 +55,7 @@
 #include <cmath>
 #include "Mixer.h"
 #include "APU.h"
+#include "SN76489_new.h"		// // //
 
 //#define LINEAR_MIXING
 
@@ -88,27 +89,7 @@ CMixer::~CMixer()
 {
 }
 
-inline double CMixer::CalcPin1(double Val1, double Val2)
-{
-	// Mix the output of APU audio pin 1: square
-	//
-
-	if ((Val1 + Val2) > 0)
-		return 95.88 / ((8128.0 / (Val1 + Val2)) + 100.0);
-
-	return 0;
-}
-
-inline double CMixer::CalcPin2(double Val1, double Val2, double Val3)
-{
-	// Mix the output of APU audio pin 2: triangle, noise and DPCM
-	//
-
-	if ((Val1 + Val2 + Val3) > 0)
-		return 159.79 / ((1.0 / ((Val1 / 8227.0) + (Val2 / 12241.0) + (Val3 / 22638.0))) + 100.0);
-
-	return 0;
-}
+// // //
 
 void CMixer::ExternalSound(int Chip)
 {
@@ -158,7 +139,7 @@ void CMixer::UpdateSettings(int LowCut,	int HighCut, int HighDamp, float Overall
 	// // //
 
 	// Volume levels
-	SynthSN76489Left.volume(Volume * 0.4f * m_fLevelAPU1);
+	SynthSN76489Left.volume(Volume * 0.25f * m_fLevelAPU1);
 	SynthSN76489Right.volume(0);
 	// // //
 
@@ -233,34 +214,6 @@ int CMixer::FinishBuffer(int t)
 // Mixing
 //
 
-void CMixer::MixInternal1(int Time)
-{
-#ifdef LINEAR_MIXING
-	SumL = ((m_iChannels[CHANID_SQUARE1].Left + m_iChannels[CHANID_SQUARE2].Left) * 0.00752) * InternalVol;
-	SumR = ((m_iChannels[CHANID_SQUARE1].Right + m_iChannels[CHANID_SQUARE2].Right) *  0.00752) * InternalVol;
-#else
-	double Sum = CalcPin1(m_iChannels[CHANID_SQUARE1], m_iChannels[CHANID_SQUARE2]);
-#endif
-
-	double Delta = (Sum - m_dSumSS) * AMP_2A03;
-	Synth2A03SS.offset(Time, (int)Delta, &BlipBuffer);
-	m_dSumSS = Sum;
-}
-
-void CMixer::MixInternal2(int Time)
-{
-#ifdef LINEAR_MIXING
-	SumL = ((0.00851 * m_iChannels[CHANID_TRIANGLE].Left + 0.00494 * m_iChannels[CHANID_NOISE].Left)) * InternalVol;
-	SumR = ((0.00851 * m_iChannels[CHANID_TRIANGLE].Right + 0.00494 * m_iChannels[CHANID_NOISE].Right)) * InternalVol;
-#else
-	double Sum = CalcPin2(m_iChannels[CHANID_TRIANGLE], m_iChannels[CHANID_NOISE], 0);		// // //
-#endif
-
-	double Delta = (Sum - m_dSumTND) * AMP_2A03;
-	Synth2A03TND.offset(Time, (int)Delta, &BlipBuffer);
-	m_dSumTND = Sum;
-}
-
 // // //
 
 void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCycles)
@@ -279,17 +232,6 @@ void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCy
 				case CHANID_SQUARE2:
 				case CHANID_TRIANGLE:
 					SynthSN76489Left.offset(FrameCycles, Value, &BlipBuffer);
-				/*
-				case CHANID_SQUARE1:
-				case CHANID_SQUARE2:
-					MixInternal1(FrameCycles);
-					break;
-				case CHANID_TRIANGLE:
-				case CHANID_NOISE:
-				// // //
-					MixInternal2(FrameCycles);
-					break;
-				*/
 			}
 			break;
 		// // //
@@ -311,7 +253,15 @@ void CMixer::StoreChannelLevel(int Channel, int Value)
 	int AbsVol = abs(Value);
 
 	// Adjust channel levels for some channels
-	// // //
+	switch (Channel) {		// // // 
+	case CHANID_SQUARE1:
+	case CHANID_SQUARE2:
+	case CHANID_TRIANGLE:
+		int Lv = AbsVol;
+		AbsVol = 0;
+		while (AbsVol < 15 && Lv >= CSNSquare::VOLUME_TABLE[14 - AbsVol])
+			++AbsVol;
+	}
 
 	if (float(AbsVol) >= m_fChannelLevels[Channel]) {
 		m_fChannelLevels[Channel] = float(AbsVol);
@@ -328,14 +278,4 @@ void CMixer::ClearChannelLevels()
 uint32 CMixer::ResampleDuration(uint32 Time) const
 {
 	return (uint32)BlipBuffer.resampled_duration((blip_time_t)Time);
-}
-
-void CMixer::MixSN76489(int Time, int Level, bool Right)		// // //
-{
-	(Right ? SynthSN76489Right : SynthSN76489Left).offset(Time, Level, &BlipBuffer);
-}
-
-extern "C" void MixSN76489(void *Mixer, int Time, int Level, bool Right)
-{
-	static_cast<CMixer*>(Mixer)->MixSN76489(Time, Level, Right);
 }

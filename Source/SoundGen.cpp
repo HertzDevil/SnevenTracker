@@ -170,9 +170,9 @@ void CSoundGen::CreateChannels()
 	}
 
 	// 2A03/2A07
-	AssignChannel(new CTrackerChannel(_T("Pulse 1"), SNDCHIP_NONE, CHANID_SQUARE1), new CSquare1Chan());
-	AssignChannel(new CTrackerChannel(_T("Pulse 2"), SNDCHIP_NONE, CHANID_SQUARE2), new CSquare2Chan());
-	AssignChannel(new CTrackerChannel(_T("Triangle"), SNDCHIP_NONE, CHANID_TRIANGLE), new CTriangleChan());
+	AssignChannel(new CTrackerChannel(_T("Square 1"), SNDCHIP_NONE, CHANID_SQUARE1), new CSquare1Chan());
+	AssignChannel(new CTrackerChannel(_T("Square 2"), SNDCHIP_NONE, CHANID_SQUARE2), new CSquare1Chan());
+	AssignChannel(new CTrackerChannel(_T("Square 3"), SNDCHIP_NONE, CHANID_TRIANGLE), new CSquare1Chan());
 	AssignChannel(new CTrackerChannel(_T("Noise"), SNDCHIP_NONE, CHANID_NOISE), new CNoiseChan());
 	// // //
 }
@@ -1054,8 +1054,8 @@ void CSoundGen::LoadMachineSettings(int Machine, int Rate)		// // //
 	if (Rate == 0)
 		Rate = DefaultRate;
 
-	double clock_ntsc = CAPU::BASE_FREQ_NTSC / 16.0;
-	double clock_pal = CAPU::BASE_FREQ_PAL / 16.0;
+	double clock_ntsc = CAPU::BASE_FREQ_NTSC / 32.0;		// // //
+	double clock_pal = CAPU::BASE_FREQ_PAL / 32.0;
 
 	for (int i = 0; i < NOTE_COUNT; ++i) {
 		// Frequency (in Hz)
