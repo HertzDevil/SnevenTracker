@@ -1063,11 +1063,11 @@ void CSoundGen::LoadMachineSettings(int Machine, int Rate)		// // //
 		double Pitch;
 
 		// 2A07
-		Pitch = (clock_pal / Freq) - 0.5;
+		Pitch = (clock_pal / Freq) + 0.5;
 		m_iNoteLookupTablePAL[i] = (unsigned int)Pitch;
 
 		// 2A03 / MMC5 / VRC6
-		Pitch = (clock_ntsc / Freq) - 0.5;
+		Pitch = (clock_ntsc / Freq) + 0.5;		// // //
 		m_iNoteLookupTableNTSC[i] = (unsigned int)Pitch;
 
 		// // //

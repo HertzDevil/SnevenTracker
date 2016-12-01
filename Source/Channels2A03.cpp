@@ -164,11 +164,6 @@ void CSquare1Chan::RefreshChannel()
 	unsigned char HiFreq = (Period >> 4) & 0x3F;
 	unsigned char LoFreq = (Period & 0xF);
 
-	if (!m_bGate || !Volume) {
-		WriteRegister(0x01 + m_iChannelID * 2, 0xF);		// // //
-		return;
-	}
-
 	WriteRegister(0x01 + m_iChannelID * 2, 0xF ^ Volume);		// // //
 	WriteRegister(0x00 + m_iChannelID * 2, LoFreq);
 	WriteRegister(  -1, HiFreq); // double-byte
@@ -287,7 +282,9 @@ void CNoiseChan::HandleNote(int Note, int Octave)
 	int NewNote = MIDI_NOTE(Octave, Note);
 	int NesFreq = TriggerNote(NewNote);
 
-	NesFreq = (NesFreq & 0x0F) | 0x10;
+	NesFreq = (NesFreq & 0x03);		// // //
+	if (!(NesFreq & 0x01))
+		NesFreq ^= 0x02;
 
 //	NewNote &= 0x0F;
 
@@ -328,33 +325,32 @@ void CNoiseChan::RefreshChannel()
 {
 	int Period = CalculatePeriod();
 	int Volume = CalculateVolume();
-	char NoiseMode = (m_iDutyPeriod & 0x01) << 7;
+	char NoiseMode = m_iDutyPeriod & 0x01;
 
 	if (!m_bGate || !Volume) {
-		WriteRegister(0x400C, 0x30);
+		WriteRegister(0x07, 0xF);		// // //
 		return;
 	}
 
 #ifdef NOISE_PITCH_SCALE
 	Period = (Period >> 4) & 0x0F;
 #else
-	Period = Period & 0x0F;
+	Period = Period & 0x03;
 #endif
 
-	Period ^= 0x0F;
-
-	WriteRegister(0x400C, 0x30 | Volume);
-	WriteRegister(0x400D, 0x00);
-	WriteRegister(0x400E, NoiseMode | Period);
-	WriteRegister(0x400F, 0x00);
+	int newCtrl = (NoiseMode << 2) | Period;		// // //
+	if (newCtrl != m_iLastCtrl) {
+		WriteRegister(0x06, newCtrl);
+		m_iLastCtrl = newCtrl;
+	}
+	WriteRegister(0x07, 0xF ^ Volume);
 }
 
 void CNoiseChan::ClearRegisters()
 {
-	WriteRegister(0x400C, 0x30);
-	WriteRegister(0x400D, 0);
-	WriteRegister(0x400E, 0);
-	WriteRegister(0x400F, 0);
+	m_iLastCtrl = 0;		// // //
+	WriteRegister(0x06, 0);
+	WriteRegister(0x07, 0xF);
 }
 
 int CNoiseChan::TriggerNote(int Note)
@@ -374,7 +370,7 @@ int CNoiseChan::TriggerNote(int Note)
 #ifdef NOISE_PITCH_SCALE
 	return (Note ^ 0x0F) << 4;
 #else
-	return Note | 0x10;
+	return Note;		// // //
 #endif
 }
 

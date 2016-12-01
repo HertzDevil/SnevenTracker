@@ -20,9 +20,10 @@
 
 #include "SN76489_new.h"
 
-const uint16 CSNSquare::VOLUME_TABLE[] = {
+const uint16 CSN76489::VOLUME_TABLE[] = {
 	1516, 1205, 957, 760, 603, 479, 381, 303, 240, 191, 152, 120, 96, 76, 60, 0
 };
+const uint16 CSNSquare::CUTOFF_PERIOD = /* 0x01 */ 0x06;
 
 
 
@@ -41,7 +42,7 @@ void CSNSquare::Reset()
 	m_iAttenuation = 0xF;
 
 	m_iSquareCounter = 0;
-	m_bSqaureActive = false;
+	m_bSqaureActive = true;
 }
 
 void CSNSquare::Write(uint16 Address, uint8 Value)
@@ -66,12 +67,17 @@ void CSNSquare::Process(uint32 Time)
 		Time -= m_iSquareCounter;
 		m_iTime += m_iSquareCounter;
 		m_iSquareCounter = Period << 4;
-		m_bSqaureActive = !m_bSqaureActive;
-		Mix(m_bSqaureActive ? VOLUME_TABLE[m_iAttenuation] : 0);
+		m_bSqaureActive = Period > CUTOFF_PERIOD ? !m_bSqaureActive : 1;
+		Mix(m_bSqaureActive ? CSN76489::VOLUME_TABLE[m_iAttenuation] : 0);
 	}
 
 	m_iSquareCounter -= Time;
 	m_iTime += Time;
+}
+
+uint16 CSNSquare::GetPeriod() const
+{
+	return m_iSquarePeriod;
 }
 
 
@@ -79,7 +85,7 @@ void CSNSquare::Process(uint32 Time)
 const uint16 CSNNoise::LFSR_INIT = 0x8000;
 
 CSNNoise::CSNNoise(CMixer *pMixer) :
-	CExChannel(pMixer, 3, 0)
+	CExChannel(pMixer, 0, CHANID_NOISE), m_iCH3Period(0)
 {
 }
 
@@ -94,6 +100,8 @@ void CSNNoise::Reset()
 	m_iAttenuation = 0xF;
 
 	m_iLFSRState = LFSR_INIT;
+	m_iSquareCounter = 0;
+	m_bSqaureActive = true;
 }
 
 void CSNNoise::Write(uint16 Address, uint8 Value)
@@ -110,12 +118,41 @@ void CSNNoise::Write(uint16 Address, uint8 Value)
 
 void CSNNoise::Process(uint32 Time)
 {
+	uint16 Period;
+	switch (m_iFeedbackMode) {
+	case SN_NOI_DIV_512:  Period = 0x10; break;
+	case SN_NOI_DIV_1024: Period = 0x20; break;
+	case SN_NOI_DIV_2048: Period = 0x40; break;
+	case SN_NOI_DIV_CH3:  Period = m_iCH3Period ? m_iCH3Period : 1; break;
+	}
+	
+	while (Time >= m_iSquareCounter) {
+		Time -= m_iSquareCounter;
+		m_iTime += m_iSquareCounter;
+		m_iSquareCounter = Period << 4;
+		if ((m_bSqaureActive = !m_bSqaureActive)) {
+			int Feedback = m_iLFSRState;
+			if (m_bShortNoise)
+				Feedback &= 1;
+			else
+				Feedback = ((Feedback & 0x0009) && ((Feedback & 0x0009) ^ 0x0009));
+			m_iLFSRState = (m_iLFSRState >> 1) | (Feedback << (16 - 1));
+			Mix(CSN76489::VOLUME_TABLE[m_iAttenuation] * (m_iLFSRState & 1));
+		}
+	}
+
+	m_iSquareCounter -= Time;
 	m_iTime += Time;
+}
+
+void CSNNoise::CachePeriod(uint16 Period)
+{
+	m_iCH3Period = Period;
 }
 
 
 
-CSN76489::CSN76489(CMixer *pMixer) : CExternal(pMixer)	
+CSN76489::CSN76489(CMixer *pMixer) : CExternal(pMixer)
 {
 	for (int i = 0; i < 3; ++i)
 		m_SquareChannel[i] = new CSNSquare(pMixer, i);
@@ -170,7 +207,12 @@ void CSN76489::Write(uint16 Address, uint8 Value)
 		break;
 	default:
 		m_SquareChannel[m_iAddressLatch / 2]->Write(1, Value & 0x3F);
+		if (m_iAddressLatch / 2 == CHANID_TRIANGLE)
+			m_NoiseChannel->CachePeriod(m_SquareChannel[CHANID_TRIANGLE]->GetPeriod());
 	}
+
+	if (Address == 4 || Address == 5)
+		m_NoiseChannel->CachePeriod(m_SquareChannel[CHANID_TRIANGLE]->GetPeriod());
 }
 
 uint8 CSN76489::Read(uint16 Address, bool &Mapped)

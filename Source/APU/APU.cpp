@@ -31,8 +31,8 @@
 
 const int	 CAPU::SEQUENCER_PERIOD		= 7458;
 //const int	 CAPU::SEQUENCER_PERIOD_PAL	= 7458;			// ????
-const uint32 CAPU::BASE_FREQ_NTSC		= 4000000;		// // //
-const uint32 CAPU::BASE_FREQ_PAL		= 1662607;
+const uint32 CAPU::BASE_FREQ_NTSC		= 3579540;		// // //
+const uint32 CAPU::BASE_FREQ_PAL		= 3546893;
 const uint8	 CAPU::FRAME_RATE_NTSC		= 60;
 const uint8	 CAPU::FRAME_RATE_PAL		= 50;
 

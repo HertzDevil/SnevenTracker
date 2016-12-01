@@ -38,7 +38,9 @@ public:
 	void	Write(uint16 Address, uint8 Value);
 	void	Process(uint32 Time);
 
-	static const uint16 VOLUME_TABLE[16];
+	uint16	GetPeriod() const;
+
+	static const uint16 CUTOFF_PERIOD;
 
 private:
 	uint16	m_iSquarePeriod;
@@ -74,12 +76,17 @@ public:
 	void	Write(uint16 Address, uint8 Value);
 	void	Process(uint32 Time);
 
+	void	CachePeriod(uint16 Period);
+
 private:
 	uint8	m_iFeedbackMode;
 	bool	m_bShortNoise;
 	uint8	m_iAttenuation;
-
+	
+	bool	m_bSqaureActive;
 	uint16	m_iLFSRState;
+	uint16	m_iCH3Period;
+	uint32	m_iSquareCounter;
 	static const uint16 LFSR_INIT;
 };
 
@@ -97,6 +104,8 @@ public:
 
 	void	Write(uint16 Address, uint8 Value) override;
 	uint8	Read(uint16 Address, bool &Mapped) override;
+	
+	static const uint16 VOLUME_TABLE[16];
 
 private:
 	CSNSquare *m_SquareChannel[3];

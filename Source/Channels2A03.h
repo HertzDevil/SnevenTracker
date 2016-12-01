@@ -87,6 +87,9 @@ protected:
 	virtual void SetupSlide(int Type, int EffParam);
 
 	int TriggerNote(int Note);
+
+private:
+	int m_iLastCtrl;		// // //
 };
 
 // // //
