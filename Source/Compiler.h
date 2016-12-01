@@ -169,7 +169,7 @@ protected:
 public:
 	static CCompiler *GetCompiler();		// Get the active CCompiler object, NULL otherwise
 
-	static unsigned int AdjustSampleAddress(unsigned int Address);
+	// // //
 
 private:
 	CFamiTrackerDoc *m_pDocument;
@@ -223,9 +223,6 @@ private:
 	// NSF banks
 	// // //
 	unsigned int	m_iLastBank;			// Last bank in the NSF file
-
-	unsigned int	m_iSamplePointerBank;
-	unsigned int	m_iSamplePointerOffset;
 
 	// // //
 

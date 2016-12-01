@@ -813,12 +813,11 @@ void CSoundGen::BeginPlayer(play_mode_t Mode, int Track)
 
 	memset(m_bFramePlayed, false, sizeof(bool) * MAX_FRAMES);
 
+	MakeSilent();		// // //
+	m_pTrackerView->MakeSilent();
+
 	ResetTempo();
 	ResetAPU();
-
-	MakeSilent();
-
-	m_pTrackerView->MakeSilent();
 }
 
 void CSoundGen::HaltPlayer()

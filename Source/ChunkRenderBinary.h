@@ -49,9 +49,6 @@ public:
 private:
 	void StoreChunk(CChunk *pChunk);
 	// // //
-
-private:
-	int m_iSampleAddress;
 };
 
 // NSF render
@@ -78,7 +75,7 @@ protected:
 
 protected:
 	unsigned int m_iStartAddr;
-	unsigned int m_iSampleAddr;
+	// // //
 };
 
 // NES render

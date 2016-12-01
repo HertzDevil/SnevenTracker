@@ -60,7 +60,7 @@ unsigned int CBinaryFileWriter::GetWritten() const
  *
  */
 
-CChunkRenderBinary::CChunkRenderBinary(CFile *pFile) : CBinaryFileWriter(pFile), m_iSampleAddress(0)
+CChunkRenderBinary::CChunkRenderBinary(CFile *pFile) : CBinaryFileWriter(pFile)		// // //
 {
 }
 
@@ -96,8 +96,7 @@ void CChunkRenderBinary::StoreChunk(CChunk *pChunk)
 
 CChunkRenderNSF::CChunkRenderNSF(CFile *pFile, unsigned int StartAddr) : 
 	CBinaryFileWriter(pFile),
-	m_iStartAddr(StartAddr),
-	m_iSampleAddr(0)
+	m_iStartAddr(StartAddr)		// // //
 {
 }
 

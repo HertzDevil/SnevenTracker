@@ -50,9 +50,6 @@ const int MAX_PATTERN_LENGTH = 256;
 
 // // //
 
-// Sample space available (from $C000-$FFFF), may now switch banks
-const int MAX_SAMPLE_SPACE = 0x40000;	// 256kB
-
 // Number of effect columns allowed
 const int MAX_EFFECT_COLUMNS = 4;
 
@@ -130,11 +127,11 @@ enum effect_t {
 	EF_TREMOLO,
 	EF_PITCH,
 	EF_DELAY,
-	EF_DAC,
+	EF_DAC,		// // // unused
 	EF_PORTA_UP,
 	EF_PORTA_DOWN,
 	EF_DUTY_CYCLE,
-	EF_SAMPLE_OFFSET,
+	EF_SAMPLE_OFFSET,		// // // unused
 	EF_SLIDE_UP,
 	EF_SLIDE_DOWN,
 	EF_VOLUME_SLIDE,
@@ -167,11 +164,11 @@ const char EFF_CHAR[] = {
 	'7',	// Tremolo
 	'P',	// Pitch
 	'G',	// Note delay
-	'Z',	// DAC setting
+	 0,		// // // unused
 	'1',	// Portamento up
 	'2',	// Portamento down
 	'V',	// Duty cycle
-	'Y',	// Sample offset
+	 0,		// // // unused
 	'Q',	// Slide up
 	'R',	// Slide down
 	'A',	// Volume slide

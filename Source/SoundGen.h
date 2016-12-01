@@ -75,7 +75,7 @@ class CAPU;
 class CDSound;
 class CDSoundChannel;
 class CVisualizerWnd;
-class CDSample;
+// // //
 class CTrackerChannel;
 
 #ifdef EXPORT_TEST

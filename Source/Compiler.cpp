@@ -124,11 +124,7 @@ CCompiler *CCompiler::GetCompiler()
 	return pCompiler;
 }
 
-unsigned int CCompiler::AdjustSampleAddress(unsigned int Address)
-{
-	// Align samples to 64-byte pages
-	return (0x40 - (Address & 0x3F)) & 0x3F;
-}
+// // //
 
 // CCompiler
 

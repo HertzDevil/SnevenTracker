@@ -106,19 +106,7 @@ public:
 	int		GetSeqIndex(int Index) const;
 	void	SetSeqIndex(int Index, int Value);
 	void	SetSeqEnable(int Index, int Value);
-	// Samples
-	char	GetSample(int Octave, int Note) const;
-	char	GetSamplePitch(int Octave, int Note) const;
-	bool	GetSampleLoop(int Octave, int Note) const;
-	char	GetSampleLoopOffset(int Octave, int Note) const;
-	char	GetSampleDeltaValue(int Octave, int Note) const;
-	void	SetSample(int Octave, int Note, char Sample);
-	void	SetSamplePitch(int Octave, int Note, char Pitch);
-	void	SetSampleLoop(int Octave, int Note, bool Loop);
-	void	SetSampleLoopOffset(int Octave, int Note, char Offset);
-	void	SetSampleDeltaValue(int Octave, int Note, char Offset);
-
-	bool	AssignedSamples() const;
+	// // //
 
 public:
 	static const int SEQUENCE_COUNT = 5;
@@ -127,11 +115,7 @@ public:
 private:
 	int		m_iSeqEnable[SEQ_COUNT];
 	int		m_iSeqIndex[SEQ_COUNT];
-	char	m_cSamples[OCTAVE_RANGE][12];				// Samples
-	char	m_cSamplePitch[OCTAVE_RANGE][12];			// Play pitch/loop
-	char	m_cSampleLoopOffset[OCTAVE_RANGE][12];		// Loop offset
-	char	m_cSampleDelta[OCTAVE_RANGE][12];			// Delta setting
-
+	// // //
 };
 
 // // //
