@@ -38,7 +38,7 @@ class CFile;
 
 class CAPU {
 public:
-	CAPU(IAudioCallback *pCallback, CSampleMem *pSampleMem);
+	CAPU(IAudioCallback *pCallback);		// // //
 	~CAPU();
 
 	void	Reset();
@@ -59,9 +59,7 @@ public:
 	void	SetupMixer(int LowCut, int HighCut, int HighDamp, int Volume) const;
 
 	int32	GetVol(uint8 Chan) const;
-	__declspec(deprecated) uint8	GetSamplePos() const;
-	__declspec(deprecated) uint8	GetDeltaCounter() const;
-	__declspec(deprecated) bool	DPCMPlaying() const;
+	// // //
 	uint8	GetReg(int Chip, int Reg) const;
 
 	void	SetChipLevel(chip_level_t Chip, float Level);

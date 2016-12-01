@@ -242,10 +242,7 @@ void CSequenceEditor::SelectSequence(CSequence *pSequence, int Type, int Instrum
 			m_pGraphEditor = new CPitchGraphEditor(pSequence);
 			break;
 		case SEQ_DUTYCYCLE:
-			if (InstrumentType == INST_S5B)
-				m_pGraphEditor = new CNoiseEditor(pSequence, 31);
-			else
-				m_pGraphEditor = new CBarGraphEditor(pSequence, m_iMaxDuty);
+			m_pGraphEditor = new CBarGraphEditor(pSequence, m_iMaxDuty);		// // //
 			break;		
 	}
 

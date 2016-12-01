@@ -1366,7 +1366,7 @@ void CPatternEditor::DrawCell(CDC *pDC, int PosX, int Column, int Channel, bool 
 			return;
 		case 3: 
 			// Volume
-			if (pNoteData->Vol == MAX_VOLUME || pTrackerChannel->GetID() == CHANID_DPCM)
+			if (pNoteData->Vol == MAX_VOLUME)		// // //
 				BAR(PosX, PosY);
 			else 
 				DrawChar(pDC, PosX, PosY, HEX[pNoteData->Vol & 0x0F], pColorInfo->Volume);
@@ -1556,37 +1556,7 @@ void CPatternEditor::DrawMeters(CDC *pDC)
 		Offset += m_iChannelWidths[Channel];
 	}
 
-	// DPCM
-	if (m_DPCMState.SamplePos != LastSamplePos || m_DPCMState.DeltaCntr != LastDeltaPos) {
-		if (theApp.GetMainWnd()->GetMenu()->GetMenuState(ID_TRACKER_DPCM, MF_BYCOMMAND) == MF_CHECKED) {
-
-			pDC->SetBkMode(TRANSPARENT);
-			pDC->SetBkColor(DPCM_STATE_COLOR);
-			pDC->SetTextColor(DPCM_STATE_COLOR);
-
-			COLORREF iHeadCol1 = GetSysColor(COLOR_3DFACE);
-			COLORREF iHeadCol2 = GetSysColor(COLOR_BTNHIGHLIGHT);
-			COLORREF iHeadCol3 = GetSysColor(COLOR_APPWORKSPACE);
-
-			if (m_pView->GetEditMode())
-				iHeadCol3 = BLEND(iHeadCol3, 0x0000FF, SHADE_LEVEL.EDIT_MODE);
-
-			GradientRectTriple(pDC, Offset + 10, 0, 150, HEADER_CHAN_HEIGHT, iHeadCol1, iHeadCol2, iHeadCol3);
-
-			pDC->FillSolidRect(Offset + 10, 0, 150, 1, STATIC_COLOR_SCHEME.FRAME_LIGHT);
-			pDC->FillSolidRect(Offset + 10, HEADER_CHAN_HEIGHT - 1, 150, 1, STATIC_COLOR_SCHEME.FRAME_DARK);
-
-			CString Text;
-			Text.Format(_T("Sample position: %02X"), m_DPCMState.SamplePos);
-			pDC->TextOut(Offset + 20, 3, Text);
-
-			Text.Format(_T("Delta counter: %02X"), m_DPCMState.DeltaCntr);
-			pDC->TextOut(Offset + 20, 17, Text);
-
-			LastSamplePos = m_DPCMState.SamplePos;
-			LastDeltaPos = m_DPCMState.DeltaCntr;
-		}
-	}
+	// // //
 
 #ifdef DRAW_REGS
 	DrawRegisters(pDC);
@@ -1622,7 +1592,7 @@ void CPatternEditor::DrawRegisters(CDC *pDC)
 	// Display 2a03 registers
 	const CSoundGen *pSoundGen = theApp.GetSoundGenerator();
 
-	unsigned char reg0, reg1, reg2, reg3, reg4, reg5, reg6, reg7;
+	unsigned char reg0, reg1, reg2, reg3;		// // //
 	int line = 0, vis_line = 0;
 	CFont *pOldFont = pDC->SelectObject(&m_fontCourierNew);
 
@@ -1633,9 +1603,7 @@ void CPatternEditor::DrawRegisters(CDC *pDC)
 	pDC->TextOut(ROW_COLUMN_WIDTH + m_iPatternWidth + 30, HEADER_HEIGHT + 30 + (line++) * 18, text);
 
 	vis_line = 6;
-	vis_line += (m_pDocument->ExpansionEnabled(SNDCHIP_VRC6)) ? 3 : 0;
-	vis_line += (m_pDocument->ExpansionEnabled(SNDCHIP_N163)) ? 10 : 0;
-	vis_line += (m_pDocument->ExpansionEnabled(SNDCHIP_FDS)) ? 7 : 0;
+	// // //
 
 	// 2A03
 	for (int i = 0; i < 5; ++i) {
@@ -1718,102 +1686,7 @@ void CPatternEditor::DrawRegisters(CDC *pDC)
 		pDC->FillSolidRect(ROW_COLUMN_WIDTH + m_iPatternWidth + 30 + (period >> 1), HEADER_HEIGHT + vis_line++ * 30, 5, 20, RGB(vol << 4, vol << 4, vol << 4));
 	}
 
-	if (m_pDocument->ExpansionEnabled(SNDCHIP_VRC6)) {
-
-		line++;
-
-		CString text(_T("VRC6 registers"));
-		pDC->SetBkColor(m_colEmptyBg);
-		pDC->SetTextColor(0xFFAFAF);
-		pDC->TextOut(ROW_COLUMN_WIDTH + m_iPatternWidth + 30, HEADER_HEIGHT + 30 + (line++) * 18, text);
-
-		// 2A03
-		for (int i = 0; i < 3; ++i) {
-			reg0 = pSoundGen->GetReg(SNDCHIP_VRC6, i * 3 + 0);
-			reg1 = pSoundGen->GetReg(SNDCHIP_VRC6, i * 3 + 1);
-			reg2 = pSoundGen->GetReg(SNDCHIP_VRC6, i * 3 + 2);
-
-			pDC->SetBkColor(m_colEmptyBg);
-			pDC->SetTextColor(0xC0C0C0);
-
-			text.Format(_T("$%04X: $%02X $%02X $%02X"), 0x9000 + i * 0x1000, reg0, reg1, reg2);
-			pDC->TextOut(ROW_COLUMN_WIDTH + m_iPatternWidth + 30, HEADER_HEIGHT + 30 + (line++) * 18, text);
-
-			int period = (reg1 | ((reg2 & 15) << 8));
-			int vol = (reg0 & 0x0F);
-
-			if (i == 2)
-				vol = reg0 >> 1;
-
-			pDC->FillSolidRect(ROW_COLUMN_WIDTH + m_iPatternWidth + 30, HEADER_HEIGHT + vis_line * 30, m_iWinWidth, 20, 0);
-			pDC->FillSolidRect(ROW_COLUMN_WIDTH + m_iPatternWidth + 30 + (period >> 1), HEADER_HEIGHT + vis_line++ * 30, 5, 20, RGB(vol << 4, vol << 4, vol << 4));
-		}
-	}
-
-	if (m_pDocument->ExpansionEnabled(SNDCHIP_N163)) {
-
-		line++;
-
-		CString text(_T("N163 registers"));
-		pDC->SetBkColor(m_colEmptyBg);
-		pDC->SetTextColor(0xFFAFAF);
-		pDC->TextOut(ROW_COLUMN_WIDTH + m_iPatternWidth + 30, HEADER_HEIGHT + 30 + (line++) * 18, text);
-
-		// 2A03
-		for (int i = 0; i < 16; ++i) {
-			reg0 = pSoundGen->GetReg(SNDCHIP_N163, i * 8 + 0);
-			reg1 = pSoundGen->GetReg(SNDCHIP_N163, i * 8 + 1);
-			reg2 = pSoundGen->GetReg(SNDCHIP_N163, i * 8 + 2);
-			reg3 = pSoundGen->GetReg(SNDCHIP_N163, i * 8 + 3);
-			reg4 = pSoundGen->GetReg(SNDCHIP_N163, i * 8 + 4);
-			reg5 = pSoundGen->GetReg(SNDCHIP_N163, i * 8 + 5);
-			reg6 = pSoundGen->GetReg(SNDCHIP_N163, i * 8 + 6);
-			reg7 = pSoundGen->GetReg(SNDCHIP_N163, i * 8 + 7);
-
-			pDC->SetBkColor(m_colEmptyBg);
-			pDC->SetTextColor(0xC0C0C0);
-
-			text.Format(_T("$%02X: $%02X $%02X $%02X $%02X $%02X $%02X $%02X $%02X"), i * 8, reg0, reg1, reg2, reg3, reg4, reg5, reg6, reg7);
-			pDC->TextOut(ROW_COLUMN_WIDTH + m_iPatternWidth + 30, HEADER_HEIGHT + 30 + (line++) * 18, text);
-
-			if (i > 7) {
-				int period = (reg0 | (reg2 << 8) | ((reg4 & 0x03) << 16)) >> 6;
-				int vol = (reg7 & 0x0F);
-
-				pDC->FillSolidRect(ROW_COLUMN_WIDTH + m_iPatternWidth + 30, HEADER_HEIGHT + vis_line * 30, m_iWinWidth, 20, 0);
-				pDC->FillSolidRect(ROW_COLUMN_WIDTH + m_iPatternWidth + 30 + (period >> 1), HEADER_HEIGHT + vis_line++ * 30, 5, 20, RGB(vol << 4, vol << 4, vol << 4));			
-			}
-		}
-	}
-
-	if (m_pDocument->ExpansionEnabled(SNDCHIP_FDS)) {
-
-		line++;
-
-		CString text(_T("FDS registers"));
-		pDC->SetBkColor(m_colEmptyBg);
-		pDC->SetTextColor(0xFFAFAF);
-		pDC->TextOut(ROW_COLUMN_WIDTH + m_iPatternWidth + 30, HEADER_HEIGHT + 30 + (line++) * 18, text);
-
-		for (int i = 0; i < 11; ++i) {
-			reg0 = pSoundGen->GetReg(SNDCHIP_FDS, i);
-
-			pDC->SetBkColor(m_colEmptyBg);
-			pDC->SetTextColor(0xC0C0C0);
-
-			text.Format(_T("$%04X: $%02X"), 0x4080 + i, reg0);
-			pDC->TextOut(ROW_COLUMN_WIDTH + m_iPatternWidth + 30, HEADER_HEIGHT + 30 + (line++) * 18, text);
-		}
-
-		int period =  pSoundGen->GetReg(SNDCHIP_FDS, 2) | (pSoundGen->GetReg(SNDCHIP_FDS, 3) << 8);
-		int vol = (pSoundGen->GetReg(SNDCHIP_FDS, 0) & 0x3F);
-		
-		if (vol > 31)
-			vol = 31;
-
-		pDC->FillSolidRect(ROW_COLUMN_WIDTH + m_iPatternWidth + 30, HEADER_HEIGHT + vis_line * 30, m_iWinWidth, 20, 0);
-		pDC->FillSolidRect(ROW_COLUMN_WIDTH + m_iPatternWidth + 30 + (period >> 1), HEADER_HEIGHT + vis_line++ * 30, 5, 20, RGB(vol << 3, vol << 3, vol << 3));
-	}
+	// // //
 
 	pDC->SelectObject(pOldFont);
 
@@ -1830,10 +1703,7 @@ void CPatternEditor::DrawChar(CDC *pDC, int x, int y, TCHAR c, COLORREF Color) c
 	++m_iCharsDrawn;
 }
 
-void CPatternEditor::SetDPCMState(const stDPCMState &State)
-{
-	m_DPCMState = State;
-}
+// // //
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Private methods /////////////////////////////////////////////////////////////////

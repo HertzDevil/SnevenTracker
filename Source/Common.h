@@ -37,12 +37,7 @@ const int SPEED_AUTO	= 0;
 const int SPEED_NTSC	= 1;
 const int SPEED_PAL		= 2;
 
-
-// Used to get the DPCM state
-struct stDPCMState {
-	int SamplePos;
-	int DeltaCntr;
-};
+// // //
 
 // Used to play the audio when the buffer is full
 class IAudioCallback {
@@ -50,34 +45,4 @@ public:
 	virtual void FlushBuffer(int16 *Buffer, uint32 Size) = 0;
 };
 
-
-// class for simulating CPU memory, used by the DPCM channel
-class CSampleMem 
-{
-public:
-	CSampleMem() : m_pMemory(0), m_iMemSize(0) {
-	};
-
-	uint8 Read(uint16 Address) const {
-		if (!m_pMemory)
-			return 0;
-		uint16 Addr = (Address - 0xC000);// % m_iMemSize;
-		if (Addr >= m_iMemSize)
-			return 0;
-		return m_pMemory[Addr];
-	};
-
-	void SetMem(const char *pPtr, int Size) {
-		m_pMemory = (uint8*)pPtr;
-		m_iMemSize = Size;
-	};
-
-	void Clear() {
-		m_pMemory = 0;
-		m_iMemSize = 0;
-	}
-
-private:
-	const uint8 *m_pMemory;
-	uint16 m_iMemSize;
-};
+// // //

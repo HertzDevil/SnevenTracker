@@ -66,7 +66,7 @@ public:
 	
 	void	ExportNSF(LPCTSTR lpszFileName, int MachineType);
 	void	ExportNES(LPCTSTR lpszFileName, bool EnablePAL);
-	void	ExportBIN(LPCTSTR lpszBIN_File, LPCTSTR lpszDPCM_File);
+	void	ExportBIN(LPCTSTR lpszBIN_File);		// // //
 	void	ExportPRG(LPCTSTR lpszFileName, bool EnablePAL);
 	void	ExportASM(LPCTSTR lpszFileName);
 
@@ -95,23 +95,23 @@ private:
 	void	Cleanup();
 
 	void	ScanSong();
-	int		GetSampleIndex(int SampleNumber);
+	// // //
 	bool	IsPatternAddressed(unsigned int Track, int Pattern, int Channel) const;
 	bool	IsInstrumentInPattern(int index) const;
 
 	void	CreateMainHeader();
 	void	CreateSequenceList();
 	void	CreateInstrumentList();
-	void	CreateSampleList();
+	// // //
 	void	CreateFrameList(unsigned int Track);
 
 	int		StoreSequence(CSequence *pSeq, CStringA &label);
-	void	StoreSamples();
+	// // //
 	void	StoreSongs();
 	void	StorePatterns(unsigned int Track);
 
 	// Bankswitching functions
-	void	UpdateSamplePointers(unsigned int Origin);
+	// // //
 	void	UpdateFrameBanks();
 	void	UpdateSongBanks();
 	void	ClearSongBanks();
@@ -122,7 +122,7 @@ private:
 	// File writing
 	void	WriteAssembly(CFile *pFile);
 	void	WriteBinary(CFile *pFile);
-	void	WriteSamplesBinary(CFile *pFile);
+	// // //
 
 	// Object list functions
 	CChunk	*CreateChunk(chunk_type_t Type, CStringA label);
@@ -143,19 +143,14 @@ public:
 
 	static const int PATTERN_SWITCH_BANK;
 
-	static const int DPCM_PAGE_WINDOW;
-	static const int DPCM_SWITCH_ADDRESS;
+	// // //
 
 	static const bool LAST_BANK_FIXED;
 
 	// Labels
 	static const char LABEL_SONG_LIST[];
 	static const char LABEL_INSTRUMENT_LIST[];
-	static const char LABEL_SAMPLES_LIST[];
-	static const char LABEL_SAMPLES[];
-	static const char LABEL_WAVETABLE[];
-	static const char LABEL_SAMPLE[];
-	static const char LABEL_WAVES[];
+	// // //
 	static const char LABEL_SEQ_2A03[];
 	// // //
 	static const char LABEL_INSTRUMENT[];
@@ -186,14 +181,13 @@ private:
 	std::vector<CChunk*> m_vSongChunks;	
 	std::vector<CChunk*> m_vFrameChunks;
 	std::vector<CChunk*> m_vPatternChunks;
-	//std::vector<CChunk*> m_vWaveChunks;
+	// // //
 
 	// Special objects
-	CChunk			*m_pSamplePointersChunk;
+	// // //
 	CChunk			*m_pHeaderChunk;
 
-	// Samples
-	std::vector<const CDSample*> m_vSamples;
+	// // //
 
 	// Flags
 	bool			m_bBankSwitched;
@@ -208,17 +202,10 @@ private:
 	bool			m_bSequencesUsed2A03[MAX_SEQUENCES][SEQ_COUNT];
 	// // //
 
-	// Sample variables
-	unsigned char	m_iSamplesLookUp[MAX_INSTRUMENTS][OCTAVE_RANGE][NOTE_RANGE];
-	bool			m_bSamplesAccessed[MAX_INSTRUMENTS][OCTAVE_RANGE][NOTE_RANGE];
-	unsigned char	m_iSampleBank[MAX_DSAMPLES];
-	unsigned int	m_iSampleStart;
-	unsigned int	m_iSamplesUsed;
-
 	// General
 	unsigned int	m_iMusicDataSize;		// All music data
 	unsigned int	m_iDriverSize;			// Size of selected music driver
-	unsigned int	m_iSamplesSize;
+	// // //
 
 	unsigned int	m_iLoadAddress;			// NSF load address
 	unsigned int	m_iInitAddress;			// NSF init address
@@ -234,7 +221,7 @@ private:
 	std::vector<int> m_vChanOrder;			// Channel order list
 
 	// NSF banks
-	unsigned int	m_iFirstSampleBank;		// Bank number with the first DPCM sample
+	// // //
 	unsigned int	m_iLastBank;			// Last bank in the NSF file
 
 	unsigned int	m_iSamplePointerBank;

@@ -39,29 +39,13 @@ enum
 	CT_EXPANSION,      // uint (0=none, 1=VRC6, 2=VRC7, 4=FDS, 8=MMC5, 16=N163, 32=S5B)
 	CT_VIBRATO,        // uint (0=old, 1=new)
 	CT_SPLIT,          // uint (32=default)
-	// namco global settings
-	CT_N163CHANNELS,   // uint
+	// // //
 	// macros
 	CT_MACRO,          // uint (type) uint (index) int (loop) int (release) int (setting) : int_list
-	CT_MACROVRC6,      // uint (type) uint (index) int (loop) int (release) int (setting) : int_list
-	CT_MACRON163,      // uint (type) uint (index) int (loop) int (release) int (setting) : int_list
-	CT_MACROS5B,       // uint (type) uint (index) int (loop) int (release) int (setting) : int_list
-	// dpcm samples
-	CT_DPCMDEF,        // uint (index) uint (size) string (name)
-	CT_DPCM,           // : hex_list
+	// // //
 	// instruments
 	CT_INST2A03,       // uint (index) int int int int int string (name)
-	CT_INSTVRC6,       // uint (index) int int int int int string (name)
-	CT_INSTVRC7,       // uint (index) int (patch) hex hex hex hex hex hex hex hex string (name)
-	CT_INSTFDS,        // uint (index) int (mod enable) int (m speed) int (m depth) int (m delay) string (name)
-	CT_INSTN163,       // uint (index) int int int int int uint (w size) uint (w pos) uint (w count) string (name)
-	CT_INSTS5B,        // uint (index) int int int int int  string (name)
-	// instrument data
-	CT_KEYDPCM,        // uint (inst) uint (oct) uint (note) uint (sample) uint (pitch) uint (loop) uint (loop_point)
-	CT_FDSWAVE,        // uint (inst) : uint_list x 64
-	CT_FDSMOD,         // uint (inst) : uint_list x 32
-	CT_FDSMACRO,       // uint (inst) uint (type) int (loop) int (release) int (setting) : int_list
-	CT_N163WAVE,       // uint (inst) uint (wave) : uint_list
+	// // //
 	// track info
 	CT_TRACK,          // uint (pat length) uint (speed) uint (tempo) string (name)
 	CT_COLUMNS,        // : uint_list (effect columns)
@@ -88,29 +72,13 @@ static const TCHAR* CT[CT_COUNT] =
 	_T("EXPANSION"),
 	_T("VIBRATO"),
 	_T("SPLIT"),
-	// namco global settings
-	_T("N163CHANNELS"),
+	// // //
 	// macros
 	_T("MACRO"),
-	_T("MACROVRC6"),
-	_T("MACRON163"),
-	_T("MACROS5B"),
-	// dpcm
-	_T("DPCMDEF"),
-	_T("DPCM"),
+	// // //
 	// instruments
 	_T("INST2A03"),
-	_T("INSTVRC6"),
-	_T("INSTVRC7"),
-	_T("INSTFDS"),
-	_T("INSTN163"),
-	_T("INSTS5B"),
-	// instrument data
-	_T("KEYDPCM"),
-	_T("FDSWAVE"),
-	_T("FDSMOD"),
-	_T("FDSMACRO"),
-	_T("N163WAVE"),
+	// // //
 	// track info
 	_T("TRACK"),
 	_T("COLUMNS"),
@@ -700,24 +668,16 @@ const CString& CTextExport::ImportFile(LPCTSTR FileName, CFamiTrackerDoc *pDoc)
 				pDoc->SetSpeedSplitPoint(i);
 				CHECK(t.ReadEOL(&sResult));
 				break;
-			case CT_N163CHANNELS:
-				CHECK(t.ReadInt(i,1,8,&sResult));
-				pDoc->SetNamcoChannels(i);
-				pDoc->SelectExpansionChip(pDoc->GetExpansionChip());
-				CHECK(t.ReadEOL(&sResult));
-				break;
+			// // //
 			case CT_MACRO:
-			case CT_MACROVRC6:
-			case CT_MACRON163:
-			case CT_MACROS5B:
 				{
-					const int CHIP_MACRO[4] = { SNDCHIP_NONE, SNDCHIP_VRC6, SNDCHIP_N163, SNDCHIP_S5B };
+					// // //
 					int chip = c - CT_MACRO;
 
 					int mt;
 					CHECK(t.ReadInt(mt,0,SEQ_COUNT-1,&sResult));
 					CHECK(t.ReadInt(i,0,MAX_SEQUENCES-1,&sResult));
-					CSequence* pSeq = pDoc->GetSequence(CHIP_MACRO[chip], i, mt);
+					CSequence* pSeq = pDoc->GetSequence(SNDCHIP_NONE, i, mt);		// // //
 
 					CHECK(t.ReadInt(i,-1,MAX_SEQUENCE_ITEMS,&sResult));
 					pSeq->SetLoopPoint(i);
@@ -743,38 +703,7 @@ const CString& CTextExport::ImportFile(LPCTSTR FileName, CFamiTrackerDoc *pDoc)
 					pSeq->SetItemCount(count);
 				}
 				break;
-			case CT_DPCMDEF:
-				{
-					CHECK(t.ReadInt(i,0,MAX_DSAMPLES-1,&sResult));
-					dpcm_index = i;
-					dpcm_pos = 0;
-
-					CHECK(t.ReadInt(i,0,CDSample::MAX_SIZE,&sResult));
-					CDSample* pSample = pDoc->GetSample(dpcm_index);
-					pSample->Allocate(i, NULL);
-					::memset(pSample->GetData(), 0, i);
-					pSample->SetName(Charify(t.ReadToken()));
-
-					CHECK(t.ReadEOL(&sResult));
-				}
-				break;
-			case CT_DPCM:
-				{
-					CDSample* pSample = pDoc->GetSample(dpcm_index);
-					CHECK_COLON();
-					while (!t.IsEOL())
-					{
-						CHECK(t.ReadHex(i,0x00,0xFF,&sResult));
-						if (dpcm_pos >= pSample->GetSize())
-						{
-							sResult.Format(_T("Line %d column %d: DPCM sample %d overflow, increase size used in %s."), t.line, t.GetColumn(), dpcm_index, CT[CT_DPCMDEF]);
-							return sResult;
-						}
-						*(pSample->GetData() + dpcm_pos) = (char)(i);
-						++dpcm_pos;
-					}
-				}
-				break;
+			// // //
 			case CT_INST2A03:
 				{
 					CHECK(t.ReadInt(i,0,MAX_INSTRUMENTS-1,&sResult));
@@ -790,226 +719,7 @@ const CString& CTextExport::ImportFile(LPCTSTR FileName, CFamiTrackerDoc *pDoc)
 					CHECK(t.ReadEOL(&sResult));
 				}
 				break;
-			case CT_INSTVRC6:
-				{
-					CHECK(t.ReadInt(i,0,MAX_INSTRUMENTS-1,&sResult));
-					CInstrumentVRC6* pInst = (CInstrumentVRC6*)pDoc->CreateInstrument(INST_VRC6);
-					pDoc->AddInstrument(pInst, i);
-					for (int s=0; s < SEQ_COUNT; ++s)
-					{
-						CHECK(t.ReadInt(i,-1,MAX_SEQUENCES-1,&sResult));
-						pInst->SetSeqEnable(s, (i == -1) ? 0 : 1);
-						pInst->SetSeqIndex(s, (i == -1) ? 0 : i);
-					}
-					pInst->SetName(Charify(t.ReadToken()));
-					CHECK(t.ReadEOL(&sResult));
-				}
-				break;
-			case CT_INSTVRC7:
-				{
-					CHECK(t.ReadInt(i,0,MAX_INSTRUMENTS-1,&sResult));
-					CInstrumentVRC7* pInst = (CInstrumentVRC7*)pDoc->CreateInstrument(INST_VRC7);
-					pDoc->AddInstrument(pInst, i);
-					CHECK(t.ReadInt(i,0,15,&sResult));
-					pInst->SetPatch(i);
-					for (int r=0; r < 8; ++r)
-					{
-						CHECK(t.ReadHex(i,0x00,0xFF,&sResult));
-						pInst->SetCustomReg(r, i);
-					}
-					pInst->SetName(Charify(t.ReadToken()));
-					CHECK(t.ReadEOL(&sResult));
-				}
-				break;
-			case CT_INSTFDS:
-				{
-					CHECK(t.ReadInt(i,0,MAX_INSTRUMENTS-1,&sResult));
-					CInstrumentFDS* pInst = (CInstrumentFDS*)pDoc->CreateInstrument(INST_FDS);
-					pDoc->AddInstrument(pInst, i);
-					CHECK(t.ReadInt(i,0,1,&sResult));
-					pInst->SetModulationEnable(i==1);
-					CHECK(t.ReadInt(i,0,4095,&sResult));
-					pInst->SetModulationSpeed(i);
-					CHECK(t.ReadInt(i,0,63,&sResult));
-					pInst->SetModulationDepth(i);
-					CHECK(t.ReadInt(i,0,255,&sResult));
-					pInst->SetModulationDelay(i);
-					pInst->SetName(Charify(t.ReadToken()));
-					CHECK(t.ReadEOL(&sResult));
-				}
-				break;
-			case CT_INSTN163:
-				{
-					CHECK(t.ReadInt(i,0,MAX_INSTRUMENTS-1,&sResult));
-					CInstrumentN163* pInst = (CInstrumentN163*)pDoc->CreateInstrument(INST_N163);
-					pDoc->AddInstrument(pInst, i);
-					for (int s=0; s < SEQ_COUNT; ++s)
-					{
-						CHECK(t.ReadInt(i,-1,MAX_SEQUENCES-1,&sResult));
-						pInst->SetSeqEnable(s, (i == -1) ? 0 : 1);
-						pInst->SetSeqIndex(s, (i == -1) ? 0 : i);
-					}
-					CHECK(t.ReadInt(i,0,CInstrumentN163::MAX_WAVE_SIZE,&sResult));
-					pInst->SetWaveSize(i);
-					CHECK(t.ReadInt(i,0,127,&sResult));
-					pInst->SetWavePos(i);
-					CHECK(t.ReadInt(i,0,CInstrumentN163::MAX_WAVE_COUNT,&sResult));
-					pInst->SetWaveCount(i);
-					pInst->SetName(Charify(t.ReadToken()));
-					CHECK(t.ReadEOL(&sResult));
-				}
-				break;
-			case CT_INSTS5B:
-				{
-					CHECK(t.ReadInt(i,0,MAX_INSTRUMENTS-1,&sResult));
-					CInstrumentS5B* pInst = (CInstrumentS5B*)pDoc->CreateInstrument(INST_S5B);
-					pDoc->AddInstrument(pInst, i);
-					for (int s=0; s < SEQ_COUNT; ++s)
-					{
-						CHECK(t.ReadInt(i,-1,MAX_SEQUENCES-1,&sResult));
-						pInst->SetSeqEnable(s, (i == -1) ? 0 : 1);
-						pInst->SetSeqIndex(s, (i == -1) ? 0 : i);
-					}
-					pInst->SetName(Charify(t.ReadToken()));
-					CHECK(t.ReadEOL(&sResult));
-				}
-				break;
-			case CT_KEYDPCM:
-				{
-					CHECK(t.ReadInt(i,0,MAX_INSTRUMENTS-1,&sResult));
-					if (pDoc->GetInstrumentType(i) != INST_2A03)
-					{
-						sResult.Format(_T("Line %d column %d: instrument %d is not defined as a 2A03 instrument."), t.line, t.GetColumn(), i);
-						return sResult;
-					}
-					CInstrument2A03* pInst = (CInstrument2A03*)pDoc->GetInstrument(i);
-
-					int io, in;
-					CHECK(t.ReadInt(io,0,OCTAVE_RANGE,&sResult));
-					CHECK(t.ReadInt(in,0,12,&sResult));
-
-					CHECK(t.ReadInt(i,0,MAX_DSAMPLES-1,&sResult));
-					pInst->SetSample(io, in, i+1);
-					CHECK(t.ReadInt(i,0,15,&sResult));
-					pInst->SetSamplePitch(io, in, i);
-					CHECK(t.ReadInt(i,0,1,&sResult));
-					pInst->SetSampleLoop(io, in, i==1);
-					CHECK(t.ReadInt(i,0,255,&sResult));
-					pInst->SetSampleLoopOffset(io, in, i);
-					CHECK(t.ReadInt(i,-1,127,&sResult));
-					pInst->SetSampleDeltaValue(io, in, i);
-
-					CHECK(t.ReadEOL(&sResult));
-				}
-				break;
-			case CT_FDSWAVE:
-				{
-					CHECK(t.ReadInt(i,0,MAX_INSTRUMENTS-1,&sResult));
-					if (pDoc->GetInstrumentType(i) != INST_FDS)
-					{
-						sResult.Format(_T("Line %d column %d: instrument %d is not defined as an FDS instrument."), t.line, t.GetColumn(), i);
-						return sResult;
-					}
-					CInstrumentFDS* pInst = (CInstrumentFDS*)pDoc->GetInstrument(i);
-					CHECK_COLON();
-					for (int s=0; s < CInstrumentFDS::WAVE_SIZE; ++s)
-					{
-						CHECK(t.ReadInt(i,0,63,&sResult));
-						pInst->SetSample(s, i);
-					}
-					CHECK(t.ReadEOL(&sResult));
-				}
-				break;
-			case CT_FDSMOD:
-				{
-					CHECK(t.ReadInt(i,0,MAX_INSTRUMENTS-1,&sResult));
-					if (pDoc->GetInstrumentType(i) != INST_FDS)
-					{
-						sResult.Format(_T("Line %d column %d: instrument %d is not defined as an FDS instrument."), t.line, t.GetColumn(), i);
-						return sResult;
-					}
-					CInstrumentFDS* pInst = (CInstrumentFDS*)pDoc->GetInstrument(i);
-					CHECK_COLON();
-					for (int s=0; s < CInstrumentFDS::MOD_SIZE; ++s)
-					{
-						CHECK(t.ReadInt(i,0,7,&sResult));
-						pInst->SetModulation(s, i);
-					}
-					CHECK(t.ReadEOL(&sResult));
-				}
-				break;
-			case CT_FDSMACRO:
-				{
-					CHECK(t.ReadInt(i,0,MAX_INSTRUMENTS-1,&sResult));
-					if (pDoc->GetInstrumentType(i) != INST_FDS)
-					{
-						sResult.Format(_T("Line %d column %d: instrument %d is not defined as an FDS instrument."), t.line, t.GetColumn(), i);
-						return sResult;
-					}
-					CInstrumentFDS* pInst = (CInstrumentFDS*)pDoc->GetInstrument(i);
-
-					CHECK(t.ReadInt(i,0,2,&sResult));
-					CSequence * pSeq = NULL;
-					switch(i)
-					{
-						case 0:
-							pSeq = pInst->GetVolumeSeq();
-							break;
-						case 1:
-							pSeq = pInst->GetArpSeq();
-							break;
-						case 2:
-							pSeq = pInst->GetPitchSeq();
-							break;
-						default:
-							sResult.Format(_T("Line %d column %d: unexpected error."), t.line, t.GetColumn());
-							return sResult;
-					}
-					CHECK(t.ReadInt(i,-1,MAX_SEQUENCE_ITEMS,&sResult));
-					pSeq->SetLoopPoint(i);
-					CHECK(t.ReadInt(i,-1,MAX_SEQUENCE_ITEMS,&sResult));
-					pSeq->SetReleasePoint(i);
-					CHECK(t.ReadInt(i,0,255,&sResult));
-					pSeq->SetSetting(i);
-
-					CHECK_COLON();
-
-					int count = 0;
-					while (!t.IsEOL())
-					{
-						CHECK(t.ReadInt(i,-128,127,&sResult));
-						if (count >= MAX_SEQUENCE_ITEMS)
-						{
-							sResult.Format(_T("Line %d column %d: macro overflow, max size: %d."), t.line, t.GetColumn(), MAX_SEQUENCE_ITEMS);
-							return sResult;
-						}
-						pSeq->SetItem(count, i);
-						++count;
-					}
-					pSeq->SetItemCount(count);
-				}
-				break;
-			case CT_N163WAVE:
-				{
-					CHECK(t.ReadInt(i,0,MAX_INSTRUMENTS-1,&sResult));
-					if (pDoc->GetInstrumentType(i) != INST_N163)
-					{
-						sResult.Format(_T("Line %d column %d: instrument %d is not defined as an N163 instrument."), t.line, t.GetColumn(), i);
-						return sResult;
-					}
-					CInstrumentN163* pInst = (CInstrumentN163*)pDoc->GetInstrument(i);
-
-					int iw;
-					CHECK(t.ReadInt(iw,0,CInstrumentN163::MAX_WAVE_COUNT-1,&sResult));
-					CHECK_COLON();
-					for (int s=0; s < pInst->GetWaveSize(); ++s)
-					{
-						CHECK(t.ReadInt(i,0,15,&sResult));
-						pInst->SetSample(iw, s, i);
-					}
-					CHECK(t.ReadEOL(&sResult));
-				}
-				break;
+			// // //
 			case CT_TRACK:
 				{
 					if (track != 0)
@@ -1164,20 +874,12 @@ const CString& CTextExport::ExportFile(LPCTSTR FileName, CFamiTrackerDoc *pDoc)
 	            CT[CT_SPLIT],     pDoc->GetSpeedSplitPoint() );
 	f.WriteString(s);
 
-	if (pDoc->ExpansionEnabled(SNDCHIP_N163))
-	{
-		s.Format(_T("# Namco 163 global settings\n"
-		            "%-15s %d\n"
-		            "\n"),
-		            CT[CT_N163CHANNELS], pDoc->GetNamcoChannels());
-		f.WriteString(s);
-	}
+	// // //
 
 	f.WriteString(_T("# Macros\n"));
 	for (int c=0; c<4; ++c)
 	{
-		const int CHIP_MACRO[4] = { SNDCHIP_NONE, SNDCHIP_VRC6, SNDCHIP_N163, SNDCHIP_S5B };
-		int chip = CHIP_MACRO[c];
+		int chip = SNDCHIP_NONE;		// // //
 
 		for (int st=0; st < SEQ_COUNT; ++st)
 		for (int seq=0; seq < MAX_SEQUENCES; ++seq)
@@ -1204,33 +906,7 @@ const CString& CTextExport::ExportFile(LPCTSTR FileName, CFamiTrackerDoc *pDoc)
 	}
 	f.WriteString(_T("\n"));
 
-	f.WriteString(_T("# DPCM samples\n"));
-	for (int smp=0; smp < MAX_DSAMPLES; ++smp)
-	{
-		const CDSample* pSample = pDoc->GetSample(smp);
-		if (pSample && pSample->GetSize() > 0)
-		{
-			s.Format(_T("%s %3d %5d %s\n"),
-				CT[CT_DPCMDEF],
-				smp,
-				pSample->GetSize(),
-				ExportString(pSample->GetName()));
-			f.WriteString(s);
-
-			for (unsigned int i=0; i < pSample->GetSize(); i += 32)
-			{
-				s.Format(_T("%s :"), CT[CT_DPCM]);
-				f.WriteString(s);
-				for (unsigned int j=0; j<32 && (i+j)<pSample->GetSize(); ++j)
-				{
-					s.Format(_T(" %02X"), (unsigned char)(*(pSample->GetData() + (i+j))));
-					f.WriteString(s);
-				}
-				f.WriteString(_T("\n"));
-			}
-		}
-	}
-	f.WriteString(_T("\n"));
+	// // //
 	
 	f.WriteString(_T("# Instruments\n"));
 	for (unsigned int i=0; i<MAX_INSTRUMENTS; ++i)
@@ -1257,162 +933,10 @@ const CString& CTextExport::ExportFile(LPCTSTR FileName, CFamiTrackerDoc *pDoc)
 						ExportString(pInst->GetName()));
 					f.WriteString(s);
 
-					for (int oct = 0; oct < OCTAVE_RANGE; ++oct)
-					for (int key = 0; key < 12; ++key)
-					{
-						int smp = pDI->GetSample(oct, key);
-						if (smp != 0)
-						{
-							int d = pDI->GetSampleDeltaValue(oct, key);
-							s.Format(_T("%s %3d %3d %3d   %3d %3d %3d %5d %3d\n"),
-								CT[CT_KEYDPCM],
-								i,
-								oct, key,
-								smp - 1,
-								pDI->GetSamplePitch(oct, key) & 0x0F,
-								pDI->GetSampleLoop(oct, key) ? 1 : 0,
-								pDI->GetSampleLoopOffset(oct, key),
-								(d >= 0 && d <= 127) ? d : -1);
-							f.WriteString(s);
-						}
-					}
+					// // //
 				}
 				break;
-			case INST_VRC6:
-				{
-					CInstrumentVRC6* pDI = (CInstrumentVRC6*)pInst;
-					s.Format(_T("%-8s %3d   %3d %3d %3d %3d %3d %s\n"),
-						CT[CT_INSTVRC6],
-						i,
-						pDI->GetSeqEnable(0) ? pDI->GetSeqIndex(0) : -1,
-						pDI->GetSeqEnable(1) ? pDI->GetSeqIndex(1) : -1,
-						pDI->GetSeqEnable(2) ? pDI->GetSeqIndex(2) : -1,
-						pDI->GetSeqEnable(3) ? pDI->GetSeqIndex(3) : -1,
-						pDI->GetSeqEnable(4) ? pDI->GetSeqIndex(4) : -1,
-						ExportString(pInst->GetName()));
-					f.WriteString(s);
-				}
-				break;
-			case INST_VRC7:
-				{
-					CInstrumentVRC7* pDI = (CInstrumentVRC7*)pInst;
-					s.Format(_T("%-8s %3d   %3d %02X %02X %02X %02X %02X %02X %02X %02X %s\n"),
-						CT[CT_INSTVRC7],
-						i,
-						pDI->GetPatch(),
-						pDI->GetCustomReg(0) & 0xFF,
-						pDI->GetCustomReg(1) & 0xFF,
-						pDI->GetCustomReg(2) & 0xFF,
-						pDI->GetCustomReg(3) & 0xFF,
-						pDI->GetCustomReg(4) & 0xFF,
-						pDI->GetCustomReg(5) & 0xFF,
-						pDI->GetCustomReg(6) & 0xFF,
-						pDI->GetCustomReg(7) & 0xFF,
-						ExportString(pInst->GetName()));
-					f.WriteString(s);
-				}
-				break;
-			case INST_FDS:
-				{
-					CInstrumentFDS* pDI = (CInstrumentFDS*)pInst;
-					s.Format(_T("%-8s %3d   %3d %3d %3d %3d %s\n"),
-						CT[CT_INSTFDS],
-						i,
-						pDI->GetModulationEnable(),
-						pDI->GetModulationSpeed(),
-						pDI->GetModulationDepth(),
-						pDI->GetModulationDelay(),
-						ExportString(pInst->GetName()));
-					f.WriteString(s);
-
-					s.Format(_T("%-8s %3d :"), CT[CT_FDSWAVE], i);
-					f.WriteString(s);
-					for (int smp=0; smp < CInstrumentFDS::WAVE_SIZE; ++smp)
-					{
-						s.Format(_T(" %2d"), pDI->GetSample(smp));
-						f.WriteString(s);
-					}
-					f.WriteString(_T("\n"));
-
-					s.Format(_T("%-8s %3d :"), CT[CT_FDSMOD], i);
-					f.WriteString(s);
-					for (int smp=0; smp < CInstrumentFDS::MOD_SIZE; ++smp)
-					{
-						s.Format(_T(" %2d"), pDI->GetModulation(smp));
-						f.WriteString(s);
-					}
-					f.WriteString(_T("\n"));
-
-					CSequence* pSeq[3] = { pDI->GetVolumeSeq(), pDI->GetArpSeq(), pDI->GetPitchSeq() };
-					for (int seq=0; seq < 3; ++seq)
-					{
-						CSequence* pSequence = pSeq[seq];
-						if (!pSequence || pSequence->GetItemCount() < 1) continue;
-
-						s.Format(_T("%-8s %3d %3d %3d %3d %3d :"),
-							CT[CT_FDSMACRO],
-							i,
-							seq,
-							pSequence->GetLoopPoint(),
-							pSequence->GetReleasePoint(),
-							pSequence->GetSetting());
-						f.WriteString(s);
-						for (unsigned int i=0; i < pSequence->GetItemCount(); ++i)
-						{
-							s.Format(_T(" %d"), pSequence->GetItem(i));
-							f.WriteString(s);
-						}
-						f.WriteString(_T("\n"));
-					}
-				}
-				break;
-			case INST_N163:
-				{
-					CInstrumentN163* pDI = (CInstrumentN163*)pInst;
-					s.Format(_T("%-8s %3d   %3d %3d %3d %3d %3d %3d %3d %3d %s\n"),
-						CT[CT_INSTN163],
-						i,
-						pDI->GetSeqEnable(0) ? pDI->GetSeqIndex(0) : -1,
-						pDI->GetSeqEnable(1) ? pDI->GetSeqIndex(1) : -1,
-						pDI->GetSeqEnable(2) ? pDI->GetSeqIndex(2) : -1,
-						pDI->GetSeqEnable(3) ? pDI->GetSeqIndex(3) : -1,
-						pDI->GetSeqEnable(4) ? pDI->GetSeqIndex(4) : -1,
-						pDI->GetWaveSize(),
-						pDI->GetWavePos(),
-						pDI->GetWaveCount(),
-						ExportString(pInst->GetName()));
-					f.WriteString(s);
-
-					for (int w=0; w < pDI->GetWaveCount(); ++w)
-					{
-						s.Format(_T("%s %3d %3d :"),
-							CT[CT_N163WAVE], i, w);
-						f.WriteString(s);
-
-						for (int smp=0; smp < pDI->GetWaveSize(); ++smp)
-						{
-							s.Format(_T(" %d"), pDI->GetSample(w, smp));
-							f.WriteString(s);
-						}
-						f.WriteString(_T("\n"));
-					}
-				}
-				break;
-			case INST_S5B:
-				{
-					CInstrumentS5B* pDI = (CInstrumentS5B*)pInst;
-					s.Format(_T("%-8s %3d   %3d %3d %3d %3d %3d %s\n"),
-						CT[CT_INSTS5B],
-						i,
-						pDI->GetSeqEnable(0) ? pDI->GetSeqIndex(0) : -1,
-						pDI->GetSeqEnable(1) ? pDI->GetSeqIndex(1) : -1,
-						pDI->GetSeqEnable(2) ? pDI->GetSeqIndex(2) : -1,
-						pDI->GetSeqEnable(3) ? pDI->GetSeqIndex(3) : -1,
-						pDI->GetSeqEnable(4) ? pDI->GetSeqIndex(4) : -1,
-						ExportString(pInst->GetName()));
-					f.WriteString(s);
-				}
-				break;
+			// // //
 		}
 	}
 	f.WriteString(_T("\n"));

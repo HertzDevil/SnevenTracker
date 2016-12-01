@@ -32,9 +32,6 @@
     <Filter Include="Source Files\Exporter">
       <UniqueIdentifier>{69e8663e-1f12-44c3-ae78-676db6a95257}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Exporter\Custom Exporter">
-      <UniqueIdentifier>{5a3a917e-577c-4754-b8c2-6808aa69e7a2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Exporter\Test">
       <UniqueIdentifier>{1ae89121-f9ee-4539-bff5-c540984d35ac}</UniqueIdentifier>
     </Filter>
@@ -143,9 +140,6 @@
     </Filter>
     <Filter Include="Header Files\Export Headers">
       <UniqueIdentifier>{74ae127e-5669-4da5-98d7-598fde1f28f8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Export Headers\Custom Exporter Headers">
-      <UniqueIdentifier>{7479e87a-80dd-47eb-b0ba-d0f50af4f3a2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Export Headers\Chunk Headers">
       <UniqueIdentifier>{51c49b50-6639-4981-a794-61b0df280cc0}</UniqueIdentifier>
@@ -299,18 +293,6 @@
     </ClCompile>
     <ClCompile Include="Source\PatternCompiler.cpp">
       <Filter>Source Files\Exporter</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CustomExporter.cpp">
-      <Filter>Source Files\Exporter\Custom Exporter</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CustomExporter_C_Interface.cpp">
-      <Filter>Source Files\Exporter\Custom Exporter</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CustomExporters.cpp">
-      <Filter>Source Files\Exporter\Custom Exporter</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DocumentWrapper.cpp">
-      <Filter>Source Files\Exporter\Custom Exporter</Filter>
     </ClCompile>
     <ClCompile Include="Source\ExportTest\ExportTest.cpp">
       <Filter>Source Files\Exporter\Test</Filter>
@@ -613,21 +595,6 @@
     </ClInclude>
     <ClInclude Include="Source\PatternCompiler.h">
       <Filter>Header Files\Export Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CustomExporter.h">
-      <Filter>Header Files\Export Headers\Custom Exporter Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CustomExporter_C_Interface.h">
-      <Filter>Header Files\Export Headers\Custom Exporter Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CustomExporterInterfaces.h">
-      <Filter>Header Files\Export Headers\Custom Exporter Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CustomExporters.h">
-      <Filter>Header Files\Export Headers\Custom Exporter Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DocumentWrapper.h">
-      <Filter>Header Files\Export Headers\Custom Exporter Headers</Filter>
     </ClInclude>
     <ClInclude Include="Source\Chunk.h">
       <Filter>Header Files\Export Headers\Chunk Headers</Filter>

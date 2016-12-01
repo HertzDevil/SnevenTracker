@@ -120,23 +120,7 @@ bool CInstrument2A03::Load(CDocumentFile *pDocFile)
 		SetSeqIndex(i, Index);
 	}
 
-	int Octaves = (Version == 1) ? 6 : OCTAVE_RANGE;
-
-	for (int i = 0; i < Octaves; ++i) {
-		for (int j = 0; j < 12; ++j) {
-			int Index = pDocFile->GetBlockChar();
-			if (Index > MAX_DSAMPLES)
-				Index = 0;
-			SetSample(i, j, Index);
-			SetSamplePitch(i, j, pDocFile->GetBlockChar());
-			if (Version > 5) {
-				char Value = pDocFile->GetBlockChar();
-				if (Value != -1 && Value < 0)
-					Value = -1;
-				SetSampleDeltaValue(i, j, Value);
-			}
-		}
-	}
+	// // //
 
 	return true;
 }
@@ -177,48 +161,7 @@ void CInstrument2A03::SaveFile(CInstrumentFile *pFile, const CFamiTrackerDoc *pD
 	}
 	pFile->WriteInt(Count);
 
-	bool UsedSamples[MAX_DSAMPLES];
-	memset(UsedSamples, 0, sizeof(bool) * MAX_DSAMPLES);
-
-	// DPCM
-	for (int i = 0; i < 8; ++i) {	// octaves
-		for (int j = 0; j < 12; ++j) {	// notes
-			if (GetSample(i, j) > 0) {
-				unsigned char Index = i * 12 + j;
-				unsigned char Sample = GetSample(i, j);
-				pFile->WriteChar(Index);
-				pFile->WriteChar(Sample);
-				pFile->WriteChar(GetSamplePitch(i, j));
-				pFile->WriteChar(GetSampleDeltaValue(i, j));
-				UsedSamples[Sample - 1] = true;
-			}
-		}
-	}
-
-	int SampleCount = 0;
-
-	// Count samples
-	for (int i = 0; i < MAX_DSAMPLES; ++i) {
-		if (pDoc->IsSampleUsed(i) && UsedSamples[i])
-			++SampleCount;
-	}
-
-	// Write the number
-	pFile->WriteInt(SampleCount);
-
-	// List of sample names
-	for (int i = 0; i < MAX_DSAMPLES; ++i) {
-		if (pDoc->IsSampleUsed(i) && UsedSamples[i]) {
-			const CDSample *pSample = pDoc->GetSample(i);
-			pFile->WriteInt(i);
-			const char *pName = pSample->GetName();
-			int NameLen = strlen(pName);
-			pFile->WriteInt(NameLen);
-			pFile->Write(pName, NameLen);
-			pFile->WriteInt(pSample->GetSize());
-			pFile->Write(pSample->GetData(), pSample->GetSize());
-		}
-	}
+	// // //
 }
 
 bool CInstrument2A03::LoadFile(CInstrumentFile *pFile, int iVersion, CFamiTrackerDoc *pDoc)
@@ -226,8 +169,7 @@ bool CInstrument2A03::LoadFile(CInstrumentFile *pFile, int iVersion, CFamiTracke
 	// Reads an FTI file
 	//
 
-	char SampleNames[MAX_DSAMPLES][256];
-	stSequence OldSequence;
+	// // //
 
 	// Sequences
 	unsigned char SeqCount = pFile->ReadChar();
@@ -247,14 +189,8 @@ bool CInstrument2A03::LoadFile(CInstrumentFile *pFile, int iVersion, CFamiTracke
 			if (Index != -1) {
 				CSequence *pSeq = pDoc->GetSequence((unsigned)Index, i);
 
-				if (iVersion < 20) {
-					OldSequence.Count = Count;
-					for (int j = 0; j < Count; ++j) {
-						OldSequence.Length[j] = pFile->ReadChar();
-						OldSequence.Value[j] = pFile->ReadChar();
-					}
-					CFamiTrackerDoc::ConvertSequence(&OldSequence, pSeq, i);	// convert
-				}
+				if (iVersion < 20)
+					return false;		// // //
 				else {
 					pSeq->SetItemCount(Count);
 					int LoopPoint = pFile->ReadInt();
@@ -282,98 +218,7 @@ bool CInstrument2A03::LoadFile(CInstrumentFile *pFile, int iVersion, CFamiTracke
 		}
 	}
 
-	bool SamplesFound[MAX_DSAMPLES];
-	memset(SamplesFound, 0, sizeof(bool) * MAX_DSAMPLES);
-
-	unsigned int Count;
-	pFile->Read(&Count, sizeof(int));
-
-	// DPCM instruments
-	for (unsigned int i = 0; i < Count; ++i) {
-		unsigned char InstNote = pFile->ReadChar();
-		int Octave = InstNote / 12;
-		int Note = InstNote % 12;
-		unsigned char Sample = pFile->ReadChar();
-		unsigned char Pitch = pFile->ReadChar();
-		unsigned char Delta;
-		if (iVersion >= 24)
-			Delta = pFile->ReadChar();
-		else
-			Delta = 0xFF;
-		SetSamplePitch(Octave, Note, Pitch);
-		SetSample(Octave, Note, Sample);
-		SetSampleDeltaValue(Octave, Note, Delta);
-	}
-
-	// DPCM samples list
-	bool bAssigned[OCTAVE_RANGE][NOTE_RANGE];
-	memset(bAssigned, 0, sizeof(bool) * OCTAVE_RANGE * NOTE_RANGE);
-
-	unsigned int SampleCount = pFile->ReadInt();
-	for (unsigned int i = 0; i < SampleCount; ++i) {
-		int Index = pFile->ReadInt();
-		int Len = pFile->ReadInt();
-		if (Index >= MAX_DSAMPLES || Len >= 256)
-			return false;
-		pFile->Read(SampleNames[Index], Len);
-		SampleNames[Index][Len] = 0;
-		int Size = pFile->ReadInt();
-		char *SampleData = new char[Size];
-		pFile->Read(SampleData, Size);
-		bool Found = false;
-		for (int j = 0; j < MAX_DSAMPLES; ++j) {
-			CDSample *pSample = pDoc->GetSample(j);
-			// Compare size and name to see if identical sample exists
-			if (pSample->GetSize() == Size && !strcmp(pSample->GetName(), SampleNames[Index])) {
-				Found = true;
-				// Assign sample
-				for (int o = 0; o < OCTAVE_RANGE; ++o) {
-					for (int n = 0; n < NOTE_RANGE; ++n) {
-						if (GetSample(o, n) == (Index + 1) && !bAssigned[o][n]) {
-							SetSample(o, n, j + 1);
-							bAssigned[o][n] = true;
-						}
-					}
-				}
-			}
-		}
-
-		if (!Found) {
-			// Load sample			
-			int FreeSample = pDoc->GetFreeSampleSlot();
-			if (FreeSample != -1) {
-				if ((pDoc->GetTotalSampleSize() + Size) <= MAX_SAMPLE_SPACE) {
-					CDSample *pSample = pDoc->GetSample(FreeSample);
-					pSample->SetName(SampleNames[Index]);
-					pSample->SetData(Size, SampleData);
-					// Assign it
-					for (int o = 0; o < OCTAVE_RANGE; ++o) {
-						for (int n = 0; n < NOTE_RANGE; ++n) {
-							if (GetSample(o, n) == (Index + 1) && !bAssigned[o][n]) {
-								SetSample(o, n, FreeSample + 1);
-								bAssigned[o][n] = true;
-							}
-						}
-					}
-				}
-				else {
-					CString message;
-					message.Format(IDS_OUT_OF_SAMPLEMEM_FORMAT, MAX_SAMPLE_SPACE / 1024);
-					AfxMessageBox(message, MB_ICONERROR);
-					SAFE_RELEASE_ARRAY(SampleData);
-					return false;
-				}
-			}
-			else {
-				AfxMessageBox(IDS_OUT_OF_SLOTS, MB_ICONERROR);
-				SAFE_RELEASE_ARRAY(SampleData);
-				return false;
-			}
-		}
-		else {
-			SAFE_RELEASE_ARRAY(SampleData);
-		}
-	}
+	// // //
 
 	return true;
 }

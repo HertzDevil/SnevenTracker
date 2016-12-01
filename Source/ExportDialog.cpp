@@ -31,8 +31,7 @@
 #include "FamitrackerDoc.h"
 #include "Compiler.h"
 #include "Settings.h"
-#include "CustomExporters.h"
-#include "DocumentWrapper.h"
+// // //
 #include "MainFrm.h"
 
 // Define internal exporters
@@ -61,7 +60,7 @@ int CExportDialog::m_iExportOption = 0;
 LPCTSTR CExportDialog::NSF_FILTER[]   = { _T("NSF file (*.nsf)"), _T(".nsf") };
 LPCTSTR CExportDialog::NES_FILTER[]   = { _T("NES ROM image (*.nes)"), _T(".nes") };
 LPCTSTR CExportDialog::RAW_FILTER[]   = { _T("Raw song data (*.bin)"), _T(".bin") };
-LPCTSTR CExportDialog::DPCMS_FILTER[] = { _T("DPCM sample bank (*.bin)"), _T(".bin") };
+// // //
 LPCTSTR CExportDialog::PRG_FILTER[]   = { _T("NES program bank (*.prg)"), _T(".prg") };
 LPCTSTR CExportDialog::ASM_FILTER[]	  = { _T("Assembly text (*.asm)"), _T(".asm") };
 
@@ -153,12 +152,7 @@ BOOL CExportDialog::OnInitDialog()
 	for (int i = 0; i < DEFAULT_EXPORTERS; ++i)
 		pTypeBox->AddString(DEFAULT_EXPORT_NAMES[i]);
 
-	// Add selections for each custom plugin name
-	CStringArray names;
-	theApp.GetCustomExporters()->GetNames( names );
-
-	for( int i = 0; i < names.GetCount(); ++i )
-		pTypeBox->AddString( names[ i ] );
+	// // //
 
 	// Set default selection
 	pTypeBox->SetCurSel(m_iExportOption);
@@ -187,8 +181,7 @@ void CExportDialog::OnBnClickedExport()
 		}
 	}
 
-	//selection is the name of a custom exporter
-	CreateCustom( ItemText );
+	// // //
 }
 
 void CExportDialog::CreateNSF()
@@ -260,25 +253,22 @@ void CExportDialog::CreateBIN()
 	CFamiTrackerDoc *pDoc = CFamiTrackerDoc::GetDoc();
 	CCompiler Compiler(pDoc, new CEditLog(GetDlgItem(IDC_OUTPUT)));
 	CString MusicFilter = LoadDefaultFilter(RAW_FILTER[0], RAW_FILTER[1]);
-	CString DPCMFilter = LoadDefaultFilter(DPCMS_FILTER[0], DPCMS_FILTER[1]);
+	// // //
 
 	CFileDialog FileDialogMusic(FALSE, RAW_FILTER[1], _T("music.bin"), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, MusicFilter);
-	CFileDialog FileDialogSamples(FALSE, DPCMS_FILTER[1], _T("samples.bin"), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, DPCMFilter);
+	// // //
 
 	FileDialogMusic.m_pOFN->lpstrInitialDir = theApp.GetSettings()->GetPath(PATH_NSF);
 
 	if (FileDialogMusic.DoModal() == IDCANCEL)
 		return;
 
-	if (pDoc->GetSampleCount() > 0) {
-		if (FileDialogSamples.DoModal() == IDCANCEL)
-			return;
-	}
+	// // //
 
 	// Display wait cursor
 	CWaitCursor wait;
 
-	Compiler.ExportBIN(FileDialogMusic.GetPathName(), FileDialogSamples.GetPathName());
+	Compiler.ExportBIN(FileDialogMusic.GetPathName());		// // //
 
 	theApp.GetSettings()->SetPath(FileDialogMusic.GetPathName(), PATH_NSF);
 }
@@ -326,30 +316,7 @@ void CExportDialog::CreateASM()
 	theApp.GetSettings()->SetPath(FileDialogMusic.GetPathName(), PATH_NSF);
 }
 
-void CExportDialog::CreateCustom( CString name )
-{
-	theApp.GetCustomExporters()->SetCurrentExporter( name );
-
-	CString custom_exporter_extension = theApp.GetCustomExporters()->GetCurrentExporter().getExt();
-	CString custom_filter_name = CString("Custom Song Data (*") + custom_exporter_extension + CString(")");
-	CString default_custom_file_name = CString("music") + custom_exporter_extension;
-
-	CString Filter = LoadDefaultFilter(custom_filter_name, custom_exporter_extension);
-	CFileDialog FileDialogCustom(FALSE, custom_exporter_extension, default_custom_file_name, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, Filter);
-
-	if(FileDialogCustom.DoModal() == IDCANCEL)
-		return;
-
-	CString fileName( FileDialogCustom.GetPathName() );	
-
-	int Track = static_cast<CMainFrame*>(theApp.m_pMainWnd)->GetSelectedTrack();
-	CFamiTrackerDocWrapper documentWrapper(CFamiTrackerDoc::GetDoc(), Track);
-
-	if(theApp.GetCustomExporters()->GetCurrentExporter().Export( &documentWrapper, CStringA(fileName) ))
-	{
-		AfxMessageBox(_T("Successfully exported!"));
-	}
-}
+// // //
 
 void CExportDialog::OnBnClickedPlay()
 {

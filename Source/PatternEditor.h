@@ -75,8 +75,7 @@ public:
 	CRect GetUnbufferedRect() const;
 	CRect GetInvalidatedRect() const;
 
-	// DPCM state
-	void SetDPCMState(const stDPCMState &State);
+	// // //
 
 	// Cursor movement
 	void MoveDown(int Step);
@@ -346,8 +345,7 @@ private:
 	COLORREF m_colHead3;
 	COLORREF m_colHead4;
 
-	// Meters and DPCM
-	stDPCMState m_DPCMState;
+	// // //
 
 	int		m_iMouseHoverChan;
 	int		m_iMouseHoverEffArrow;

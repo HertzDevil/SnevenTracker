@@ -749,9 +749,7 @@ void CFamiTrackerView::PeriodicUpdate()
 
 			pMainFrm->SetIndicatorPos(Frame, Row);
 
-			// DPCM info
-			stDPCMState DPCMState = pSoundGen->GetDPCMState();
-			m_pPatternEditor->SetDPCMState(DPCMState);
+			// // //
 
 			if (pDoc->IsFileLoaded())
 				UpdateMeters();
@@ -921,7 +919,7 @@ void CFamiTrackerView::OnTrackerPal()
 
 	int Machine = PAL;
 	pDoc->SetMachine(Machine);
-	theApp.GetSoundGenerator()->LoadMachineSettings(Machine, pDoc->GetEngineSpeed(), pDoc->GetNamcoChannels());
+	theApp.GetSoundGenerator()->LoadMachineSettings(Machine, pDoc->GetEngineSpeed());		// // //
 }
 
 void CFamiTrackerView::OnTrackerNtsc()
@@ -931,7 +929,7 @@ void CFamiTrackerView::OnTrackerNtsc()
 
 	int Machine = NTSC;
 	pDoc->SetMachine(Machine);
-	theApp.GetSoundGenerator()->LoadMachineSettings(Machine, pDoc->GetEngineSpeed(), pDoc->GetNamcoChannels());
+	theApp.GetSoundGenerator()->LoadMachineSettings(Machine, pDoc->GetEngineSpeed());		// // //
 }
 
 void CFamiTrackerView::OnSpeedCustom()
@@ -951,7 +949,7 @@ void CFamiTrackerView::OnSpeedCustom()
 		return;
 
 	pDoc->SetEngineSpeed(Speed);
-	theApp.GetSoundGenerator()->LoadMachineSettings(Machine, Speed, pDoc->GetNamcoChannels());
+	theApp.GetSoundGenerator()->LoadMachineSettings(Machine, Speed);		// // //
 }
 
 void CFamiTrackerView::OnSpeedDefault()
@@ -961,7 +959,7 @@ void CFamiTrackerView::OnSpeedDefault()
 
 	int Speed = 0;
 	pDoc->SetEngineSpeed(Speed);
-	theApp.GetSoundGenerator()->LoadMachineSettings(pDoc->GetMachine(), Speed, pDoc->GetNamcoChannels());
+	theApp.GetSoundGenerator()->LoadMachineSettings(pDoc->GetMachine(), Speed);		// // //
 }
 
 void CFamiTrackerView::OnTransposeDecreasenote()
@@ -2339,38 +2337,7 @@ bool CFamiTrackerView::EditEffNumberColumn(stChanNote &Note, unsigned char nChar
 	if (nChar >= VK_NUMPAD0 && nChar <= VK_NUMPAD9)
 		nChar = '0' + nChar - VK_NUMPAD0;
 
-	if (Chip == SNDCHIP_FDS) {
-		// FDS effects
-		const char FDS_EFFECTS[] = {EF_FDS_MOD_DEPTH, EF_FDS_MOD_SPEED_HI, EF_FDS_MOD_SPEED_LO};
-		for (int i = 0; i < sizeof(FDS_EFFECTS) && !bValidEffect; ++i) {
-			if (nChar == EFF_CHAR[FDS_EFFECTS[i] - 1]) {
-				bValidEffect = true;
-				Effect = FDS_EFFECTS[i];
-			}
-		}
-	}
-	else if (Chip == SNDCHIP_VRC7) {
-		// VRC7 effects
-		/*
-		const char VRC7_EFFECTS[] = {EF_VRC7_MODULATOR, EF_VRC7_CARRIER, EF_VRC7_LEVELS};
-		for (int i = 0; i < sizeof(VRC7_EFFECTS) && !bValidEffect; ++i) {
-			if (nChar == EFF_CHAR[VRC7_EFFECTS[i] - 1]) {
-				bValidEffect = true;
-				Effect = VRC7_EFFECTS[i];
-			}
-		}
-		*/
-	}
-	else if (Chip == SNDCHIP_S5B) {
-		// Sunsoft effects
-		const char SUNSOFT_EFFECTS[] = {EF_SUNSOFT_ENV_LO, EF_SUNSOFT_ENV_HI, EF_SUNSOFT_ENV_TYPE};
-		for (int i = 0; i < sizeof(SUNSOFT_EFFECTS) && !bValidEffect; ++i) {
-			if (nChar == EFF_CHAR[SUNSOFT_EFFECTS[i] - 1]) {
-				bValidEffect = true;
-				Effect = SUNSOFT_EFFECTS[i];
-			}
-		}
-	}
+	// // //
 
 	// Common effects
 	for (int i = 0; i < EF_COUNT && !bValidEffect; ++i) {

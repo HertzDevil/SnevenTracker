@@ -185,12 +185,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_INSTRUMENT_LOAD, OnLoadInstrument)
 	ON_COMMAND(ID_INSTRUMENT_EDIT, OnEditInstrument)
 	ON_COMMAND(ID_INSTRUMENT_ADD_2A03, OnAddInstrument2A03)
-	ON_COMMAND(ID_INSTRUMENT_ADD_VRC6, OnAddInstrumentVRC6)
-	ON_COMMAND(ID_INSTRUMENT_ADD_VRC7, OnAddInstrumentVRC7)
-	ON_COMMAND(ID_INSTRUMENT_ADD_FDS, OnAddInstrumentFDS)
-	ON_COMMAND(ID_INSTRUMENT_ADD_MMC5, OnAddInstrumentMMC5)
-	ON_COMMAND(ID_INSTRUMENT_ADD_N163, OnAddInstrumentN163)
-	ON_COMMAND(ID_INSTRUMENT_ADD_S5B, OnAddInstrumentS5B)
+	// // //
 	ON_COMMAND(ID_MODULE_MODULEPROPERTIES, OnModuleModuleproperties)
 	ON_COMMAND(ID_MODULE_CHANNELS, OnModuleChannels)
 	ON_COMMAND(ID_MODULE_COMMENTS, OnModuleComments)
@@ -208,7 +203,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_TRACKER_PLAYPATTERN, OnTrackerPlaypattern)	
 	ON_COMMAND(ID_TRACKER_KILLSOUND, OnTrackerKillsound)
 	ON_COMMAND(ID_TRACKER_SWITCHTOTRACKINSTRUMENT, OnTrackerSwitchToInstrument)
-	ON_COMMAND(ID_TRACKER_DPCM, OnTrackerDPCM)
+	// // //
 	ON_COMMAND(ID_TRACKER_DISPLAYREGISTERSTATE, OnTrackerDisplayRegisterState)
 	ON_COMMAND(ID_VIEW_CONTROLPANEL, OnViewControlpanel)
 	ON_COMMAND(ID_HELP, CFrameWnd::OnHelp)
@@ -516,11 +511,7 @@ bool CMainFrame::CreateDialogPanels()
 	m_pImageList = new CImageList();
 	m_pImageList->Create(16, 16, ILC_COLOR32, 1, 1);
 	m_pImageList->Add(theApp.LoadIcon(IDI_INST_2A03));
-	m_pImageList->Add(theApp.LoadIcon(IDI_INST_VRC6));
-	m_pImageList->Add(theApp.LoadIcon(IDI_INST_VRC7));
-	m_pImageList->Add(theApp.LoadIcon(IDI_INST_FDS));
-	m_pImageList->Add(theApp.LoadIcon(IDI_INST_N163));
-	m_pImageList->Add(theApp.LoadIcon(IDI_INST_5B));
+	// // //
 
 	m_pInstrumentList->SetImageList(m_pImageList, LVSIL_NORMAL);
 	m_pInstrumentList->SetImageList(m_pImageList, LVSIL_SMALL);
@@ -1043,35 +1034,7 @@ void CMainFrame::OnAddInstrument2A03()
 	NewInstrument(SNDCHIP_NONE);
 }
 
-void CMainFrame::OnAddInstrumentVRC6()
-{
-	NewInstrument(SNDCHIP_VRC6);
-}
-
-void CMainFrame::OnAddInstrumentVRC7()
-{
-	NewInstrument(SNDCHIP_VRC7);
-}
-
-void CMainFrame::OnAddInstrumentFDS()
-{
-	NewInstrument(SNDCHIP_FDS);
-}
-
-void CMainFrame::OnAddInstrumentMMC5()
-{
-	NewInstrument(SNDCHIP_MMC5);
-}
-
-void CMainFrame::OnAddInstrumentN163()
-{
-	NewInstrument(SNDCHIP_N163);
-}
-
-void CMainFrame::OnAddInstrumentS5B()
-{
-	NewInstrument(SNDCHIP_S5B);
-}
+// // //
 
 void CMainFrame::OnAddInstrument()
 {
@@ -1455,24 +1418,7 @@ void CMainFrame::OnUpdateSBChip(CCmdUI *pCmdUI)
 		case SNDCHIP_NONE:
 			String = _T("No expansion chip");
 			break;
-		case SNDCHIP_VRC6:
-			String = _T("Konami VRC6");
-			break;
-		case SNDCHIP_MMC5:
-			String = _T("Nintendo MMC5");
-			break;
-		case SNDCHIP_FDS:
-			String = _T("Nintendo FDS");
-			break;
-		case SNDCHIP_VRC7:
-			String = _T("Konami VRC7");
-			break;
-		case SNDCHIP_N163:
-			String = _T("Namco 163");
-			break;
-		case SNDCHIP_S5B:
-			String = _T("Sunsoft 5B");
-			break;
+		// // //
 	}
 
 	pCmdUI->Enable(); 
@@ -1829,15 +1775,7 @@ void CMainFrame::OnTrackerSwitchToInstrument()
 	pView->SwitchToInstrument(!pView->SwitchToInstrument());
 }
 
-void CMainFrame::OnTrackerDPCM()
-{
-	CMenu *pMenu = GetMenu();
-
-	if (pMenu->GetMenuState(ID_TRACKER_DPCM, MF_BYCOMMAND) == MF_CHECKED)
-		pMenu->CheckMenuItem(ID_TRACKER_DPCM, MF_UNCHECKED);
-	else
-		pMenu->CheckMenuItem(ID_TRACKER_DPCM, MF_CHECKED);
-}
+// // //
 
 void CMainFrame::OnTrackerDisplayRegisterState()
 {
@@ -2206,41 +2144,13 @@ void CMainFrame::OnNewInstrumentMenu(NMHDR* pNotifyStruct, LRESULT* result)
 
 	menu.AppendMenu(MF_STRING, ID_INSTRUMENT_ADD_2A03, _T("New 2A03 instrument"));
 
-	if (Chip & SNDCHIP_VRC6)
-		menu.AppendMenu(MF_STRING, ID_INSTRUMENT_ADD_VRC6, _T("New VRC6 instrument"));
-	if (Chip & SNDCHIP_VRC7)
-		menu.AppendMenu(MF_STRING, ID_INSTRUMENT_ADD_VRC7, _T("New VRC7 instrument"));
-	if (Chip & SNDCHIP_FDS)
-		menu.AppendMenu(MF_STRING, ID_INSTRUMENT_ADD_FDS, _T("New FDS instrument"));
-	if (Chip & SNDCHIP_MMC5)
-		menu.AppendMenu(MF_STRING, ID_INSTRUMENT_ADD_MMC5, _T("New MMC5 instrument"));
-	if (Chip & SNDCHIP_N163)
-		menu.AppendMenu(MF_STRING, ID_INSTRUMENT_ADD_N163, _T("New Namco instrument"));
-	if (Chip & SNDCHIP_S5B)
-		menu.AppendMenu(MF_STRING, ID_INSTRUMENT_ADD_S5B, _T("New Sunsoft instrument"));
+	// // //
 
 	switch (SelectedChip) {
 		case SNDCHIP_NONE:
 			menu.SetDefaultItem(ID_INSTRUMENT_ADD_2A03);
 			break;
-		case SNDCHIP_VRC6:
-			menu.SetDefaultItem(ID_INSTRUMENT_ADD_VRC6);
-			break;
-		case SNDCHIP_VRC7:
-			menu.SetDefaultItem(ID_INSTRUMENT_ADD_VRC7);
-			break;
-		case SNDCHIP_FDS:
-			menu.SetDefaultItem(ID_INSTRUMENT_ADD_FDS);
-			break;
-		case SNDCHIP_MMC5:
-			menu.SetDefaultItem(ID_INSTRUMENT_ADD_MMC5);
-			break;
-		case SNDCHIP_N163:
-			menu.SetDefaultItem(ID_INSTRUMENT_ADD_N163);
-			break;
-		case SNDCHIP_S5B:
-			menu.SetDefaultItem(ID_INSTRUMENT_ADD_S5B);
-			break;
+		// // //
 	}
 	
 	menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, rect.left, rect.bottom, this);
@@ -2403,7 +2313,7 @@ void CMainFrame::UpdateMenu(CMenu *pMenu)
 {
 	CAccelerator *pAccel = theApp.GetAccelerator();
 
-	for (UINT i = 0; i < pMenu->GetMenuItemCount(); ++i) {
+	for (UINT i = 0; i < (UINT)pMenu->GetMenuItemCount(); ++i) {		// // //
 		UINT state = pMenu->GetMenuState(i, MF_BYPOSITION);
 		if (state & MF_POPUP) {
 			// Update sub menu

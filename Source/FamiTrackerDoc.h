@@ -81,12 +81,7 @@ enum {
 	UPDATE_CLOSE			// Document is closing (TODO remove)
 };
 
-// Old sequence list, kept for compability
-struct stSequence {
-	unsigned int Count;
-	signed char Length[MAX_SEQUENCE_ITEMS];
-	signed char Value[MAX_SEQUENCE_ITEMS];
-};
+// // //
 
 // Access data types used by the document class
 #include "PatternData.h"
@@ -213,8 +208,7 @@ public:
 	unsigned char	GetExpansionChip() const { return m_iExpansionChip; };
 	bool			ExpansionEnabled(unsigned char Chip) const;
 
-	unsigned int	GetNamcoChannels() const;
-	void			SetNamcoChannels(unsigned int Channels);
+	// // //
 
 	// Todo: remove this, use getchannelcount instead
 	unsigned int	GetAvailableChannels()	const { return m_iChannelsAvailable; };
@@ -295,8 +289,7 @@ public:
 	void			MergeDuplicatedPatterns();
 	void			SwapInstruments(int First, int Second);
 
-	// For file version compability
-	static void		ConvertSequence(stSequence *pOldSequence, CSequence *pNewSequence, int Type);
+	// // //
 
 	// Constants
 public:
@@ -304,7 +297,7 @@ public:
 	static const int	DEFAULT_ROW_COUNT;
 	static const char*	NEW_INST_NAME;
 
-	static const int	DEFAULT_NAMCO_CHANS;
+	// // //
 
 	static const int	DEFAULT_FIRST_HIGHLIGHT;
 	static const int	DEFAULT_SECOND_HIGHLIGHT;
@@ -326,7 +319,7 @@ private:
 	BOOL			SaveDocument(LPCTSTR lpszPathName) const;
 	BOOL			OpenDocument(LPCTSTR lpszPathName);
 
-	BOOL			OpenDocumentOld(CFile *pOpenFile);
+	// // //
 	BOOL			OpenDocumentNew(CDocumentFile &DocumentFile);
 
 	bool			WriteBlocks(CDocumentFile *pDocFile) const;
@@ -337,7 +330,6 @@ private:
 	bool			WriteBlock_Sequences(CDocumentFile *pDocFile) const;
 	bool			WriteBlock_Frames(CDocumentFile *pDocFile) const;
 	bool			WriteBlock_Patterns(CDocumentFile *pDocFile) const;
-	bool			WriteBlock_DSamples(CDocumentFile *pDocFile) const;
 	bool			WriteBlock_Comments(CDocumentFile *pDocFile) const;
 	bool			WriteBlock_ChannelLayout(CDocumentFile *pDocFile) const;
 	// // //
@@ -348,14 +340,9 @@ private:
 	bool			ReadBlock_Sequences(CDocumentFile *pDocFile);
 	bool			ReadBlock_Frames(CDocumentFile *pDocFile);
 	bool			ReadBlock_Patterns(CDocumentFile *pDocFile);
-	bool			ReadBlock_DSamples(CDocumentFile *pDocFile);
 	bool			ReadBlock_Comments(CDocumentFile *pDocFile);
 	bool			ReadBlock_ChannelLayout(CDocumentFile *pDocFile);
 	// // //
-
-	// For file version compability
-	void			ReorderSequences();
-	void			ConvertSequences();
 
 #ifdef AUTOSAVE
 	void			SetupAutoSave();
@@ -430,7 +417,7 @@ private:
 
 	// Module properties
 	unsigned char	m_iExpansionChip;							// Expansion chip
-	unsigned int	m_iNamcoChannels;
+	// // //
 	vibrato_t		m_iVibratoStyle;							// 0 = old style, 1 = new style
 	bool			m_bLinearPitch;
 	unsigned int	m_iMachine;									// NTSC / PAL
@@ -450,9 +437,7 @@ private:
 	unsigned int	m_iFirstHighlight;
 	unsigned int	m_iSecondHighlight;
 
-	// Things below are for compability with older files
-	CArray<stSequence> m_vTmpSequences;
-	CArray<stSequence[SEQ_COUNT]> m_vSequences;
+	// // //
 
 	//
 	// End of document data

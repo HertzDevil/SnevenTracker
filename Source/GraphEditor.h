@@ -162,18 +162,4 @@ public:
 	int GetItemHeight() const;
 };
 
-// Sunsoft noise editor
-class CNoiseEditor : public CGraphEditor
-{
-private:
-	int m_iItems;
-	int m_iLastIndex;
-protected:
-	void ModifyReleased();
-public:
-	CNoiseEditor(CSequence *pSequence, int Items) : CGraphEditor(pSequence), m_iItems(Items), m_iLastIndex(-1) { };
-	afx_msg void OnPaint();
-	void ModifyItem(CPoint point, bool Redraw);
-	void HighlightItem(CPoint point);
-	int GetItemHeight() const;
-};
+// // //

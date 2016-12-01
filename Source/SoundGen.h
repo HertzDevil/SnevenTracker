@@ -106,7 +106,7 @@ public:
 	// Multiple times initialization
 	void		RegisterChannels(int Chip, CFamiTrackerDoc *pDoc);
 	void		SelectChip(int Chip);
-	void		LoadMachineSettings(int Machine, int Rate, int NamcoChannels);
+	void		LoadMachineSettings(int Machine, int Rate);		// // //
 
 	// Sound
 	bool		InitializeSound(HWND hWnd);
@@ -156,7 +156,7 @@ public:
 	void		 SetJumpPattern(int Pattern);
 	void		 SetSkipRow(int Row);
 	void		 EvaluateGlobalEffects(stChanNote *NoteData, int EffColumns);
-	stDPCMState	 GetDPCMState() const;
+	// // //
 
 	// Rendering
 	bool		 RenderToFile(LPTSTR pFile, render_end_t SongEndType, int SongEndParam, int Track);
@@ -165,10 +165,7 @@ public:
 	bool		 IsRendering() const;	
 	bool		 IsBackgroundTask() const;
 
-	// Sample previewing
-	void		 PreviewSample(CDSample *pSample, int Offset, int Pitch);
-	void		 CancelPreviewSample();
-	bool		 PreviewDone() const;
+	// // //
 
 	void		 WriteAPU(int Address, char Value);
 
@@ -239,8 +236,7 @@ private:
 	void		MakeSilent();
 	void		SetupSpeed();
 
-	// Misc
-	void		PlaySample(const CDSample *pSample, int Offset, int Pitch);
+	// // //
 	
 	// Player
 	void		ReadPatternRow();
@@ -276,9 +272,7 @@ private:
 	CDSoundChannel		*m_pDSoundChannel;
 	CVisualizerWnd		*m_pVisualizerWnd;
 	CAPU				*m_pAPU;
-	CSampleMem			*m_pSampleMem;
-
-	const CDSample		*m_pPreviewSample;
+	// // //
 
 	bool				m_bRunning;
 
@@ -390,8 +384,7 @@ public:
 	afx_msg void OnResetPlayer(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnStartRender(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnStopRender(WPARAM wParam, LPARAM lParam);
-	afx_msg void OnPreviewSample(WPARAM wParam, LPARAM lParam);
-	afx_msg void OnHaltPreview(WPARAM wParam, LPARAM lParam);
+	// // //
 	afx_msg void OnWriteAPU(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnCloseSound(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnSetChip(WPARAM wParam, LPARAM lParam);

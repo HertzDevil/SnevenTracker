@@ -42,12 +42,7 @@ void CConfigMixer::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Slider(pDX, IDC_SLIDER_APU1, m_iLevelAPU1);
 	DDX_Slider(pDX, IDC_SLIDER_APU2, m_iLevelAPU2);
-	DDX_Slider(pDX, IDC_SLIDER_VRC6, m_iLevelVRC6);
-	DDX_Slider(pDX, IDC_SLIDER_VRC7, m_iLevelVRC7);
-	DDX_Slider(pDX, IDC_SLIDER_MMC5, m_iLevelMMC5);
-	DDX_Slider(pDX, IDC_SLIDER_FDS, m_iLevelFDS);
-	DDX_Slider(pDX, IDC_SLIDER_N163, m_iLevelN163);
-	DDX_Slider(pDX, IDC_SLIDER_S5B, m_iLevelS5B);
+	// // //
 
 	UpdateLevels();
 }
@@ -68,21 +63,11 @@ BOOL CConfigMixer::OnInitDialog()
 
 	m_iLevelAPU1 = -pSettings->ChipLevels.iLevelAPU1;
 	m_iLevelAPU2 = -pSettings->ChipLevels.iLevelAPU2;
-	m_iLevelVRC6 = -pSettings->ChipLevels.iLevelVRC6;
-	m_iLevelVRC7 = -pSettings->ChipLevels.iLevelVRC7;
-	m_iLevelMMC5 = -pSettings->ChipLevels.iLevelMMC5;
-	m_iLevelFDS = -pSettings->ChipLevels.iLevelFDS;
-	m_iLevelN163 = -pSettings->ChipLevels.iLevelN163;
-	m_iLevelS5B = -pSettings->ChipLevels.iLevelS5B;
+	// // //
 
 	SetupSlider(IDC_SLIDER_APU1);
 	SetupSlider(IDC_SLIDER_APU2);
-	SetupSlider(IDC_SLIDER_VRC6);
-	SetupSlider(IDC_SLIDER_VRC7);
-	SetupSlider(IDC_SLIDER_MMC5);
-	SetupSlider(IDC_SLIDER_FDS);
-	SetupSlider(IDC_SLIDER_N163);
-	SetupSlider(IDC_SLIDER_S5B);
+	// // //
 
 	CPropertyPage::OnInitDialog();
 
@@ -96,12 +81,7 @@ BOOL CConfigMixer::OnApply()
 
 	pSettings->ChipLevels.iLevelAPU1 = -m_iLevelAPU1;
 	pSettings->ChipLevels.iLevelAPU2 = -m_iLevelAPU2;
-	pSettings->ChipLevels.iLevelVRC6 = -m_iLevelVRC6;
-	pSettings->ChipLevels.iLevelVRC7 = -m_iLevelVRC7;
-	pSettings->ChipLevels.iLevelMMC5 = -m_iLevelMMC5;
-	pSettings->ChipLevels.iLevelFDS = -m_iLevelFDS;
-	pSettings->ChipLevels.iLevelN163 = -m_iLevelN163;
-	pSettings->ChipLevels.iLevelS5B = -m_iLevelS5B;
+	// // //
 
 	theApp.LoadSoundConfig();
 
@@ -127,12 +107,7 @@ void CConfigMixer::UpdateLevels()
 {
 	UpdateLevel(IDC_LEVEL_APU1, m_iLevelAPU1);
 	UpdateLevel(IDC_LEVEL_APU2, m_iLevelAPU2);
-	UpdateLevel(IDC_LEVEL_VRC6, m_iLevelVRC6);
-	UpdateLevel(IDC_LEVEL_VRC7, m_iLevelVRC7);
-	UpdateLevel(IDC_LEVEL_MMC5, m_iLevelMMC5);
-	UpdateLevel(IDC_LEVEL_FDS, m_iLevelFDS);
-	UpdateLevel(IDC_LEVEL_N163, m_iLevelN163);
-	UpdateLevel(IDC_LEVEL_S5B, m_iLevelS5B);
+	// // //
 }
 
 void CConfigMixer::UpdateLevel(int nID, int Level)

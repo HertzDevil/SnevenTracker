@@ -89,7 +89,7 @@ void CSettings::SetupSettings()
 	SETTING_BOOL("General", "Key repeat", true, &General.bKeyRepeat);
 	SETTING_BOOL("General", "Hex row display", true, &General.bRowInHex);
 	SETTING_BOOL("General", "Frame preview", true, &General.bFramePreview);
-	SETTING_BOOL("General", "No DPCM reset", false, &General.bNoDPCMReset);
+	// // //
 	SETTING_BOOL("General", "No Step moving", false, &General.bNoStepMove);
 	SETTING_BOOL("General", "Pattern colors", true, &General.bPatternColor);
 	SETTING_BOOL("General", "Delete pull up", false, &General.bPullUpDelete);
@@ -163,12 +163,7 @@ void CSettings::SetupSettings()
 	// Mixing
 	SETTING_INT("Mixer", "APU1", 0, &ChipLevels.iLevelAPU1);
 	SETTING_INT("Mixer", "APU2", 0, &ChipLevels.iLevelAPU2);
-	SETTING_INT("Mixer", "VRC6", 0, &ChipLevels.iLevelVRC6);
-	SETTING_INT("Mixer", "VRC7", 0, &ChipLevels.iLevelVRC7);
-	SETTING_INT("Mixer", "MMC5", 0, &ChipLevels.iLevelMMC5);
-	SETTING_INT("Mixer", "FDS", 0, &ChipLevels.iLevelFDS);
-	SETTING_INT("Mixer", "N163", 0, &ChipLevels.iLevelN163);
-	SETTING_INT("Mixer", "S5B", 0, &ChipLevels.iLevelS5B);
+	// // //
 }
 
 template<class T> void CSettings::AddSetting(LPCTSTR pSection, LPCTSTR pEntry, T tDefault, T* pVariable)

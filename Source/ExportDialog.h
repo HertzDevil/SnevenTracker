@@ -63,7 +63,7 @@ protected:
 	void CreateBIN();
 	void CreatePRG();
 	void CreateASM();
-	void CreateCustom( CString name );
+	// // //
 
 	DECLARE_MESSAGE_MAP()
 public:

@@ -166,12 +166,7 @@ void CMixer::UpdateSettings(int LowCut,	int HighCut, int HighDamp, float Overall
 	m_fOverallVol = OverallVol;
 }
 
-void CMixer::SetNamcoVolume(float fVol)
-{
-	float fVolume = fVol * m_fOverallVol * GetAttenuation();
-
-	SynthN163.volume(fVolume * 1.1f * m_fLevelN163);
-}
+// // //
 
 void CMixer::MixSamples(blip_sample_t *pBuffer, uint32 Count)
 {
@@ -253,10 +248,10 @@ void CMixer::MixInternal1(int Time)
 void CMixer::MixInternal2(int Time)
 {
 #ifdef LINEAR_MIXING
-	SumL = ((0.00851 * m_iChannels[CHANID_TRIANGLE].Left + 0.00494 * m_iChannels[CHANID_NOISE].Left + 0.00335 * m_iChannels[CHANID_DPCM].Left)) * InternalVol;
-	SumR = ((0.00851 * m_iChannels[CHANID_TRIANGLE].Right + 0.00494 * m_iChannels[CHANID_NOISE].Right + 0.00335 * m_iChannels[CHANID_DPCM].Right)) * InternalVol;
+	SumL = ((0.00851 * m_iChannels[CHANID_TRIANGLE].Left + 0.00494 * m_iChannels[CHANID_NOISE].Left)) * InternalVol;
+	SumR = ((0.00851 * m_iChannels[CHANID_TRIANGLE].Right + 0.00494 * m_iChannels[CHANID_NOISE].Right)) * InternalVol;
 #else
-	double Sum = CalcPin2(m_iChannels[CHANID_TRIANGLE], m_iChannels[CHANID_NOISE], m_iChannels[CHANID_DPCM]);
+	double Sum = CalcPin2(m_iChannels[CHANID_TRIANGLE], m_iChannels[CHANID_NOISE], 0);		// // //
 #endif
 
 	double Delta = (Sum - m_dSumTND) * AMP_2A03;
@@ -284,7 +279,7 @@ void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCy
 					break;
 				case CHANID_TRIANGLE:
 				case CHANID_NOISE:
-				case CHANID_DPCM:
+				// // //
 					MixInternal2(FrameCycles);
 					break;
 			}

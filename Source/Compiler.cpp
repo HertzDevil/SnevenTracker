@@ -99,23 +99,16 @@ const int CCompiler::PAGE_SAMPLES				= 0xC000;
 
 const int CCompiler::PATTERN_SWITCH_BANK		= 3;		// 0xB000 -> 0xBFFF
 
-const int CCompiler::DPCM_PAGE_WINDOW			= 3;		// Number of switchable pages in the DPCM area
-const int CCompiler::DPCM_SWITCH_ADDRESS		= 0xF000;	// Switch to new banks when reaching this address
+// // //
 
 const bool CCompiler::LAST_BANK_FIXED			= true;		// Fix for TNS carts
 
 // Assembly labels
 const char CCompiler::LABEL_SONG_LIST[]			= "ft_song_list";
 const char CCompiler::LABEL_INSTRUMENT_LIST[]	= "ft_instrument_list";
-const char CCompiler::LABEL_SAMPLES_LIST[]		= "ft_sample_list";
-const char CCompiler::LABEL_SAMPLES[]			= "ft_samples";
-const char CCompiler::LABEL_WAVETABLE[]			= "ft_wave_table";
-const char CCompiler::LABEL_SAMPLE[]			= "ft_sample_%i";			// one argument
-const char CCompiler::LABEL_WAVES[]				= "ft_waves_%i";			// one argument
+// // //
 const char CCompiler::LABEL_SEQ_2A03[]			= "ft_seq_2a03_%i";			// one argument
-const char CCompiler::LABEL_SEQ_VRC6[]			= "ft_seq_vrc6_%i";			// one argument
-const char CCompiler::LABEL_SEQ_FDS[]			= "ft_seq_fds_%i";			// one argument
-const char CCompiler::LABEL_SEQ_N163[]			= "ft_seq_n163_%i";			// one argument
+// // //
 const char CCompiler::LABEL_INSTRUMENT[]		= "ft_inst_%i";				// one argument
 const char CCompiler::LABEL_SONG[]				= "ft_song_%i";				// one argument
 const char CCompiler::LABEL_SONG_FRAMES[]		= "ft_s%i_frames";			// one argument
@@ -144,11 +137,10 @@ unsigned int CCompiler::AdjustSampleAddress(unsigned int Address)
 CCompiler::CCompiler(CFamiTrackerDoc *pDoc, CCompilerLog *pLogger) : 
 	m_pDocument(pDoc), 
 	m_pLogger(pLogger),
-	m_iWaveTables(0),
-	m_pSamplePointersChunk(NULL),
+	// // //
 	m_pHeaderChunk(NULL),
 	m_pDriverData(NULL),
-	m_iLastBank(0),
+	// // //
 	m_iHashCollisions(0)
 {
 	ASSERT(CCompiler::pCompiler == NULL);
@@ -242,8 +234,7 @@ void CCompiler::ExportNSF(LPCTSTR lpszFileName, int MachineType)
 		ClearSongBanks();
 	}
 
-	// Rewrite DPCM sample pointers
-	UpdateSamplePointers(m_iSampleStart);
+	// // //
 
 	// Compressed mode means that driver and music is located just below the sample space, no space is lost even when samples are used
 	bool bCompressedMode;
@@ -278,46 +269,7 @@ void CCompiler::ExportNSF(LPCTSTR lpszFileName, int MachineType)
 	// Patch driver binary
 	PatchVibratoTable(pDriver);
 
-	// Copy the Namco table, if used
-	if (m_pDocument->ExpansionEnabled(SNDCHIP_N163)) {
-
-		CSoundGen *pSoundGen = theApp.GetSoundGenerator();
-
-		for (int i = 0; i < 96; ++i) {
-			*(pDriver + m_iDriverSize - 258 - 192 + i * 2 + 0) = (unsigned char)(pSoundGen->ReadNamcoPeriodTable(i) & 0xFF);
-			*(pDriver + m_iDriverSize - 258 - 192 + i * 2 + 1) = (unsigned char)(pSoundGen->ReadNamcoPeriodTable(i) >> 8);
-		}
-
-		// Patch the channel list
-		// TODO move this to the actual music data
-		int NamcoChannels = m_pDocument->GetNamcoChannels();
-		if (NamcoChannels != 8) {
-			/*
-			TRACE0("before\n");
-			for (int i = 0; i < 13; ++i)
-				TRACE1("%02X ", *(pDriver + m_iDriverSize - 258 - 96 * 6 - 13 + i));
-			TRACE0("\n");
-			for (int i = 0; i < 13; ++i)
-				TRACE1("%02X ", *(pDriver + m_iDriverSize - 258 - 96 * 6 - 13 * 2 + i));
-			TRACE0("\n");
-			*/
-			
-			// Channel type
-			*(pDriver + m_iDriverSize - 258 - 96 * 6 - (9 - NamcoChannels)) = 0;		// 2A03
-			// Channel id
-			*(pDriver + m_iDriverSize - 258 - 96 * 6 - 13 - (9 - NamcoChannels)) = 5;	// DPCM
-			
-			/*
-			TRACE0("after\n");
-			for (int i = 0; i < 13; ++i)
-				TRACE1("%02X ", *(pDriver + m_iDriverSize - 258 - 96 * 6 - 13 + i));
-			TRACE0("\n");
-			for (int i = 0; i < 13; ++i)
-				TRACE1("%02X ", *(pDriver + m_iDriverSize - 258 - 96 * 6 - 13 * 2 + i));
-			TRACE0("\n");
-			*/
-		}
-	}
+	// // //
 
 	// Write music data address
 	SetDriverSongAddress(pDriver, MusicDataAddress);
@@ -343,18 +295,18 @@ void CCompiler::ExportNSF(LPCTSTR lpszFileName, int MachineType)
 	if (m_bBankSwitched) {
 		Render.StoreDriver(pDriver, m_iDriverSize);
 		Render.StoreChunksBankswitched(m_vChunks);
-		Render.StoreSamplesBankswitched(m_vSamples);
+		// // //
 	}
 	else {
 		if (bCompressedMode) {
 			Render.StoreChunks(m_vChunks);
 			Render.StoreDriver(pDriver, m_iDriverSize);
-			Render.StoreSamples(m_vSamples);
+			// // //
 		}
 		else {
 			Render.StoreDriver(pDriver, m_iDriverSize);
 			Render.StoreChunks(m_vChunks);
-			Render.StoreSamples(m_vSamples);
+			// // //
 		}
 	}
 
@@ -364,13 +316,13 @@ void CCompiler::ExportNSF(LPCTSTR lpszFileName, int MachineType)
 	Print(_T(" * Driver size: %i bytes\n"), m_iDriverSize);
 
 	if (m_bBankSwitched) {
-		int Percent = (100 * m_iMusicDataSize) / (0x80000 - m_iDriverSize - m_iSamplesSize);
+		int Percent = (100 * m_iMusicDataSize) / (0x80000 - m_iDriverSize);		// // //
 		int Banks = Render.GetBankCount();
 		Print(_T(" * Song data size: %i bytes (%i%%)\n"), m_iMusicDataSize, Percent);
 		Print(_T(" * NSF type: Bankswitched (%i banks)\n"), Banks - 1);
 	}
 	else {
-		int Percent = (100 * m_iMusicDataSize) / (0x8000 - m_iDriverSize - m_iSamplesSize);
+		int Percent = (100 * m_iMusicDataSize) / (0x8000 - m_iDriverSize);		// // //
 		Print(_T(" * Song data size: %i bytes (%i%%)\n"), m_iMusicDataSize, Percent);
 		Print(_T(" * NSF type: Linear (driver @ $%04X)\n"), m_iDriverAddress);
 	}
@@ -420,8 +372,7 @@ void CCompiler::ExportNES(LPCTSTR lpszFileName, bool EnablePAL)
 
 	ResolveLabels();
 
-	// Rewrite DPCM sample pointers
-	UpdateSamplePointers(m_iSampleStart);
+	// // //
 
 	// Locate driver at $8000
 	m_iLoadAddress = PAGE_START;
@@ -441,7 +392,7 @@ void CCompiler::ExportNES(LPCTSTR lpszFileName, bool EnablePAL)
 	// Write music data address
 	SetDriverSongAddress(pDriver, MusicDataAddress);
 
-	int Percent = (100 * m_iMusicDataSize) / (0x8000 - m_iDriverSize - m_iSamplesSize);
+	int Percent = (100 * m_iMusicDataSize) / (0x8000 - m_iDriverSize);		// // //
 
 	Print(_T("Writing file...\n"));
 	Print(_T(" * Driver size: %i bytes\n"), m_iDriverSize);
@@ -454,7 +405,7 @@ void CCompiler::ExportNES(LPCTSTR lpszFileName, bool EnablePAL)
 	CChunkRenderNES Render(&OutputFile, m_iLoadAddress);
 	Render.StoreDriver(pDriver, m_iDriverSize);
 	Render.StoreChunks(m_vChunks);
-	Render.StoreSamples(m_vSamples);
+	// // //
 	Render.StoreCaller(NSF_CALLER_BIN, NSF_CALLER_SIZE);
 
 	Print(_T("Done, total file size: %i bytes\n"), 0x8000 + 0x10);
@@ -465,7 +416,7 @@ void CCompiler::ExportNES(LPCTSTR lpszFileName, bool EnablePAL)
 	Cleanup();
 }
 
-void CCompiler::ExportBIN(LPCTSTR lpszBIN_File, LPCTSTR lpszDPCM_File)
+void CCompiler::ExportBIN(LPCTSTR lpszBIN_File)		// // //
 {
 	ClearLog();
 
@@ -486,28 +437,20 @@ void CCompiler::ExportBIN(LPCTSTR lpszBIN_File, LPCTSTR lpszDPCM_File)
 		return;
 	}
 
-	CFile OutputFileDPCM;
-	if (_tcslen(lpszDPCM_File) != 0) {
-		if (!OpenFile(lpszDPCM_File, OutputFileDPCM)) {
-			OutputFileBIN.Close();
-			return;
-		}
-	}
+	// // //
 
 	Print(_T("Writing output files...\n"));
 
 	WriteBinary(&OutputFileBIN);
 
-	if (_tcslen(lpszDPCM_File) != 0)
-		WriteSamplesBinary(&OutputFileDPCM);
+	// // //
 
 	Print(_T("Done\n"));
 
 	// Done
 	OutputFileBIN.Close();
 
-	if (_tcslen(lpszDPCM_File) != 0)
-		OutputFileDPCM.Close();
+	// // //
 
 	Cleanup();
 }
@@ -542,8 +485,7 @@ void CCompiler::ExportPRG(LPCTSTR lpszFileName, bool EnablePAL)
 
 	ResolveLabels();
 
-	// Rewrite DPCM sample pointers
-	UpdateSamplePointers(m_iSampleStart);
+	// // //
 
 	// Locate driver at $8000
 	m_iLoadAddress = PAGE_START;
@@ -563,7 +505,7 @@ void CCompiler::ExportPRG(LPCTSTR lpszFileName, bool EnablePAL)
 	// Write music data address
 	SetDriverSongAddress(pDriver, MusicDataAddress);
 
-	int Percent = (100 * m_iMusicDataSize) / (0x8000 - m_iDriverSize - m_iSamplesSize);
+	int Percent = (100 * m_iMusicDataSize) / (0x8000 - m_iDriverSize);		// // //
 
 	Print(_T("Writing file...\n"));
 	Print(_T(" * Driver size: %i bytes\n"), m_iDriverSize);
@@ -573,7 +515,7 @@ void CCompiler::ExportPRG(LPCTSTR lpszFileName, bool EnablePAL)
 	CChunkRenderNES Render(&OutputFile, m_iLoadAddress);
 	Render.StoreDriver(pDriver, m_iDriverSize);
 	Render.StoreChunks(m_vChunks);
-	Render.StoreSamples(m_vSamples);
+	// // //
 	Render.StoreCaller(NSF_CALLER_BIN, NSF_CALLER_SIZE);
 
 	// Done
@@ -603,7 +545,7 @@ void CCompiler::ExportASM(LPCTSTR lpszFileName)
 		ClearSongBanks();
 	}
 
-	UpdateSamplePointers(PAGE_SAMPLES);		// Always start at C000 when exporting to ASM
+	// // //
 
 	Print(_T("Writing output files...\n"));
 
@@ -714,9 +656,9 @@ void CCompiler::CreateHeader(stNSFHeader *pHeader, int MachineType) const
 
 	if (m_bBankSwitched) {
 		for (int i = 0; i < 4; ++i) {
-			unsigned int SampleBank = m_iFirstSampleBank + i;
 			pHeader->BankValues[i] = i;
-			pHeader->BankValues[i + 4] = (SampleBank < m_iLastBank) ? SampleBank : m_iLastBank;
+			pHeader->BankValues[i + 4] = i + 4;
+			// // //
 		}
 		if (LAST_BANK_FIXED) {
 			// Bind last page to last bank
@@ -759,54 +701,7 @@ void CCompiler::CreateHeader(stNSFHeader *pHeader, int MachineType) const
 	pHeader->Reserved[3] = 0x00;
 }
 
-void CCompiler::UpdateSamplePointers(unsigned int Origin)
-{
-	// Rewrite sample pointer list with valid addresses
-	//
-	// TODO: rewrite this to utilize the CChunkDataBank to resolve bank numbers automatically
-	//
-
-	ASSERT(m_pSamplePointersChunk != NULL);
-
-	unsigned int Address = Origin;
-	unsigned int Bank = m_iFirstSampleBank;
-
-	if (!m_bBankSwitched)
-		Bank = 0;			// Disable DPCM bank switching
-
-	m_pSamplePointersChunk->Clear();
-
-	// The list is stored in the same order as the samples vector
-
-	for (std::vector<const CDSample*>::iterator it = m_vSamples.begin(); it != m_vSamples.end(); ++it) {
-		const CDSample *pDSample = *it;
-		unsigned int Size = pDSample->GetSize();
-
-		if (m_bBankSwitched) {
-			if ((Address + Size) >= DPCM_SWITCH_ADDRESS) {
-				Address = PAGE_SAMPLES;
-				Bank += DPCM_PAGE_WINDOW;
-			}
-		}
-
-		// Store
-		m_pSamplePointersChunk->StoreByte(Address >> 6);
-		m_pSamplePointersChunk->StoreByte(Size >> 4);
-		m_pSamplePointersChunk->StoreByte(Bank);
-
-#ifdef _DEBUG
-		Print(_T(" * DPCM sample %s: $%04X, bank %i (%i bytes)\n"), pDSample->GetName(), Address, Bank, Size);
-#endif
-		Address += Size;
-		Address += AdjustSampleAddress(Address);
-	}
-#ifdef _DEBUG
-	Print(_T(" * DPCM sample banks: %i\n"), Bank - m_iFirstSampleBank + DPCM_PAGE_WINDOW);
-#endif
-
-	// Save last bank number for NSF header
-	m_iLastBank = Bank + 1;
-}
+// // //
 
 void CCompiler::UpdateFrameBanks()
 {
@@ -955,10 +850,7 @@ bool CCompiler::CollectLabelsBankswitched(CMap<CStringA, LPCSTR, int, int> &labe
 		}
 	}
 
-	if (m_bBankSwitched)
-		m_iFirstSampleBank = ((Bank < 4) ? ((Offset + m_iDriverSize) >> 12) : Bank) + 1;
-
-	m_iLastBank = m_iFirstSampleBank;
+	m_iLastBank = ((Bank < 4) ? ((Offset + m_iDriverSize) >> 12) : Bank) + 1;		// // //
 
 	return true;
 }
@@ -982,10 +874,9 @@ bool CCompiler::CompileData()
 	int Channel = 0;
 	for (int i = 0; i < Channels - 1; ++i) {
 		m_vChanOrder.push_back(Channel++);
-		if (Channel == CHANID_DPCM)
-			++Channel;
+		// // //
 	}
-	m_vChanOrder.push_back(CHANID_DPCM);
+	// // //
 
 	// Select driver and channel order
 	switch (m_pDocument->GetExpansionChip()) {
@@ -994,31 +885,7 @@ bool CCompiler::CompileData()
 			m_iVibratoTableLocation = VIBRATO_TABLE_LOCATION_NONE;
 			Print(_T(" * No expansion chip\n"));
 			break;
-		case SNDCHIP_VRC6:
-			m_pDriverData = &DRIVER_PACK_VRC6;
-			m_iVibratoTableLocation = VIBRATO_TABLE_LOCATION_VRC6;
-			Print(_T(" * VRC6 expansion enabled\n"));
-			break;
-		case SNDCHIP_MMC5:
-			m_pDriverData = &DRIVER_PACK_MMC5;
-			m_iVibratoTableLocation = VIBRATO_TABLE_LOCATION_MMC5;
-			Print(_T(" * MMC5 expansion enabled\n"));
-			break;
-		case SNDCHIP_VRC7:
-			m_pDriverData = &DRIVER_PACK_VRC7;
-			m_iVibratoTableLocation = VIBRATO_TABLE_LOCATION_VRC7;
-			Print(_T(" * VRC7 expansion enabled\n"));
-			break;
-		case SNDCHIP_FDS:
-			m_pDriverData = &DRIVER_PACK_FDS;
-			m_iVibratoTableLocation = VIBRATO_TABLE_LOCATION_FDS;
-			Print(_T(" * FDS expansion enabled\n"));
-			break;
-		case SNDCHIP_N163:
-			m_pDriverData = &DRIVER_PACK_N163;
-			m_iVibratoTableLocation = VIBRATO_TABLE_LOCATION_N163;
-			Print(_T(" * N163 expansion enabled\n"));
-			break;
+		// // //
 		default:
 			Print(_T("Error: Selected expansion chip is unsupported\n"));
 			return false;
@@ -1036,36 +903,19 @@ bool CCompiler::CompileData()
 	CreateMainHeader();
 	CreateSequenceList();
 	CreateInstrumentList();
-	CreateSampleList();
-	StoreSamples();
+	// // //
 	StoreSongs();
 
 	// Determine if bankswitching is needed
 	m_bBankSwitched = false;
 	m_iMusicDataSize = CountData();
 
-	// Get samples start address
-	m_iSampleStart = m_iDriverSize + m_iMusicDataSize;
-
-	if (m_iSampleStart < 0x4000)
-		m_iSampleStart = PAGE_SAMPLES;
-	else
-		m_iSampleStart += AdjustSampleAddress(m_iSampleStart) + PAGE_START;
-
-	if (m_iSampleStart + m_iSamplesSize > 0xFFFF)
+	// // //
+	if ((m_iMusicDataSize + m_iDriverSize) > 0x8000)
 		m_bBankSwitched = true;
-
-	if (m_iSamplesSize > 0x4000)
-		m_bBankSwitched = true;
-
-	if ((m_iMusicDataSize + m_iSamplesSize + m_iDriverSize) > 0x8000)
-		m_bBankSwitched = true;
-
-	if (m_bBankSwitched)
-		m_iSampleStart = PAGE_SAMPLES;
 
 	// Compiling done
-	Print(_T(" * Samples located at: $%04X\n"), m_iSampleStart);
+	// // //
 
 #ifdef FORCE_BANKSWITCH
 	m_bBankSwitched = true;
@@ -1089,7 +939,7 @@ void CCompiler::Cleanup()
 	m_vFrameChunks.clear();
 	m_vPatternChunks.clear();
 
-	m_pSamplePointersChunk = NULL;	// This pointer is also stored in m_vChunks
+	// // //
 	m_pHeaderChunk = NULL;
 }
 
@@ -1129,8 +979,7 @@ void CCompiler::ScanSong()
 
 	memset(m_iAssignedInstruments, 0, sizeof(int) * MAX_INSTRUMENTS);
 	memset(m_bSequencesUsed2A03, false, sizeof(bool) * MAX_SEQUENCES * SEQ_COUNT);
-	memset(m_bSequencesUsedVRC6, false, sizeof(bool) * MAX_SEQUENCES * SEQ_COUNT);
-	memset(m_bSequencesUsedN163, false, sizeof(bool) * MAX_SEQUENCES * SEQ_COUNT);
+	// // //
 
 	for (int i = 0; i < MAX_INSTRUMENTS; ++i) {
 		if (m_pDocument->IsInstrumentUsed(i) && IsInstrumentInPattern(i)) {
@@ -1150,56 +999,12 @@ void CCompiler::ScanSong()
 						}
 					}
 					break;
-				case INST_VRC6: 
-					{
-						CInstrumentContainer<CInstrumentVRC6> instContainer(m_pDocument, i);
-						CInstrumentVRC6 *pInstrument = instContainer();
-						for (int j = 0; j < CInstrumentVRC6::SEQUENCE_COUNT; ++j) {
-							if (pInstrument->GetSeqEnable(j))
-								m_bSequencesUsedVRC6[pInstrument->GetSeqIndex(j)][j] = true;
-						}
-					}
-					break;
-				case INST_N163:
-					{
-						CInstrumentContainer<CInstrumentN163> instContainer(m_pDocument, i);
-						CInstrumentN163 *pInstrument = instContainer();
-						for (int j = 0; j < CInstrumentN163::SEQUENCE_COUNT; ++j) {
-							if (pInstrument->GetSeqEnable(j))
-								m_bSequencesUsedN163[pInstrument->GetSeqIndex(j)][j] = true;
-						}
-					}
-					break;
+				// // //
 			}
 		}
 	}
 
-	// See which samples are used
-	m_iSamplesUsed = 0;
-
-	memset(m_bSamplesAccessed, 0, MAX_INSTRUMENTS * OCTAVE_RANGE * NOTE_RANGE * sizeof(bool));
-
-	// Get DPCM channel index
-	const int DpcmChannel = m_pDocument->GetChannelIndex(CHANID_DPCM);
-	const int TrackCount = m_pDocument->GetTrackCount();
-	unsigned int Instrument = 0;
-
-	for (int i = 0; i < TrackCount; ++i) {
-		const int patternlen = m_pDocument->GetPatternLength(i);
-		const int frames = m_pDocument->GetFrameCount(i);
-		for (int j = 0; j < frames; ++j) {
-			int p = m_pDocument->GetPatternAtFrame(i, j, DpcmChannel);
-			for (int k = 0; k < patternlen; ++k) {
-				stChanNote Note;
-				m_pDocument->GetDataAtPattern(i, p, DpcmChannel, k, &Note);
-				if (Note.Instrument < MAX_INSTRUMENTS)
-					Instrument = Note.Instrument;
-				if (Note.Note > 0) {
-					m_bSamplesAccessed[Instrument][Note.Octave][Note.Note - 1] = true;
-				}
-			}
-		}
-	}
+	// // //
 }
 
 bool CCompiler::IsInstrumentInPattern(int index) const
@@ -1253,23 +1058,17 @@ void CCompiler::CreateMainHeader()
 
 	pChunk->StoreReference(LABEL_SONG_LIST);
 	pChunk->StoreReference(LABEL_INSTRUMENT_LIST);
-	pChunk->StoreReference(LABEL_SAMPLES_LIST);
-	pChunk->StoreReference(LABEL_SAMPLES);
+	// // //
 	
 	m_iHeaderFlagOffset = pChunk->GetLength();		// Save the flags offset
 	pChunk->StoreByte(Flags);
 
-	// FDS table, only if FDS is enabled
-	if (m_pDocument->ExpansionEnabled(SNDCHIP_FDS))
-		pChunk->StoreReference(LABEL_WAVETABLE);
+	// // //
 
 	pChunk->StoreWord(DividerNTSC);
 	pChunk->StoreWord(DividerPAL);
 
-	// N163 channel count
-	if (m_pDocument->ExpansionEnabled(SNDCHIP_N163)) {
-		pChunk->StoreByte(m_pDocument->GetNamcoChannels());
-	}
+	// // //
 
 	m_pHeaderChunk = pChunk;
 }
@@ -1297,66 +1096,7 @@ void CCompiler::CreateSequenceList()
 		}
 	}
 
-	if (m_pDocument->ExpansionEnabled(SNDCHIP_VRC6)) {
-		for (int i = 0; i < MAX_SEQUENCES; ++i) {
-			for (int j = 0; j < CInstrumentVRC6::SEQUENCE_COUNT; ++j) {
-				CSequence* pSeq = m_pDocument->GetSequence(SNDCHIP_VRC6, i, j);
-
-				if (m_bSequencesUsedVRC6[i][j] && pSeq->GetItemCount() > 0) {
-					int Index = i * SEQ_COUNT + j;
-					CStringA label;
-					label.Format(LABEL_SEQ_VRC6, Index);
-					Size += StoreSequence(pSeq, label);
-					++StoredCount;
-				}
-			}
-		}
-	}
-
-	
-	if (m_pDocument->ExpansionEnabled(SNDCHIP_N163)) {
-		for (int i = 0; i < MAX_SEQUENCES; ++i) {
-			for (int j = 0; j < CInstrumentN163::SEQUENCE_COUNT; ++j) {
-				CSequence* pSeq = m_pDocument->GetSequence(SNDCHIP_N163, i, j);
-
-				if (m_bSequencesUsedN163[i][j] && pSeq->GetItemCount() > 0) {
-					int Index = i * SEQ_COUNT + j;
-					CStringA label;
-					label.Format(LABEL_SEQ_N163, Index);
-					Size += StoreSequence(pSeq, label);
-					++StoredCount;
-				}
-			}
-		}
-	}
-	
-
-	if (m_pDocument->ExpansionEnabled(SNDCHIP_FDS)) {
-		// TODO: this is bad, fds only uses 3 sequences
-
-		for (int i = 0; i < MAX_INSTRUMENTS; ++i) {
-			CInstrumentContainer<CInstrumentFDS> instContainer(m_pDocument, i);
-			CInstrumentFDS *pInstrument = instContainer();
-
-			if (pInstrument != NULL && pInstrument->GetType() == INST_FDS) {
-				for (int j = 0; j < 3; ++j) {
-					CSequence* pSeq;
-					switch (j) {
-						case 0: pSeq = pInstrument->GetVolumeSeq(); break;
-						case 1: pSeq = pInstrument->GetArpSeq(); break;
-						case 2: pSeq = pInstrument->GetPitchSeq(); break;
-					}
-					if (pSeq->GetItemCount() > 0) {
-						int Index = i * SEQ_COUNT + j;
-						CStringA label;
-						label.Format(LABEL_SEQ_FDS, Index);
-						Size += StoreSequence(pSeq, label);
-						++StoredCount;
-					}
-				}
-			}
-		}
-	}
+	// // //
 
 	Print(_T(" * Sequences used: %i (%i bytes)\n"), StoredCount, Size);
 }
@@ -1411,41 +1151,7 @@ void CCompiler::CreateInstrumentList()
 
 	CChunk *pInstListChunk = CreateChunk(CHUNK_INSTRUMENT_LIST, LABEL_INSTRUMENT_LIST);
 	
-	if (m_pDocument->ExpansionEnabled(SNDCHIP_FDS)) {
-		pWavetableChunk = CreateChunk(CHUNK_WAVETABLE, LABEL_WAVETABLE);
-	}
-
-	memset(m_iWaveBanks, -1, MAX_INSTRUMENTS * sizeof(int));
-
-	// Collect N163 waves
-	for (unsigned int i = 0; i < m_iInstruments; ++i) {
-		int iIndex = m_iAssignedInstruments[i];
-		if (m_pDocument->GetInstrumentType(iIndex) == INST_N163 && m_iWaveBanks[i] == -1) {
-
-			CInstrumentContainer<CInstrumentN163> instContainer(m_pDocument, iIndex);
-			CInstrumentN163 *pInstrument = instContainer();
-
-			for (unsigned int j = i + 1; j < m_iInstruments; ++j) {
-				int inst = m_iAssignedInstruments[j];
-				if (m_pDocument->GetInstrumentType(inst) == INST_N163 && m_iWaveBanks[j] == -1) {
-					CInstrumentContainer<CInstrumentN163> instContainer(m_pDocument, inst);
-					CInstrumentN163 *pNewInst = instContainer();
-					if (pInstrument->IsWaveEqual(pNewInst)) {
-						m_iWaveBanks[j] = iIndex;
-					}
-				}
-			}
-			if (m_iWaveBanks[i] == -1) {
-				m_iWaveBanks[i] = iIndex;
-				// Store wave
-				CStringA label;
-				label.Format(LABEL_WAVES, iIndex);
-				pWavesChunk = CreateChunk(CHUNK_WAVES, label);
-				// Store waves
-				iWaveSize += pInstrument->StoreWave(pWavesChunk);
-			}
-		}
-	}
+	// // //
 
 	// Store instruments
 	for (unsigned int i = 0; i < m_iInstruments; ++i) {
@@ -1463,26 +1169,7 @@ void CCompiler::CreateInstrumentList()
 		CInstrumentContainer<CInstrument> instContainer(m_pDocument, iIndex);
 		CInstrument *pInstrument = instContainer();
 
-		// Check if FDS
-		if (pInstrument->GetType() == INST_FDS && pWavetableChunk != NULL) {
-			// Store wave
-			AddWavetable(static_cast<CInstrumentFDS*>(pInstrument), pWavetableChunk);
-			pChunk->StoreByte(m_iWaveTables - 1);
-		}
-/*
-		if (pInstrument->GetType() == INST_N163) {
-			CString label;
-			label.Format(LABEL_WAVES, iIndex);
-			pWavesChunk = CreateChunk(CHUNK_WAVES, label);
-			// Store waves
-			iWaveSize += ((CInstrumentN163*)pInstrument)->StoreWave(pWavesChunk);
-		}
-*/
-
-		if (pInstrument->GetType() == INST_N163) {
-			// Translate wave index
-			iIndex = m_iWaveBanks[i];
-		}
+		// // //
 
 		// Returns number of bytes 
 		iTotalSize += pInstrument->Compile(m_pDocument, pChunk, iIndex);
@@ -1494,126 +1181,7 @@ void CCompiler::CreateInstrumentList()
 		Print(_T(" * N163 waves size: %i bytes\n"), iWaveSize);
 }
 
-// Samples
-
-void CCompiler::CreateSampleList()
-{
-	/*
-	 * DPCM instrument list
-	 *
-	 * Each item is stored as a pair of the sample pitch and pointer to the sample table
-	 *
-	 */
-
-	const int SAMPLE_ITEM_WIDTH = 3;	// 3 bytes / sample item
-
-	// Clear the sample list
-	memset(m_iSampleBank, 0xFF, MAX_DSAMPLES);
-	
-	CChunk *pChunk = CreateChunk(CHUNK_SAMPLE_LIST, LABEL_SAMPLES_LIST);
-
-	// Store sample instruments
-	unsigned int Item = 0;
-	for (int i = 0; i < MAX_INSTRUMENTS; ++i) {
-		if (m_pDocument->IsInstrumentUsed(i) && m_pDocument->GetInstrumentType(i) == INST_2A03) {
-			CInstrumentContainer<CInstrument2A03> instContainer(m_pDocument, i);
-			CInstrument2A03 *pInstrument = instContainer();
-
-			for (int j = 0; j < OCTAVE_RANGE; ++j) {
-				for (int k = 0; k < NOTE_RANGE; ++k) {
-					// Get sample
-					unsigned char iSample = pInstrument->GetSample(j, k);
-					if ((iSample > 0) && m_bSamplesAccessed[i][j][k] && m_pDocument->IsSampleUsed(iSample - 1)) {
-
-						unsigned char SamplePitch = pInstrument->GetSamplePitch(j, k);
-						unsigned char SampleIndex = GetSampleIndex(iSample - 1);
-						unsigned int  SampleDelta = pInstrument->GetSampleDeltaValue(j, k);
-						SamplePitch |= (SamplePitch & 0x80) >> 1;
-
-						// Save a reference to this item
-						m_iSamplesLookUp[i][j][k] = ++Item;
-
-						pChunk->StoreByte(SamplePitch);
-						pChunk->StoreByte(SampleDelta);
-						pChunk->StoreByte(SampleIndex * SAMPLE_ITEM_WIDTH);
-					}
-					else
-						// No instrument here
-						m_iSamplesLookUp[i][j][k] = 0;
-				}
-			}
-		}
-	}
-}
-
-void CCompiler::StoreSamples()
-{
-	/*
-	 * DPCM sample list
-	 *
-	 * Each sample is stored as a pair of the sample address and sample size
-	 *
-	 */
-
-	unsigned int iAddedSamples = 0;
-	unsigned int iSampleAddress = 0x0000;
-
-	// Get sample start address
-	m_iSamplesSize = 0;
-
-	CChunk *pChunk = CreateChunk(CHUNK_SAMPLE_POINTERS, LABEL_SAMPLES);
-	m_pSamplePointersChunk = pChunk;
-
-	// Store DPCM samples in a separate array
-	for (unsigned int i = 0; i < m_iSamplesUsed; ++i) {
-
-		unsigned int iIndex = m_iSampleBank[i];
-		ASSERT(iIndex != 0xFF);
-		const CDSample *pDSample = m_pDocument->GetSample(iIndex);
-		unsigned int iSize = pDSample->GetSize();
-
-		if (iSize > 0) {
-			// Fill sample list
-			unsigned char iSampleAddr = iSampleAddress >> 6;
-			unsigned char iSampleSize = iSize >> 4;
-			unsigned char iSampleBank = 0;
-
-			// Update SAMPLE_ITEM_WIDTH here
-			pChunk->StoreByte(iSampleAddr);
-			pChunk->StoreByte(iSampleSize);
-			pChunk->StoreByte(iSampleBank);
-
-			// Add this sample to storage
-			m_vSamples.push_back(pDSample);
-
-			// Pad end of samples
-			unsigned int iAdjust = AdjustSampleAddress(iSampleAddress + iSize);
-
-			iAddedSamples++;
-			iSampleAddress += iSize + iAdjust;
-			m_iSamplesSize += iSize + iAdjust;
-		}
-	}
-
-	Print(_T(" * DPCM samples used: %i (%i bytes)\n"), m_iSamplesUsed, m_iSamplesSize);
-}
-
-int CCompiler::GetSampleIndex(int SampleNumber)
-{
-	// Returns a sample pos from the sample bank
-	for (int i = 0; i < MAX_DSAMPLES; i++) {
-		if (m_iSampleBank[i] == SampleNumber)
-			return i;							// Sample is already stored
-		else if(m_iSampleBank[i] == 0xFF) {
-			m_iSampleBank[i] = SampleNumber;	// Allocate new position
-			m_iSamplesUsed++;
-			return i;
-		}
-	}
-
-	// TODO: Fail if getting here!!!
-	return SampleNumber;
-}
+// // //
 
 // Songs
 
@@ -1740,7 +1308,7 @@ void CCompiler::StorePatterns(unsigned int Track)
 
 	const int iChannels = m_pDocument->GetAvailableChannels();
 
-	CPatternCompiler PatternCompiler(m_pDocument, m_iAssignedInstruments, (DPCM_List_t*)&m_iSamplesLookUp, m_pLogger);
+	CPatternCompiler PatternCompiler(m_pDocument, m_iAssignedInstruments, m_pLogger);		// // //
 
 	int PatternCount = 0;
 	int PatternSize = 0;
@@ -1832,22 +1400,7 @@ bool CCompiler::IsPatternAddressed(unsigned int Track, int Pattern, int Channel)
 	return false;
 }
 
-void CCompiler::AddWavetable(CInstrumentFDS *pInstrument, CChunk *pChunk)
-{
-	// TODO Find equal existing waves
-	/*
-	for (int i = 0; i < m_iWaveTables; ++i) {
-		if (!memcmp(Wave, m_iWaveTable[i], 64))
-			return i;
-	}
-	*/
-
-	// Allocate new wave
-	for (int i = 0; i < 64; ++i)
-		pChunk->StoreByte(pInstrument->GetSample(i));
-
-	m_iWaveTables++;
-}
+// // //
 
 void CCompiler::WriteAssembly(CFile *pFile)
 {
@@ -1855,8 +1408,7 @@ void CCompiler::WriteAssembly(CFile *pFile)
 	CChunkRenderText Render(pFile);
 	Render.StoreChunks(m_vChunks);
 	Print(_T(" * Music data size: %i bytes\n"), m_iMusicDataSize);
-	Render.StoreSamples(m_vSamples);
-	Print(_T(" * DPCM samples size: %i bytes\n"), m_iSamplesSize);
+	// // //
 }
 
 void CCompiler::WriteBinary(CFile *pFile)
@@ -1867,13 +1419,7 @@ void CCompiler::WriteBinary(CFile *pFile)
 	Print(_T(" * Music data size: %i bytes\n"), m_iMusicDataSize);
 }
 
-void CCompiler::WriteSamplesBinary(CFile *pFile)
-{
-	// Dump all samples as binary
-	CChunkRenderBinary Render(pFile);
-	Render.StoreSamples(m_vSamples);
-	Print(_T(" * DPCM samples size: %i bytes\n"), m_iSamplesSize);
-}
+// // //
 
 // Object list functions
 

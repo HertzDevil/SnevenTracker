@@ -27,14 +27,7 @@
 #include "InstrumentEditPanel.h"
 #include "InstrumentEditDlg.h"
 #include "InstrumentEditor2A03.h"
-#include "InstrumentEditorDPCM.h"
-#include "InstrumentEditorVRC6.h"
-#include "InstrumentEditorVRC7.h"
-#include "InstrumentEditorFDS.h"
-#include "InstrumentEditorFDSEnvelope.h"
-#include "InstrumentEditorN163.h"
-#include "InstrumentEditorN163Wave.h"
-#include "InstrumentEditorS5B.h"
+// // //
 #include "MainFrm.h"
 #include "SoundGen.h"
 #include "TrackerChannel.h"
@@ -48,11 +41,7 @@ const int CInstrumentEditDlg::KEYBOARD_HEIGHT = 58;
 const TCHAR *CInstrumentEditDlg::CHIP_NAMES[] = {
 	_T(""), 
 	_T("2A03"), 
-	_T("VRC6"), 
-	_T("VRC7"), 
-	_T("FDS"), 
-	_T("Namco"), 
-	_T("Sunsoft")
+	// // //
 };
 
 // CInstrumentEditDlg dialog
@@ -168,28 +157,10 @@ void CInstrumentEditDlg::SetCurrentInstrument(int Index)
 			case INST_2A03: {
 					int Channel = CFamiTrackerView::GetView()->GetSelectedChannel();
 					int Type = pDoc->GetChannelType(Channel);
-					bool bShowDPCM = (Type == CHANID_DPCM) || (static_cast<CInstrument2A03*>(pInstrument)->AssignedSamples());
-					InsertPane(new CInstrumentEditor2A03(), !bShowDPCM);
-					InsertPane(new CInstrumentEditorDPCM(), bShowDPCM);
+					InsertPane(new CInstrumentEditor2A03(), true);		// // //
 				}
 				break;
-			case INST_VRC6:
-				InsertPane(new CInstrumentEditorVRC6(), true);
-				break;
-			case INST_VRC7:
-				InsertPane(new CInstrumentEditorVRC7(), true);
-				break;
-			case INST_FDS:
-				InsertPane(new CInstrumentEditorFDS(), true);
-				InsertPane(new CInstrumentEditorFDSEnvelope(), false);
-				break;
-			case INST_N163:
-				InsertPane(new CInstrumentEditorN163(), true);
-				InsertPane(new CInstrumentEditorN163Wave(), false);
-				break;
-			case INST_S5B:
-				InsertPane(new CInstrumentEditorS5B(), true);
-				break;
+			// // //
 		}
 
 		m_iSelectedInstType = InstType;
@@ -325,9 +296,7 @@ void CInstrumentEditDlg::SwitchOnNote(int x, int y)
 	if (m_iSelectedInstType == INST_2A03 && m_pPanels[1]->IsWindowVisible())
 		pView->SelectChannel(4);
 
-	// Select FDS channel
-	if (m_iSelectedInstType == INST_FDS)
-		pView->SelectChannel(5);
+	// // //
 
 	int Channel = pView->GetSelectedChannel();
 

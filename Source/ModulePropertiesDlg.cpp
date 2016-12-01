@@ -95,23 +95,7 @@ BOOL CModulePropertiesDlg::OnInitDialog()
 	CComboBox *pVibratoBox = static_cast<CComboBox*>(GetDlgItem(IDC_VIBRATO));
 	pVibratoBox->SetCurSel((m_pDocument->GetVibratoStyle() == VIBRATO_NEW) ? 0 : 1);
 
-	// Namco channel count
-	CSliderCtrl *pChanSlider = static_cast<CSliderCtrl*>(GetDlgItem(IDC_CHANNELS));
-	pChanSlider->SetRange(1, 8);
-	CString channelsStr;
-	channelsStr.LoadString(IDS_PROPERTIES_CHANNELS);
-	if (ExpChip == SNDCHIP_N163) {
-		int Channels = m_pDocument->GetNamcoChannels();
-		pChanSlider->SetPos(Channels);
-		pChanSlider->EnableWindow(TRUE);
-		channelsStr.AppendFormat(_T(" %i"), Channels);
-	}
-	else {
-		pChanSlider->SetPos(0);
-		pChanSlider->EnableWindow(FALSE);
-		channelsStr.Append(_T(" N/A"));
-	}
-	SetDlgItemText(IDC_CHANNELS_NR, channelsStr);
+	// // //
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -126,11 +110,7 @@ void CModulePropertiesDlg::OnBnClickedOk()
 	unsigned int iExpansionChip = theApp.GetChannelMap()->GetChipIdent(pExpansionChipBox->GetCurSel());
 	unsigned int iChannels = static_cast<CSliderCtrl*>(GetDlgItem(IDC_CHANNELS))->GetPos();
 
-	if (m_pDocument->GetExpansionChip() != iExpansionChip || m_pDocument->GetNamcoChannels() != iChannels) {
-		m_pDocument->SetNamcoChannels(iChannels);
-		m_pDocument->SelectExpansionChip(iExpansionChip);
-		m_pDocument->UpdateAllViews(NULL, UPDATE_PROPERTIES);
-	}
+	// // //
 
 	// Vibrato 
 	CComboBox *pVibratoBox = static_cast<CComboBox*>(GetDlgItem(IDC_VIBRATO));
@@ -302,19 +282,7 @@ void CModulePropertiesDlg::OnCbnSelchangeExpansion()
 	// Expansion chip
 	unsigned int iExpansionChip = theApp.GetChannelMap()->GetChipIdent(pExpansionChipBox->GetCurSel());
 
-	CString channelsStr;
-	channelsStr.LoadString(IDS_PROPERTIES_CHANNELS);
-	if (iExpansionChip == SNDCHIP_N163) {
-		pSlider->EnableWindow(TRUE);
-		int Channels = m_pDocument->GetNamcoChannels();
-		pSlider->SetPos(Channels);
-		channelsStr.AppendFormat(_T(" %i"), Channels);
-	}
-	else {
-		pSlider->EnableWindow(FALSE);
-		channelsStr.Append(_T(" N/A"));
-	}
-	SetDlgItemText(IDC_CHANNELS_NR, channelsStr);
+	// // //
 }
 
 void CModulePropertiesDlg::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)

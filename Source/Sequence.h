@@ -21,14 +21,15 @@
 #pragma once
 
 
-#include "CustomExporterInterfaces.h"
+// // //
+#include "FamiTrackerTypes.h"
 
 class CDocumentFile;
 
 /*
 ** This class is used to store instrument sequences
 */
-class CSequence: public CSequenceInterface {
+class CSequence {		// // //
 public:
 	CSequence();
 

@@ -30,7 +30,6 @@ enum chan_id_t {
 	CHANID_SQUARE2,
 	CHANID_TRIANGLE,
 	CHANID_NOISE,
-	CHANID_DPCM,		// TODO: remove
 	// // //
 	CHANNELS		/* Total number of channels */
 };

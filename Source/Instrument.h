@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "CustomExporterInterfaces.h"
+// // //
 
 // Instrument types
 enum inst_type_t {
@@ -86,7 +86,7 @@ private:
 	int	 m_iType;
 };
 
-class CInstrument2A03 : public CInstrument, public CInstrument2A03Interface {
+class CInstrument2A03 : public CInstrument {		// // //
 public:
 	CInstrument2A03();
 	virtual inst_type_t	GetType() const { return INST_2A03; };

@@ -53,7 +53,7 @@ BEGIN_MESSAGE_MAP(CConfigGeneral, CPropertyPage)
 	ON_BN_CLICKED(IDC_STYLE3, OnBnClickedStyle3)
 	ON_BN_CLICKED(IDC_OPT_HEXROW, OnBnClickedOptHexadecimal)
 	ON_BN_CLICKED(IDC_OPT_FRAMEPREVIEW, OnBnClickedOptFramepreview)
-	ON_BN_CLICKED(IDC_OPT_NODPCMRESET, OnBnClickedOptNodpcmreset)
+	// // //
 	ON_CBN_EDITUPDATE(IDC_PAGELENGTH, OnCbnEditupdatePagelength)
 	ON_CBN_SELENDOK(IDC_PAGELENGTH, OnCbnSelendokPagelength)
 	ON_BN_CLICKED(IDC_OPT_NOSTEPMOVE, OnBnClickedOptNostepmove)
@@ -76,7 +76,7 @@ BOOL CConfigGeneral::OnSetActive()
 	CheckDlgButton(IDC_OPT_KEYREPEAT, m_bKeyRepeat);
 	CheckDlgButton(IDC_OPT_HEXROW, m_bRowInHex);
 	CheckDlgButton(IDC_OPT_FRAMEPREVIEW, m_bFramePreview);
-	CheckDlgButton(IDC_OPT_NODPCMRESET, m_bNoDPCMReset);
+	// // //
 	CheckDlgButton(IDC_OPT_NOSTEPMOVE, m_bNoStepMove);
 	CheckDlgButton(IDC_STYLE1, m_iEditStyle == EDIT_STYLE1);
 	CheckDlgButton(IDC_STYLE2, m_iEditStyle == EDIT_STYLE2);
@@ -146,7 +146,7 @@ BOOL CConfigGeneral::OnApply()
 	theApp.GetSettings()->General.bRowInHex			= m_bRowInHex;
 	theApp.GetSettings()->General.iEditStyle		= m_iEditStyle;
 	theApp.GetSettings()->General.bFramePreview		= m_bFramePreview;
-	theApp.GetSettings()->General.bNoDPCMReset		= m_bNoDPCMReset;
+	// // //
 	theApp.GetSettings()->General.bNoStepMove		= m_bNoStepMove;
 	theApp.GetSettings()->General.iPageStepSize		= m_iPageStepSize;
 	theApp.GetSettings()->General.bPullUpDelete		= m_bPullUpDelete;
@@ -177,7 +177,7 @@ BOOL CConfigGeneral::OnInitDialog()
 	m_bRowInHex			= theApp.GetSettings()->General.bRowInHex;
 	m_iEditStyle		= theApp.GetSettings()->General.iEditStyle;
 	m_bFramePreview		= theApp.GetSettings()->General.bFramePreview;
-	m_bNoDPCMReset		= theApp.GetSettings()->General.bNoDPCMReset;
+	// // //
 	m_bNoStepMove		= theApp.GetSettings()->General.bNoStepMove;
 	m_iPageStepSize		= theApp.GetSettings()->General.iPageStepSize;
 	m_bPullUpDelete		= theApp.GetSettings()->General.bPullUpDelete;
@@ -250,11 +250,7 @@ void CConfigGeneral::OnBnClickedOptFramepreview()
 	SetModified();
 }
 
-void CConfigGeneral::OnBnClickedOptNodpcmreset()
-{
-	m_bNoDPCMReset = IsDlgButtonChecked(IDC_OPT_NODPCMRESET) != 0;
-	SetModified();
-}
+// // //
 
 void CConfigGeneral::OnBnClickedOptNostepmove()
 {

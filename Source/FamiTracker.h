@@ -61,7 +61,7 @@ public:
 #endif
 	CString m_strExportFile;
 	CString m_strExportLogFile;
-	CString m_strExportDPCMFile;
+	// // //
 };
 
 
@@ -147,7 +147,7 @@ private:
 	CSettings		*m_pSettings;				// Program settings
 	CChannelMap		*m_pChannelMap;
 
-	CCustomExporters *m_customExporters;
+	// // //
 
 	// Single instance stuff
 	CMutex			*m_pInstanceMutex;

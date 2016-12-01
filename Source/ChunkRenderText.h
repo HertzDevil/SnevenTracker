@@ -38,7 +38,7 @@ class CChunkRenderText
 public:
 	CChunkRenderText(CFile *pFile);
 	void StoreChunks(const std::vector<CChunk*> &Chunks);
-	void StoreSamples(const std::vector<const CDSample*> &Samples);
+	// // //
 
 private:
 	static const stChunkRenderFunc RENDER_FUNCTIONS[];
@@ -54,28 +54,24 @@ private:
 	void StoreInstrumentListChunk(CChunk *pChunk, CFile *pFile);
 	void StoreInstrumentChunk(CChunk *pChunk, CFile *pFile);
 	void StoreSequenceChunk(CChunk *pChunk, CFile *pFile);
-	void StoreSampleListChunk(CChunk *pChunk, CFile *pFile);
-	void StoreSamplePointersChunk(CChunk *pChunk, CFile *pFile);
+	// // //
 	void StoreSongListChunk(CChunk *pChunk, CFile *pFile);
 	void StoreSongChunk(CChunk *pChunk, CFile *pFile);
 	void StoreFrameListChunk(CChunk *pChunk, CFile *pFile);
 	void StoreFrameChunk(CChunk *pChunk, CFile *pFile);
 	void StorePatternChunk(CChunk *pChunk, CFile *pFile);
-	void StoreWavetableChunk(CChunk *pChunk, CFile *pFile);
-	void StoreWavesChunk(CChunk *pChunk, CFile *pFile);
+	// // //
 
 private:
 	CStringArray m_headerStrings;
 	CStringArray m_instrumentListStrings;
 	CStringArray m_instrumentStrings;
 	CStringArray m_sequenceStrings;
-	CStringArray m_sampleListStrings;
-	CStringArray m_samplePointersStrings;
+	// // //
 	CStringArray m_songListStrings;
 	CStringArray m_songStrings;
 	CStringArray m_songDataStrings;
-	CStringArray m_wavetableStrings;
-	CStringArray m_wavesStrings;
+	// // //
 
 	CFile *m_pFile;
 };

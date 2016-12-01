@@ -23,5 +23,5 @@
 class CCommandLineExport
 {
 public:
-	void CommandLineExport(const CString& fileIn, const CString& fileOut, const CString& fileLog,  const CString& fileDPCM);
+	void CommandLineExport(const CString& fileIn, const CString& fileOut, const CString& fileLog);		// // //
 };

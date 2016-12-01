@@ -23,12 +23,12 @@
 class CFamiTrackerDoc;
 class CCompilerLog;
 
-typedef unsigned char DPCM_List_t[MAX_INSTRUMENTS][OCTAVE_RANGE][NOTE_RANGE];
+// // //
 
 class CPatternCompiler
 {
 public:
-	CPatternCompiler(CFamiTrackerDoc *pDoc, unsigned int *pInstList, DPCM_List_t *pDPCMList, CCompilerLog *pLogger);
+	CPatternCompiler(CFamiTrackerDoc *pDoc, unsigned int *pInstList, CCompilerLog *pLogger);		// // //
 	~CPatternCompiler();
 
 	void			CompileData(int Track, int Pattern, int Channel);
@@ -50,7 +50,7 @@ private:
 
 private:
 	unsigned int	FindInstrument(int Instrument) const;
-	unsigned int	FindSample(int Instrument, int Octave, int Key) const;
+	// // //
 
 	unsigned char	Command(int cmd) const;
 
@@ -70,11 +70,11 @@ private:
 
 	unsigned int	m_iDuration;
 	unsigned int	m_iCurrentDefaultDuration;
-	bool			m_bDSamplesAccessed[OCTAVE_RANGE * NOTE_RANGE]; // <- check the range, its not optimal right now
+	// // //
 	unsigned int	m_iHash;
 	unsigned int	*m_pInstrumentList;
 
-	DPCM_List_t		*m_pDPCMList;
+	// // //
 
 	CFamiTrackerDoc *m_pDocument;
 	CCompilerLog	*m_pLogger;

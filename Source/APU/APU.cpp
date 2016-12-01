@@ -42,9 +42,9 @@ const uint8 CAPU::LENGTH_TABLE[] = {
 	0xC0, 0x18, 0x48, 0x1A, 0x10, 0x1C, 0x20, 0x1E
 };
 
-static std::vector<CExternal*> ExChips;
+// // //
 
-CAPU::CAPU(IAudioCallback *pCallback, CSampleMem *pSampleMem) : 
+CAPU::CAPU(IAudioCallback *pCallback) :		// // //
 	m_pParent(pCallback),
 	m_iFrameCycles(0),
 	m_pSoundBuffer(NULL),
@@ -261,8 +261,6 @@ void CAPU::SetExternalSound(uint8 Chip)
 	m_iExternalSoundChip = Chip;
 	m_pMixer->ExternalSound(Chip);
 
-	ExChips.clear();
-
 	// // //
 
 	Reset();
@@ -456,20 +454,7 @@ int32 CAPU::GetVol(uint8 Chan) const
 	return m_pMixer->GetChanOutput(Chan);
 }
 
-uint8 CAPU::GetSamplePos() const
-{
-	return 0;
-}
-
-uint8 CAPU::GetDeltaCounter() const
-{
-	return 0;
-}
-
-bool CAPU::DPCMPlaying() const
-{
-	return false;
-}
+// // //
 
 #ifdef LOGGING
 void CAPU::Log()

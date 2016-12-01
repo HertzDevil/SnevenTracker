@@ -12,46 +12,18 @@
 
 const TCHAR *ROOT_ITEMS[] = {
 	_T("2A03/2A07"), 
-	_T("Konami VRC6"), 
-	_T("Konami VRC7"), 
-	_T("Nintendo FDS"), 
-	_T("Nintendo MMC5"), 
-	_T("Namco 106"), 
-	_T("Sunsoft 5B")
+	// // //
 };
 
 const int CHILD_ITEMS_ID[ROOT_ITEM_COUNT][9] = {
 	// 2A03
-	{CHANID_SQUARE1, CHANID_SQUARE2, CHANID_TRIANGLE, CHANID_NOISE, CHANID_DPCM},
-	// VRC 6
-	{CHANID_VRC6_PULSE1, CHANID_VRC6_PULSE2, CHANID_VRC6_SAWTOOTH},
-	// VRC 7
-	{CHANID_VRC7_CH1, CHANID_VRC7_CH2, CHANID_VRC7_CH3, CHANID_VRC7_CH4, CHANID_VRC7_CH5, CHANID_VRC7_CH6},
-	// FDS
-	{CHANID_FDS},
-	// MMC5
-	{CHANID_MMC5_SQUARE1, CHANID_MMC5_SQUARE2},
-	// N163
-	{CHANID_N163_CHAN1, CHANID_N163_CHAN2, CHANID_N163_CHAN3, CHANID_N163_CHAN4, CHANID_N163_CHAN5, CHANID_N163_CHAN6, CHANID_N163_CHAN7, CHANID_N163_CHAN8}, 
-	 // S5B
-	{CHANID_S5B_CH1, CHANID_S5B_CH2, CHANID_S5B_CH3}
+	{CHANID_SQUARE1, CHANID_SQUARE2, CHANID_TRIANGLE, CHANID_NOISE},		// // //
 };
 
 const TCHAR *CHILD_ITEMS[ROOT_ITEM_COUNT][9] = {
 	// 2A03
 	{_T("Square 1"), _T("Square 2"), _T("Triangle"), _T("Noise"), _T("DPCM")},
-	// VRC 6
-	{_T("Pulse 1"), _T("Pulse 2"), _T("Sawtooth")},
-	// VRC 7
-	{_T("Channel 1"), _T("Channel 2"), _T("Channel 3"), _T("Channel 4"), _T("Channel 5"), _T("Channel 6")},
-	// FDS
-	{_T("FDS")},
-	// MMC5
-	{_T("Square 1"), _T("Square 2")},
-	// N163
-	{_T("Channel 1"), _T("Channel 2"), _T("Channel 3"), _T("Channel 4"), _T("Channel 5"), _T("Channel 6"), _T("Channel 7"), _T("Channel 8")},
-	 // S5B
-	{_T("Square 1"), _T("Square 2"), _T("Square 3")}
+	// // //
 };
 
 // CChannelsDlg dialog
