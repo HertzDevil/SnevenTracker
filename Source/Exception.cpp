@@ -111,10 +111,10 @@ static LONG WINAPI ExceptionHandler(__in struct _EXCEPTION_POINTERS *ep)
 	CString DocDumpFile = FTM_DUMP;
 	int counter = 1;
 
-	while (GetFileAttributes(DocDumpFile + _T(".ftm")) != 0xFFFFFFFF)
+	while (GetFileAttributes(DocDumpFile + _T(".snm")) != 0xFFFFFFFF)		// // //
 		DocDumpFile.Format(_T("%s%i"), FTM_DUMP, counter++);
 
-	DocDumpFile.Append(_T(".ftm"));
+	DocDumpFile.Append(_T(".snm"));		// // //
 
 	// Display a message
 	CString text;

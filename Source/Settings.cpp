@@ -152,7 +152,7 @@ void CSettings::SetupSettings()
 	SETTING_BOOL("Other", "Follow mode", true, &FollowMode);
 
 	// Paths
-	SETTING_STRING("Paths", "FTM path", "", &Paths[PATH_FTM]);
+	SETTING_STRING("Paths", "SNM path", "", &Paths[PATH_FTM]);		// // //
 	SETTING_STRING("Paths", "FTI path", "", &Paths[PATH_FTI]);
 	SETTING_STRING("Paths", "NSF path", "", &Paths[PATH_NSF]);
 	SETTING_STRING("Paths", "DMC path", "", &Paths[PATH_DMC]);

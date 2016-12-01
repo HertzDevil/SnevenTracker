@@ -411,7 +411,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDR_MAINFRAME           "FamiTracker\n\nFamiTracker\nFamiTracker files (*.ftm)\n.ftm\nFamiTracker.Module\nFamiTracker.Module"
+    IDR_MAINFRAME           "DCSG-Tracker\n\nDCSG-Tracker\nDCSG-Tracker files (*.snm)\n.snm\nDCSGTracker.Module\nDCSGTracker.Module"
     IDS_FRAME_DROP_MOVE     "Drop selection to move frames"
     IDS_DPCM_IMPORT_QUALITY_FORMAT "Quality: %1"
     IDS_CLIPBOARD_ERROR     "Could not register clipboard format"

@@ -69,7 +69,7 @@ const int	CFamiTrackerDoc::DEFAULT_SECOND_HIGHLIGHT = 16;
 const bool	CFamiTrackerDoc::DEFAULT_LINEAR_PITCH = false;
 
 // File I/O constants
-static const char *FILE_HEADER				= "FamiTracker Module";
+static const char *FILE_HEADER				= "DCSG-TrackerModule";		// // //
 static const char *FILE_BLOCK_PARAMS		= "PARAMS";
 static const char *FILE_BLOCK_INFO			= "INFO";
 static const char *FILE_BLOCK_INSTRUMENTS	= "INSTRUMENTS";
@@ -83,7 +83,7 @@ static const char *FILE_BLOCK_COMMENTS		= "COMMENTS";
 // // //
 
 // FTI instruments files
-static const char INST_HEADER[] = "FTI";
+static const char INST_HEADER[] = "SNI";		// // //
 static const char INST_VERSION[] = "2.4";
 
 /* 
@@ -516,7 +516,7 @@ BOOL CFamiTrackerDoc::SaveDocument(LPCTSTR lpszPathName) const
 
 	// First write to a temp file (if saving fails, the original is not destroyed)
 	GetTempPath(MAX_PATH, TempPath);
-	GetTempFileName(TempPath, _T("FTM"), 0, TempFile);
+	GetTempFileName(TempPath, _T("SNM"), 0, TempFile);		// // //
 
 	if (!DocumentFile.Open(TempFile, CFile::modeWrite | CFile::modeCreate, &ex)) {
 		// Could not open file
@@ -3113,7 +3113,7 @@ CString CFamiTrackerDoc::GetFileTitle() const
 	CString FileName = GetTitle();
 
 	// Remove extension
-	if (FileName.Right(4).CompareNoCase(_T(".ftm")) == 0)
+	if (FileName.Right(4).CompareNoCase(_T(".snm")) == 0)		// // //
 		return FileName.Left(FileName.GetLength() - 4);
 
 	return FileName;

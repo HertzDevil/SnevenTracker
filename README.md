@@ -11,7 +11,7 @@ As in 0CC-FT, all changes to the source code are marked with `// // //`.
 
 ### Progress
 
-Porting SN76489 emulation code to FamiTracker's interface.
+Replacing "FamiTracker" with "DCSG-Tracker".
 
 ### Notes
 

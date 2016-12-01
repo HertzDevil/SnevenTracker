@@ -261,7 +261,7 @@ void CModulePropertiesDlg::OnBnClickedSongImport()
 	CModuleImportDlg importDlg(m_pDocument);
 
 	// TODO use string table
-	CFileDialog OpenFileDlg(TRUE, _T("ftm"), 0, OFN_HIDEREADONLY, _T("FamiTracker files (*.ftm)|*.ftm|All files (*.*)|*.*||"), theApp.GetMainWnd(), 0);
+	CFileDialog OpenFileDlg(TRUE, _T("snm"), 0, OFN_HIDEREADONLY, _T("DCSG-Tracker files (*.snm)|*.snm|All files (*.*)|*.*||"), theApp.GetMainWnd(), 0);		// // //
 
 	if (OpenFileDlg.DoModal() == IDCANCEL)
 		return;

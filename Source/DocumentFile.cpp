@@ -31,7 +31,7 @@
 const unsigned int CDocumentFile::FILE_VER		 = 0x0440;			// Current file version (4.40)
 const unsigned int CDocumentFile::COMPATIBLE_VER = 0x0100;			// Compatible file version (1.0)
 
-const char *CDocumentFile::FILE_HEADER_ID = "FamiTracker Module";
+const char *CDocumentFile::FILE_HEADER_ID = "DCSG-TrackerModule";		// // //
 const char *CDocumentFile::FILE_END_ID	  = "END";
 
 const unsigned int CDocumentFile::MAX_BLOCK_SIZE = 0x80000;
