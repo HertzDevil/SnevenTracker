@@ -261,9 +261,6 @@
     <ClCompile Include="Source\InstrumentEditDlg.cpp">
       <Filter>Source Files\Dialog Boxes\Instrument</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ModSequenceEditor.cpp">
-      <Filter>Source Files\Dialog Boxes\Instrument\Related</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GraphEditor.cpp">
       <Filter>Source Files\Dialog Boxes\Instrument\Related\Sequence editor</Filter>
     </ClCompile>
@@ -568,9 +565,6 @@
     </ClInclude>
     <ClInclude Include="Source\InstrumentEditDlg.h">
       <Filter>Header Files\Dialog Boxes Headers\Instrument Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ModSequenceEditor.h">
-      <Filter>Header Files\Dialog Boxes Headers\Instrument Headers\Related Headers</Filter>
     </ClInclude>
     <ClInclude Include="Source\GraphEditor.h">
       <Filter>Header Files\Dialog Boxes Headers\Instrument Headers\Related Headers\Sequence editor Headers</Filter>

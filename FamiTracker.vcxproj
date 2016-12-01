@@ -474,7 +474,6 @@
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="Source\ModSequenceEditor.cpp" />
     <ClCompile Include="Source\ModuleImportDlg.cpp" />
     <ClCompile Include="Source\ModulePropertiesDlg.cpp" />
     <ClCompile Include="Source\PatternAction.cpp" />
@@ -709,7 +708,6 @@ makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\
     <ClInclude Include="Source\InstrumentFileTree.h" />
     <ClInclude Include="Source\MainFrm.h" />
     <ClInclude Include="Source\MIDI.h" />
-    <ClInclude Include="Source\ModSequenceEditor.h" />
     <ClInclude Include="Source\ModuleImportDlg.h" />
     <ClInclude Include="Source\ModulePropertiesDlg.h" />
     <ClInclude Include="Source\PatternAction.h" />
