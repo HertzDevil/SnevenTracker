@@ -188,7 +188,6 @@ BEGIN
         MENUITEM "Switch to track instrument",  ID_TRACKER_SWITCHTOTRACKINSTRUMENT
         MENUITEM SEPARATOR
         MENUITEM "Display register state",      ID_TRACKER_DISPLAYREGISTERSTATE
-        MENUITEM "&Display DPCM state",         ID_TRACKER_DPCM
         MENUITEM SEPARATOR
         MENUITEM "&Kill Sound\tF12",            ID_TRACKER_KILLSOUND
         MENUITEM SEPARATOR
@@ -297,21 +296,6 @@ BEGIN
     END
 END
 
-IDR_SAMPLES_POPUP MENU
-BEGIN
-    POPUP "Popup"
-    BEGIN
-        MENUITEM "Preview",                     IDC_PREVIEW
-        MENUITEM SEPARATOR
-        MENUITEM "Edit",                        IDC_EDIT
-        MENUITEM SEPARATOR
-        MENUITEM "Unload",                      IDC_UNLOAD
-        MENUITEM "Save",                        IDC_SAVE
-        MENUITEM "Load",                        IDC_LOAD
-        MENUITEM "Import",                      IDC_IMPORT
-    END
-END
-
 IDR_SAMPLE_WND_POPUP MENU
 BEGIN
     POPUP "Popup"
@@ -330,17 +314,6 @@ BEGIN
         MENUITEM "&Toggle channel\tAlt+F9",     ID_POPUP_TOGGLECHANNEL
         MENUITEM "&Solo channel\tAlt+F10",      ID_POPUP_SOLOCHANNEL
         MENUITEM "&Unmute all channels",        ID_POPUP_UNMUTEALLCHANNELS
-    END
-END
-
-IDR_SAMPLE_EDITOR_POPUP MENU
-BEGIN
-    POPUP "Popup"
-    BEGIN
-        MENUITEM "Play\tP",                     IDC_PLAY
-        MENUITEM SEPARATOR
-        MENUITEM "Delete\tDel",                 IDC_DELETE
-        MENUITEM "Tilt",                        IDC_TILT
     END
 END
 
@@ -952,17 +925,6 @@ BEGIN
         HORZGUIDE, 116
     END
 
-    IDD_PCMIMPORT, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 204
-        VERTGUIDE, 15
-        VERTGUIDE, 143
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 137
-        HORZGUIDE, 47
-    END
-
     IDD_INSTRUMENT_INTERNAL, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -1253,28 +1215,6 @@ BEGIN
     EDITTEXT        IDC_INSTNAME,324,109,71,12,ES_AUTOHSCROLL
 END
 
-IDD_PCMIMPORT DIALOGEX 0, 0, 211, 144
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "PCM import"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    GROUPBOX        "Quality: 0",IDC_QUALITY_FRM,7,7,136,36
-    LTEXT           "Low",IDC_STATIC,15,21,15,10
-    CONTROL         "",IDC_QUALITY,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,30,19,90,15
-    LTEXT           "High",IDC_STATIC,123,21,16,10
-    GROUPBOX        "Gain: +0dB",IDC_VOLUME_FRM,7,47,136,35
-    LTEXT           "Low",IDC_STATIC,15,61,15,10
-    CONTROL         "",IDC_VOLUME,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,30,59,90,15
-    LTEXT           "High",IDC_STATIC,123,61,16,10
-    GROUPBOX        "File info",IDC_STATIC,7,86,136,51
-    LTEXT           "Static",IDC_SAMPLE_RATE,15,99,118,8
-    LTEXT           "Static",IDC_RESAMPLING,15,110,118,8
-    PUSHBUTTON      "Preview",IDC_PREVIEW,154,7,50,14
-    DEFPUSHBUTTON   "OK",IDOK,154,24,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,154,41,50,14
-    LTEXT           "Static",IDC_SAMPLESIZE,15,121,118,8
-END
-
 IDD_INSTRUMENT_INTERNAL DIALOGEX 0, 0, 372, 172
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -1333,8 +1273,6 @@ BEGIN
     CONTROL         "Show row numbers in hex",IDC_OPT_HEXROW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,68,113,9
     CONTROL         "Preview next/previous frame",IDC_OPT_FRAMEPREVIEW,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,78,113,9
-    CONTROL         "Don't reset DPCM on note stop",IDC_OPT_NODPCMRESET,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,88,113,9
     CONTROL         "Ignore Step when moving",IDC_OPT_NOSTEPMOVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,98,113,9
     CONTROL         "Delete-key pulls up rows",IDC_OPT_PULLUPDELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,108,113,9
     CONTROL         "Backup files",IDC_OPT_BACKUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,118,113,9
@@ -1542,26 +1480,8 @@ BEGIN
     CTEXT           "APU1",IDC_STATIC,7,22,26,8
     CONTROL         "",IDC_SLIDER_APU2,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,41,30,26,114
     CTEXT           "APU2",IDC_STATIC,41,22,26,8
-    CONTROL         "",IDC_SLIDER_VRC6,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,75,30,26,114
-    CTEXT           "VRC6",IDC_STATIC,75,22,26,8
-    CONTROL         "",IDC_SLIDER_VRC7,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,109,30,26,114
-    CTEXT           "VRC7",IDC_STATIC,109,22,26,8
-    CONTROL         "",IDC_SLIDER_MMC5,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,143,30,26,114
-    CTEXT           "MMC5",IDC_STATIC,143,22,26,8
-    CONTROL         "",IDC_SLIDER_FDS,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,177,30,26,114
-    CTEXT           "FDS",IDC_STATIC,177,22,26,8
-    CONTROL         "",IDC_SLIDER_N163,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_TABSTOP,211,30,26,114
-    CTEXT           "N163",IDC_STATIC,211,22,26,8
-    CONTROL         "",IDC_SLIDER_S5B,"msctls_trackbar32",TBS_AUTOTICKS | TBS_VERT | TBS_BOTH | WS_DISABLED | WS_TABSTOP,245,30,26,114
-    CTEXT           "S5B",IDC_STATIC,245,22,26,8
     CTEXT           "0.0dB",IDC_LEVEL_APU1,7,149,30,8
     CTEXT           "0.0dB",IDC_LEVEL_APU2,40,149,30,8
-    CTEXT           "0.0dB",IDC_LEVEL_VRC6,73,149,30,8
-    CTEXT           "0.0dB",IDC_LEVEL_VRC7,108,149,30,8
-    CTEXT           "0.0dB",IDC_LEVEL_MMC5,142,149,30,8
-    CTEXT           "0.0dB",IDC_LEVEL_FDS,176,149,30,8
-    CTEXT           "0.0dB",IDC_LEVEL_N163,209,149,30,8
-    CTEXT           "0.0dB",IDC_LEVEL_S5B,243,149,30,8
     LTEXT           "Hardware mixing levels",IDC_STATIC,7,7,74,8
 END
 
@@ -1643,25 +1563,6 @@ BEGIN
     CTEXT           "File",IDC_PROGRESS_FILE,7,7,206,20,SS_CENTERIMAGE
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,7,29,206,1
     CTEXT           "Progress",IDC_TIME,7,49,206,11
-END
-
-IDD_SAMPLE_EDITOR DIALOGEX 0, 0, 481, 255
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
-CAPTION "DPCM sample editor"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,424,217,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,424,234,50,14
-    CONTROL         "",IDC_SAMPLE,"Static",SS_WHITERECT | SS_NOTIFY | SS_SUNKEN,7,7,467,204
-    PUSHBUTTON      "Play",IDC_PLAY,7,233,50,14
-    LTEXT           "Offset: 0, Pos: 0",IDC_POS,7,217,105,11,SS_SUNKEN
-    PUSHBUTTON      "Delete",IDC_DELETE,204,234,50,14
-    CONTROL         "",IDC_PITCH,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,110,236,79,12
-    PUSHBUTTON      "Tilt",IDC_TILT,257,234,50,14
-    LTEXT           "0 bytes",IDC_INFO,115,217,87,11,SS_SUNKEN
-    LTEXT           "Pitch (15)",IDC_STATIC_PITCH,63,236,34,11
-    CONTROL         "Center wave",IDC_DELTASTART,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,314,238,57,10
-    CONTROL         "",IDC_ZOOM,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,360,217,61,12
 END
 
 IDD_EXPORT_TEST DIALOGEX 0, 0, 303, 383
@@ -1812,6 +1713,22 @@ BEGIN
     IDC_VIBRATO, 0x403, 20, 0
 0x6c4f, 0x2064, 0x7473, 0x6c79, 0x2065, 0x6228, 0x6e65, 0x2064, 0x7075, 
 0x0029, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_CONFIG_MIXER AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_CONFIG_GENERAL AFX_DIALOG_LAYOUT
+BEGIN
     0
 END
 

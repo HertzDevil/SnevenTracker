@@ -22,8 +22,7 @@ const int CHILD_ITEMS_ID[ROOT_ITEM_COUNT][9] = {
 
 const TCHAR *CHILD_ITEMS[ROOT_ITEM_COUNT][9] = {
 	// 2A03
-	{_T("Square 1"), _T("Square 2"), _T("Triangle"), _T("Noise"), _T("DPCM")},
-	// // //
+	{_T("Square 1"), _T("Square 2"), _T("Triangle"), _T("Noise")},		// // //
 };
 
 // CChannelsDlg dialog

@@ -290,12 +290,6 @@ void CInstrumentEditDlg::SwitchOnNote(int x, int y)
 
 	stChanNote NoteData;
 
-	// TODO: remove hardcoded numbers
-
-	// Send to DPCM channel if DPCM view is activated
-	if (m_iSelectedInstType == INST_2A03 && m_pPanels[1]->IsWindowVisible())
-		pView->SelectChannel(4);
-
 	// // //
 
 	int Channel = pView->GetSelectedChannel();

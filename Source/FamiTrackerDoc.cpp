@@ -2217,9 +2217,7 @@ int CFamiTrackerDoc::LoadInstrument(CString FileName)
 	return Slot;
 }
 
-//
-// DPCM samples
-//
+// // //
 
 void CFamiTrackerDoc::SetFrameCount(unsigned int Track, unsigned int Count)
 {

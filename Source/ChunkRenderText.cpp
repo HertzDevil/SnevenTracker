@@ -86,7 +86,7 @@ void CChunkRenderText::StoreChunks(const std::vector<CChunk*> &Chunks)
 	// Song data
 	DumpStrings(CStringA(";\n; Pattern and frame data for all songs below\n;\n\n"), CStringA(""), m_songDataStrings, m_pFile);
 
-	// Actual DPCM samples are stored later
+	// // //
 }
 
 // // //

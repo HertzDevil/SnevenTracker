@@ -1332,8 +1332,6 @@ bool CSoundGen::IsBackgroundTask() const
 	return m_bRendering;
 }
 
-// DPCM handling
-
 // // //
 
 bool CSoundGen::WaitForStop() const

@@ -4,10 +4,7 @@
 //
 #define ID_MANIFEST                     1
 #define ID_INVALID_WAVEFILE             3
-#define IDC_IMPORT                      4
 #define VERSION_MIN                     4
-#define IDC_EDIT                        5
-#define IDC_SAVE                        6
 #define IDC_MOVE_UP                     6
 #define IDC_MOVE_DOWN                   7
 #define IDD_ABOUTBOX                    100
@@ -88,7 +85,6 @@
 #define IDS_INFO_AUTHOR                 145
 #define IDD_SPEED                       146
 #define IDS_OUT_OF_SLOTS                146
-#define IDD_PCMIMPORT                   147
 #define IDS_OUT_OF_SAMPLEMEM            147
 #define IDS_OUT_OF_SAMPLEMEM_FORMAT     147
 #define IDS_SAMPLE_ADJUSTED             148
@@ -159,8 +155,6 @@
 #define IDD_FRAMECONTROLS               251
 #define IDB_TOOLBAR_256                 257
 #define IDR_INSTRUMENT_POPUP            262
-#define IDD_SAMPLE_EDITOR               263
-#define IDR_SAMPLES_POPUP               266
 #define IDB_TOOLBAR_INST_256            277
 #define IDR_SAMPLE_WND_POPUP            279
 #define IDR_INSTRUMENT_TOOLBAR          280
@@ -176,7 +170,6 @@
 #define IDD_INSTRUMENT_N163_WAVE1       293
 #define ID_TRACKER_PLAY_CURSOR          300
 #define IDD_IMPORT                      301
-#define IDR_SAMPLE_EDITOR_POPUP         304
 #define IDS_DPCM_IMPORT_INVALID_RIFF    306
 #define IDS_WAVE_PROGRESS_FILE_FORMAT   308
 #define IDD_EXPORT_TEST                 308
@@ -212,9 +205,7 @@
 #define IDC_KEYREPEAT                   1038
 #define IDC_SAMPLE_RATE                 1039
 #define IDC_SAMPLE_SIZE                 1040
-#define IDC_RESAMPLING                  1040
 #define IDC_BUF_LENGTH                  1041
-#define IDC_SAMPLESIZE                  1041
 #define IDC_BASS_FREQ                   1042
 #define IDC_CHANGE_ALL                  1043
 #define IDC_TREBLE_DAMP                 1043
@@ -229,10 +220,7 @@
 #define IDC_VOLUME_T                    1050
 #define IDC_SPEED_SLD                   1051
 #define IDC_SPEED                       1052
-#define IDC_QUALITY                     1053
 #define IDC_VOLUME                      1054
-#define IDC_QUALITY_FRM                 1056
-#define IDC_VOLUME_FRM                  1057
 #define IDC_CPU                         1058
 #define IDC_CPU_BAR                     1059
 #define IDC_FRAMERATE                   1060
@@ -269,10 +257,6 @@
 #define IDC_OPT_PREVIEWFULLROW          1075
 #define IDC_OPT_DISPLAYFLATS            1076
 #define IDC_INST_TAB                    1077
-#define IDC_PITCH                       1079
-#define IDC_LOAD                        1080
-#define IDC_ZOOM                        1080
-#define IDC_UNLOAD                      1081
 #define IDC_KEYBOARD                    1084
 #define IDC_FREE_SEQ                    1086
 #define IDC_STYLE1                      1094
@@ -326,16 +310,9 @@
 #define IDC_HIGHLIGHTSPIN2              1168
 #define IDC_SEQUENCE_SPIN               1171
 #define IDC_SEQUENCE_STRING             1172
-#define IDC_SAMPLE                      1175
 #define IDC_LOOP_POINT                  1193
 #define IDC_OK                          1194
 #define IDC_PLAY                        1195
-#define IDC_POS                         1196
-#define IDC_DELETE                      1197
-#define IDC_INFO                        1198
-#define IDC_TILT                        1200
-#define IDC_STATIC_PITCH                1201
-#define IDC_DELTASTART                  1202
 #define IDC_MAIL                        1208
 #define IDC_WEBPAGE                     1209
 #define IDC_ADDED_LIST                  1217
@@ -551,7 +528,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        320
+#define _APS_NEXT_RESOURCE_VALUE        322
 #define _APS_NEXT_COMMAND_VALUE         33127
 #define _APS_NEXT_CONTROL_VALUE         1280
 #define _APS_NEXT_SYMED_VALUE           179

@@ -53,9 +53,7 @@
 /*
  * Notes:
  *
- *  - DPCM samples and instruments is currently stored as a linear list,
- *    which currently limits the number of possible DPCM configurations
- *    to 127.
+ *  // // //
  *  - Instrument data is non bankswitched, it might be possible to create
  *    instrument data of a size that makes export impossible.
  *
@@ -71,11 +69,11 @@
  *
  * Non-bankswitched, compressed layout:
  *
- * - Music data, driver, DPCM samples
+ * - Music data, driver		// // //
  * 
  * Non-bankswitched + bankswitched, default layout:
  *
- * - Driver, music data, DPCM samples
+ * - Driver, music data,		// // //
  *
  */
 
@@ -870,12 +868,10 @@ bool CCompiler::CompileData()
 
 	const int Channels = m_pDocument->GetAvailableChannels();
 
-	// Setup channel order list, DPCM is located last
+	// Setup channel order list
 	int Channel = 0;
-	for (int i = 0; i < Channels - 1; ++i) {
+	for (int i = 0; i < Channels - 1; ++i)
 		m_vChanOrder.push_back(Channel++);
-		// // //
-	}
 	// // //
 
 	// Select driver and channel order

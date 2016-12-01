@@ -61,11 +61,11 @@ const TCHAR *EFFECT_TEXTS[] = {
 	{_T("7XY - Tremolo, x = speed, y = depth")},
 	{_T("PXX - Fine pitch")},
 	{_T("GXX - Row delay, XX = number of frames")},
-	{_T("ZXX - DPCM delta counter setting")},
+	{_T("(not used)")},		// // //
 	{_T("1XX - Slide up, XX = speed")},
 	{_T("2XX - Slide down, XX = speed")},
 	{_T("VXX - Square duty / Noise mode")},
-	{_T("YXX - DPCM sample offset")},
+	{_T("(not used)")},		// // //
 	{_T("QXY - Portamento up, X = speed, Y = notes")},
 	{_T("RXY - Portamento down, X = speed, Y = notes")},
 	{_T("AXY - Volume slide, X = up, Y = down")},
