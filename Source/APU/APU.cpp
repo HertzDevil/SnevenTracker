@@ -345,6 +345,11 @@ void CAPU::Write(uint16 Address, uint8 Value)
 
 	Process();
 
+	if (Address <= 0x10 || Address == (uint16)-1) {		// // //
+		m_pSN76489->Write(Address, Value);
+		return;
+	}
+
 	if (Address == 0x4015) {
 		Write4015(Value);
 		return;

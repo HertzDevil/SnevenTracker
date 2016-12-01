@@ -198,37 +198,20 @@ void CSquare1Chan::RefreshChannel()
 	int Volume = CalculateVolume();
 	char DutyCycle = (m_iDutyPeriod & 0x03);
 
-	unsigned char HiFreq = (Period & 0xFF);
-	unsigned char LoFreq = (Period >> 8);
+	unsigned char HiFreq = (Period >> 4) & 0x3F;
+	unsigned char LoFreq = (Period & 0xF);
 
 	if (!m_bGate || !Volume) {
-		WriteRegister(0x4000, 0x30);
+		WriteRegister(0x01, 0xF);		// // //
+		//WriteRegister(0x4000, 0x30);
 		m_iLastPeriod = 0xFFFF;
 		return;
 	}
 
 	WriteRegister(0x4000, (DutyCycle << 6) | 0x30 | Volume);
-
-	if (m_cSweep) {
-		if (m_cSweep & 0x80) {
-			WriteRegister(0x4001, m_cSweep);
-			m_cSweep &= 0x7F;
-			WriteRegister(0x4017, 0x80);	// Clear sweep unit
-			WriteRegister(0x4017, 0x00);
-			WriteRegister(0x4002, HiFreq);
-			WriteRegister(0x4003, LoFreq);
-			m_iLastPeriod = 0xFFFF;
-		}
-	}
-	else {
-		WriteRegister(0x4001, 0x08);
-		WriteRegister(0x4017, 0x80);	// Manually execute one APU frame sequence to kill the sweep unit
-		WriteRegister(0x4017, 0x00);
-		WriteRegister(0x4002, HiFreq);
-		
-		if (LoFreq != (m_iLastPeriod >> 8))
-			WriteRegister(0x4003, LoFreq);
-	}
+	WriteRegister(0x01, 0xF ^ Volume);		// // //
+	WriteRegister(0x00, LoFreq);
+	WriteRegister(  -1, HiFreq); // double-byte
 
 	m_iLastPeriod = Period;
 }

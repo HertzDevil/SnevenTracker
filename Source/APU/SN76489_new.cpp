@@ -136,13 +136,6 @@ void CSN76489::Reset()
 	m_NoiseChannel->Reset();
 
 	m_iAddressLatch = 0;
-
-	Write( 0, 0x002);
-	Write(-1, 0x0F);
-	Write( 1, 0xC);
-	Write( 2, 0x000);
-	Write(-1, 0x0A);
-	Write( 3, 0xD);
 }
 
 void CSN76489::Process(uint32 Time)
