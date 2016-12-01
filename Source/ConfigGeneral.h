@@ -45,7 +45,7 @@ protected:
 	bool	m_bRowInHex;
 	bool	m_bFramePreview;
 	int		m_iEditStyle;
-	bool	m_bNoDPCMReset;
+	// // //
 	bool	m_bNoStepMove;
 	int		m_iPageStepSize;
 	bool	m_bPullUpDelete;
@@ -77,7 +77,7 @@ public:
 	afx_msg void OnBnClickedOptHexadecimal();
 	afx_msg void OnBnClickedSquarehack();
 	afx_msg void OnBnClickedOptFramepreview();
-	afx_msg void OnBnClickedOptNodpcmreset();
+	// // //
 	afx_msg void OnCbnEditupdatePagelength();
 	afx_msg void OnCbnSelendokPagelength();
 	afx_msg void OnBnClickedOptNostepmove();

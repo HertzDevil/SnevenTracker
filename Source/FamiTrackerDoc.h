@@ -284,14 +284,6 @@ public:
 	int				GetSequenceItemCount(unsigned int Index, int Type) const;
 	int				GetFreeSequence(int Type) const;
 
-	// DPCM samples
-	CDSample*		GetSample(unsigned int Index);
-	const CDSample*	GetSample(unsigned int Index) const;
-	bool			IsSampleUsed(unsigned int Index) const;
-	unsigned int	GetSampleCount() const;
-	int				GetFreeSampleSlot() const;
-	void			RemoveSample(unsigned int Index);
-	unsigned int	GetTotalSampleSize() const;
 	// // //
 
 	// Other
@@ -432,7 +424,7 @@ private:
 
 	// Instruments, samples and sequences
 	CInstrument		*m_pInstruments[MAX_INSTRUMENTS];
-	CDSample		m_DSamples[MAX_DSAMPLES];					// The DPCM sample list
+	// // //
 	CSequence		*m_pSequences2A03[MAX_SEQUENCES][SEQ_COUNT];
 	// // //
 

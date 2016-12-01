@@ -48,7 +48,7 @@ protected:
 	static LPCTSTR NSF_FILTER[2];
 	static LPCTSTR NES_FILTER[2];
 	static LPCTSTR RAW_FILTER[2];
-	static LPCTSTR DPCMS_FILTER[2];
+	// // //
 	static LPCTSTR PRG_FILTER[2];
 	static LPCTSTR ASM_FILTER[2];
 

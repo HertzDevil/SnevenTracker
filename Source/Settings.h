@@ -107,7 +107,7 @@ public:
 		bool	bRowInHex;
 		bool	bFramePreview;
 		int		iEditStyle;
-		bool	bNoDPCMReset;
+		// // //
 		bool	bNoStepMove;
 		int		iPageStepSize;
 		CString	strFont;

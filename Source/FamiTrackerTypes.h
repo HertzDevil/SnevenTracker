@@ -48,8 +48,7 @@ const int MAX_FRAMES = 128;
 // Maximum length of patterns (in rows). 256 is max in NSF
 const int MAX_PATTERN_LENGTH = 256;
 
-// Maximum number of DPCM samples, cannot be increased unless the NSF driver is modified.
-const int MAX_DSAMPLES = 64;
+// // //
 
 // Sample space available (from $C000-$FFFF), may now switch banks
 const int MAX_SAMPLE_SPACE = 0x40000;	// 256kB
@@ -140,15 +139,7 @@ enum effect_t {
 	EF_SLIDE_DOWN,
 	EF_VOLUME_SLIDE,
 	EF_NOTE_CUT,
-	EF_RETRIGGER,
-	EF_DELAYED_VOLUME,			// Unimplemented
-	EF_FDS_MOD_DEPTH,
-	EF_FDS_MOD_SPEED_HI,
-	EF_FDS_MOD_SPEED_LO,
-	EF_DPCM_PITCH,
-	EF_SUNSOFT_ENV_LO,
-	EF_SUNSOFT_ENV_HI,
-	EF_SUNSOFT_ENV_TYPE,
+	// // //
 //	EF_TARGET_VOLUME_SLIDE, 
 /*
 	EF_VRC7_MODULATOR,
@@ -158,15 +149,7 @@ enum effect_t {
 	EF_COUNT
 };
 
-// DPCM  effects
-//const int EF_DPCM_PITCH = EF_SWEEPUP;		// DPCM pitch, 'H'
-
-//const int EF_VRC7_PATCH = EF_DUTY_CYCLE;	// VRC7 patch setting, 'V'
-
-// FDS effects
-//const int EF_FDS_MOD_DEPTH = EF_SWEEPUP;	// FDS modulation depth, 'H'
-
-//const int EF_RETRIGGER = EF_SWEEPDOWN;
+// // //
 
 // Channel effect letters
 const char EFF_CHAR[] = {
@@ -193,15 +176,7 @@ const char EFF_CHAR[] = {
 	'R',	// Slide down
 	'A',	// Volume slide
 	'S',	// Note cut
-	'X',	// DPCM retrigger						 
-	 0,		// (TODO, delayed volume)
-	'H',	// FDS modulation depth
-	'I',	// FDS modulation speed hi
-	'J',	// FDS modulation speed lo
-	'W',	// DPCM Pitch
-	'H',	// Sunsoft envelope low
-	'I',	// Sunsoft envelope high
-	'J',	// Sunsoft envelope type
+	// // //
 	//'9'	// Targeted volume slide
 	/*
 	'H',	// VRC7 modulator

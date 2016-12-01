@@ -30,7 +30,6 @@
 class CSquare;
 class CTriangle;
 class CNoise;
-class CDPCM;
 // // //
 
 #ifdef LOGGING
@@ -60,9 +59,9 @@ public:
 	void	SetupMixer(int LowCut, int HighCut, int HighDamp, int Volume) const;
 
 	int32	GetVol(uint8 Chan) const;
-	uint8	GetSamplePos() const;
-	uint8	GetDeltaCounter() const;
-	bool	DPCMPlaying() const;
+	__declspec(deprecated) uint8	GetSamplePos() const;
+	__declspec(deprecated) uint8	GetDeltaCounter() const;
+	__declspec(deprecated) bool	DPCMPlaying() const;
 	uint8	GetReg(int Chip, int Reg) const;
 
 	void	SetChipLevel(chip_level_t Chip, float Level);
@@ -101,7 +100,6 @@ private:
 	CSquare		*m_pSquare2;
 	CTriangle	*m_pTriangle;
 	CNoise		*m_pNoise;
-	CDPCM		*m_pDPCM;
 
 	// // //
 

@@ -27,7 +27,6 @@
 #include "Square.h"
 #include "Triangle.h"
 #include "Noise.h"
-#include "DPCM.h"
 
 const int	 CAPU::SEQUENCER_PERIOD		= 7458;
 //const int	 CAPU::SEQUENCER_PERIOD_PAL	= 7458;			// ????
@@ -57,7 +56,6 @@ CAPU::CAPU(IAudioCallback *pCallback, CSampleMem *pSampleMem) :
 	m_pSquare2 = new CSquare(m_pMixer, CHANID_SQUARE2, SNDCHIP_NONE);
 	m_pTriangle = new CTriangle(m_pMixer, CHANID_TRIANGLE);
 	m_pNoise = new CNoise(m_pMixer, CHANID_NOISE);
-	m_pDPCM = new CDPCM(m_pMixer, pSampleMem, CHANID_DPCM);
 	// // //
 
 #ifdef LOGGING
@@ -72,7 +70,6 @@ CAPU::~CAPU()
 	SAFE_RELEASE(m_pSquare2);
 	SAFE_RELEASE(m_pTriangle);
 	SAFE_RELEASE(m_pNoise);
-	SAFE_RELEASE(m_pDPCM);
 	// // //
 
 	SAFE_RELEASE(m_pMixer);
@@ -163,11 +160,11 @@ inline void CAPU::RunAPU2(uint32 Time)
 	// APU pin 2
 	while (Time > 0) {
 		uint32 Period = std::min(m_pTriangle->GetPeriod(), m_pNoise->GetPeriod());
-		Period = std::min<uint32>(Period, m_pDPCM->GetPeriod());
+		// // //
 		Period = std::min<uint32>(std::max<uint32>(Period, 7), Time);
 		m_pTriangle->Process(Period);
 		m_pNoise->Process(Period);
-		m_pDPCM->Process(Period);
+		// // //
 		Time -= Period;
 	}
 }
@@ -212,7 +209,6 @@ void CAPU::EndFrame()
 	m_pSquare2->EndFrame();
 	m_pTriangle->EndFrame();
 	m_pNoise->EndFrame();
-	m_pDPCM->EndFrame();
 	// // //
 
 	int SamplesAvail = m_pMixer->FinishBuffer(m_iFrameCycles);
@@ -245,7 +241,6 @@ void CAPU::Reset()
 	m_pSquare2->Reset();
 	m_pTriangle->Reset();
 	m_pNoise->Reset();
-	m_pDPCM->Reset();
 	// // //
 
 #ifdef LOGGING
@@ -281,12 +276,12 @@ void CAPU::ChangeMachine(int Machine)
 	switch (Machine) {
 		case MACHINE_NTSC:
 			m_pNoise->PERIOD_TABLE = CNoise::NOISE_PERIODS_NTSC;
-			m_pDPCM->PERIOD_TABLE = CDPCM::DMC_PERIODS_NTSC;			
+			// // //
 			m_pMixer->SetClockRate(BASE_FREQ_NTSC);
 			break;
 		case MACHINE_PAL:
 			m_pNoise->PERIOD_TABLE = CNoise::NOISE_PERIODS_PAL;
-			m_pDPCM->PERIOD_TABLE = CDPCM::DMC_PERIODS_PAL;			
+			// // //
 			m_pMixer->SetClockRate(BASE_FREQ_PAL);
 			break;
 	}
@@ -358,7 +353,7 @@ void CAPU::Write(uint16 Address, uint8 Value)
 		case 0x04: m_pSquare2->Write(Address & 0x03, Value); break;
 		case 0x08: m_pTriangle->Write(Address & 0x03, Value); break;
 		case 0x0C: m_pNoise->Write(Address & 0x03, Value); break;
-		case 0x10: m_pDPCM->Write(Address & 0x03, Value); break;
+		// // //
 	}
 
 	m_iRegs[Address & 0x1F] = Value;
@@ -404,7 +399,7 @@ void CAPU::Write4015(uint8 Value)
 	m_pSquare2->WriteControl(Value >> 1);
 	m_pTriangle->WriteControl(Value >> 2);
 	m_pNoise->WriteControl(Value >> 3);
-	m_pDPCM->WriteControl(Value >> 4);
+	// // //
 }
 
 uint8 CAPU::Read4015()
@@ -420,8 +415,7 @@ uint8 CAPU::Read4015()
 	RetVal |= m_pSquare2->ReadControl() << 1;
 	RetVal |= m_pTriangle->ReadControl() << 2;
 	RetVal |= m_pNoise->ReadControl() << 3;
-	RetVal |= m_pDPCM->ReadControl() << 4;
-	RetVal |= m_pDPCM->DidIRQ() << 7;
+	// // //
 	
 	return RetVal;
 }
@@ -464,17 +458,17 @@ int32 CAPU::GetVol(uint8 Chan) const
 
 uint8 CAPU::GetSamplePos() const
 {
-	return m_pDPCM->GetSamplePos();
+	return 0;
 }
 
 uint8 CAPU::GetDeltaCounter() const
 {
-	return m_pDPCM->GetDeltaCounter();
+	return 0;
 }
 
 bool CAPU::DPCMPlaying() const
 {
-	return m_pDPCM->IsPlaying();
+	return false;
 }
 
 #ifdef LOGGING
