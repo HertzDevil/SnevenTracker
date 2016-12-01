@@ -56,6 +56,8 @@ public:
 	void	SetChipLevel(chip_level_t Chip, float Level);
 	uint32	ResampleDuration(uint32 Time) const;
 
+	void	MixSN76489(int Time, int Level, bool Right);		// // //
+
 private:
 	inline double CalcPin1(double Val1, double Val2);
 	inline double CalcPin2(double Val1, double Val2, double Val3);
@@ -73,6 +75,8 @@ private:
 	// Blip buffer synths
 	Blip_Synth<blip_good_quality, -500>		Synth2A03SS;
 	Blip_Synth<blip_good_quality, -500>		Synth2A03TND;
+	Blip_Synth<blip_good_quality, -500>		SynthSN76489Left;		// // //
+	Blip_Synth<blip_good_quality, -500>		SynthSN76489Right;
 	// // //
 	
 	// Blip buffer object
@@ -97,5 +101,7 @@ private:
 	float		m_fLevelAPU2;
 	// // //
 };
+
+extern "C" void MixSN76489(void *Mixer, int Time, int Level, bool Right);		// // //
 
 #endif /* MIXER_H */

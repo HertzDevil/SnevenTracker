@@ -423,6 +423,15 @@
     <ClCompile Include="Source\WaveFile.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Source\APU\sn76489.c">
+      <Filter>Source Files\Sound Driver\Emulation\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\APU\blip_buf.c">
+      <Filter>Source Files\Sound Driver\Emulation\Blip_Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\APU\DCSG.cpp">
+      <Filter>Source Files\Sound Driver\Emulation\Internal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Exception.h">
@@ -676,6 +685,18 @@
     </ClInclude>
     <ClInclude Include="Source\WaveFile.h">
       <Filter>Header Files\Components Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\APU\sn76489.h">
+      <Filter>Header Files\Sound Driver Headers\Emulation Headers\Internal Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\APU\blip_buf.h">
+      <Filter>Header Files\Sound Driver Headers\Blip_Buffer Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\APU\DCSG.h">
+      <Filter>Header Files\Sound Driver Headers\Emulation Headers\Internal Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\APU\External.h">
+      <Filter>Header Files\Sound Driver Headers\Emulation Headers\Internal Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,7 +11,7 @@ As in 0CC-FT, all changes to the source code are marked with `// // //`.
 
 ### Progress
 
-Removing references to all expansion chips and the DPCM channel.
+Making sound in the mixer.
 
 ### Notes
 

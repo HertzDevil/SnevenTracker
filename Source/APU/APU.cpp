@@ -27,6 +27,7 @@
 #include "Square.h"
 #include "Triangle.h"
 #include "Noise.h"
+#include "DCSG.h"		// // //
 
 const int	 CAPU::SEQUENCER_PERIOD		= 7458;
 //const int	 CAPU::SEQUENCER_PERIOD_PAL	= 7458;			// ????
@@ -56,6 +57,7 @@ CAPU::CAPU(IAudioCallback *pCallback) :		// // //
 	m_pSquare2 = new CSquare(m_pMixer, CHANID_SQUARE2, SNDCHIP_NONE);
 	m_pTriangle = new CTriangle(m_pMixer, CHANID_TRIANGLE);
 	m_pNoise = new CNoise(m_pMixer, CHANID_NOISE);
+	m_pSN76489 = new CDCSG(m_pMixer);
 	// // //
 
 #ifdef LOGGING
@@ -70,7 +72,7 @@ CAPU::~CAPU()
 	SAFE_RELEASE(m_pSquare2);
 	SAFE_RELEASE(m_pTriangle);
 	SAFE_RELEASE(m_pNoise);
-	// // //
+	SAFE_RELEASE(m_pSN76489);		// // //
 
 	SAFE_RELEASE(m_pMixer);
 
@@ -169,6 +171,11 @@ inline void CAPU::RunAPU2(uint32 Time)
 	}
 }
 
+inline void CAPU::RunDCSG(uint32 Time)		// // //
+{
+	m_pSN76489->Process(Time);
+}
+
 // The main APU emulation
 //
 // The amount of cycles that will be emulated is added by CAPU::AddCycles
@@ -184,8 +191,7 @@ void CAPU::Process()
 		// Run internal channels
 		RunAPU1(Time);
 		RunAPU2(Time);
-
-		// // //
+		RunDCSG(Time);		// // //
 
 		m_iFrameCycles	  += Time;
 		m_iSequencerClock -= Time;
@@ -209,6 +215,7 @@ void CAPU::EndFrame()
 	m_pSquare2->EndFrame();
 	m_pTriangle->EndFrame();
 	m_pNoise->EndFrame();
+	m_pSN76489->EndFrame();
 	// // //
 
 	int SamplesAvail = m_pMixer->FinishBuffer(m_iFrameCycles);
@@ -241,6 +248,7 @@ void CAPU::Reset()
 	m_pSquare2->Reset();
 	m_pTriangle->Reset();
 	m_pNoise->Reset();
+	m_pSN76489->Reset();
 	// // //
 
 #ifdef LOGGING

@@ -366,8 +366,11 @@
     <ClCompile Include="Source\Accelerator.cpp" />
     <ClCompile Include="Source\Action.cpp" />
     <ClCompile Include="Source\Apu\APU.cpp" />
+    <ClCompile Include="Source\APU\blip_buf.c" />
+    <ClCompile Include="Source\APU\DCSG.cpp" />
     <ClCompile Include="Source\Apu\Mixer.cpp" />
     <ClCompile Include="Source\Apu\Noise.cpp" />
+    <ClCompile Include="Source\APU\sn76489.c" />
     <ClCompile Include="Source\Apu\Square.cpp" />
     <ClCompile Include="Source\Apu\Triangle.cpp" />
     <ClCompile Include="Source\Blip_Buffer\Blip_Buffer.cpp" />
@@ -646,9 +649,13 @@ makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\
     <ClInclude Include="Source\Accelerator.h" />
     <ClInclude Include="Source\Action.h" />
     <ClInclude Include="Source\Apu\APU.h" />
+    <ClInclude Include="Source\APU\blip_buf.h" />
     <ClInclude Include="Source\Apu\Channel.h" />
+    <ClInclude Include="Source\APU\DCSG.h" />
+    <ClInclude Include="Source\APU\External.h" />
     <ClInclude Include="Source\Apu\Mixer.h" />
     <ClInclude Include="Source\Apu\Noise.h" />
+    <ClInclude Include="Source\APU\sn76489.h" />
     <ClInclude Include="Source\Apu\Square.h" />
     <ClInclude Include="Source\Apu\Triangle.h" />
     <ClInclude Include="Source\APU\Types.h" />

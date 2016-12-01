@@ -55,6 +55,7 @@
 #include <cmath>
 #include "Mixer.h"
 #include "APU.h"
+#include "blip_buf.h"		// // //
 
 //#define LINEAR_MIXING
 
@@ -153,11 +154,15 @@ void CMixer::UpdateSettings(int LowCut,	int HighCut, int HighDamp, float Overall
 
 	Synth2A03SS.treble_eq(eq);
 	Synth2A03TND.treble_eq(eq);
+	SynthSN76489Left.treble_eq(eq);
+	SynthSN76489Right.treble_eq(eq);
 	// // //
 
 	// Volume levels
 	Synth2A03SS.volume(Volume * m_fLevelAPU1);
 	Synth2A03TND.volume(Volume * m_fLevelAPU2);
+	SynthSN76489Left.volume(Volume * m_fLevelAPU1);
+//	SynthSN76489Right.volume(Volume * m_fLevelAPU2);
 	// // //
 
 	m_iLowCut = LowCut;
@@ -172,6 +177,7 @@ void CMixer::MixSamples(blip_sample_t *pBuffer, uint32 Count)
 {
 	// For VRC7
 	BlipBuffer.mix_samples(pBuffer, Count);
+	//blip_mix_samples(, Count);
 }
 
 uint32 CMixer::GetMixSampleCount(int t) const
@@ -208,7 +214,6 @@ int CMixer::SamplesAvail() const
 int CMixer::FinishBuffer(int t)
 {
 	BlipBuffer.end_frame(t);
-
 	// // //
 
 	for (int i = 0; i < CHANNELS; ++i) {
@@ -320,4 +325,14 @@ void CMixer::ClearChannelLevels()
 uint32 CMixer::ResampleDuration(uint32 Time) const
 {
 	return (uint32)BlipBuffer.resampled_duration((blip_time_t)Time);
+}
+
+void CMixer::MixSN76489(int Time, int Level, bool Right)		// // //
+{
+	(Right ? SynthSN76489Right : SynthSN76489Left).offset(Time, Level, &BlipBuffer);
+}
+
+extern "C" void MixSN76489(void *Mixer, int Time, int Level, bool Right)
+{
+	static_cast<CMixer*>(Mixer)->MixSN76489(Time, Level, Right);
 }

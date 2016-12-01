@@ -30,7 +30,7 @@
 class CSquare;
 class CTriangle;
 class CNoise;
-// // //
+class CDCSG;		// // //
 
 #ifdef LOGGING
 class CFile;
@@ -86,6 +86,7 @@ private:
 
 	inline void RunAPU1(uint32 Time);
 	inline void RunAPU2(uint32 Time);
+	inline void RunDCSG(uint32 Time);		// // //
 
 	void EndFrame();
 
@@ -98,6 +99,7 @@ private:
 	CSquare		*m_pSquare2;
 	CTriangle	*m_pTriangle;
 	CNoise		*m_pNoise;
+	CDCSG		*m_pSN76489;		// // //
 
 	// // //
 
