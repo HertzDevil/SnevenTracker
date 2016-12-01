@@ -294,11 +294,6 @@ public:
 	int				GetSequenceItemCountN163(unsigned int Index, int Type) const;
 	int				GetFreeSequenceN163(int Type) const;
 
-	CSequence*		GetSequenceS5B(unsigned int Index, int Type);
-	CSequence*		GetSequenceS5B(unsigned int Index, int Type) const;
-	int				GetSequenceItemCountS5B(unsigned int Index, int Type) const;
-	int				GetFreeSequenceS5B(int Type) const;
-
 	// DPCM samples
 	CDSample*		GetSample(unsigned int Index);
 	const CDSample*	GetSample(unsigned int Index) const;
@@ -307,6 +302,7 @@ public:
 	int				GetFreeSampleSlot() const;
 	void			RemoveSample(unsigned int Index);
 	unsigned int	GetTotalSampleSize() const;
+	// // //
 
 	// Other
 	unsigned int	ScanActualLength(unsigned int Track, unsigned int Count, unsigned int &RowCount) const;
@@ -364,7 +360,6 @@ private:
 	bool			WriteBlock_ChannelLayout(CDocumentFile *pDocFile) const;
 	bool			WriteBlock_SequencesVRC6(CDocumentFile *pDocFile) const;
 	bool			WriteBlock_SequencesN163(CDocumentFile *pDocFile) const;
-	bool			WriteBlock_SequencesS5B(CDocumentFile *pDocFile) const;
 
 	bool			ReadBlock_Parameters(CDocumentFile *pDocFile);
 	bool			ReadBlock_Header(CDocumentFile *pDocFile);
@@ -377,7 +372,6 @@ private:
 	bool			ReadBlock_ChannelLayout(CDocumentFile *pDocFile);
 	bool			ReadBlock_SequencesVRC6(CDocumentFile *pDocFile);
 	bool			ReadBlock_SequencesN163(CDocumentFile *pDocFile);
-	bool			ReadBlock_SequencesS5B(CDocumentFile *pDocFile);
 
 	// For file version compability
 	void			ReorderSequences();
@@ -456,7 +450,7 @@ private:
 	CSequence		*m_pSequences2A03[MAX_SEQUENCES][SEQ_COUNT];
 	CSequence		*m_pSequencesVRC6[MAX_SEQUENCES][SEQ_COUNT];
 	CSequence		*m_pSequencesN163[MAX_SEQUENCES][SEQ_COUNT];
-	CSequence		*m_pSequencesS5B[MAX_SEQUENCES][SEQ_COUNT];
+	// // //
 
 	// Module properties
 	unsigned char	m_iExpansionChip;							// Expansion chip

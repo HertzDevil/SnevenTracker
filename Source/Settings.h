@@ -184,7 +184,7 @@ public:
 		int		iLevelMMC5;
 		int		iLevelFDS;
 		int		iLevelN163;
-		int		iLevelS5B;
+		// // //
 	} ChipLevels;
 
 	CString InstrumentMenuPath;

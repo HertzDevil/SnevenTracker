@@ -336,7 +336,6 @@ private:
 	unsigned int		m_iNoteLookupTableSaw[96];			// For VRC6 sawtooth
 	unsigned int		m_iNoteLookupTableFDS[96];			// For FDS
 	unsigned int		m_iNoteLookupTableN163[96];			// For N163
-	unsigned int		m_iNoteLookupTableS5B[96];			// For sunsoft
 	int					m_iVibratoTable[VIBRATO_LENGTH];
 
 	unsigned int		m_iMachineType;						// NTSC/PAL

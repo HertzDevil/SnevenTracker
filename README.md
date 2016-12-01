@@ -9,6 +9,10 @@ in order to provide insight into eventually supporting other sound chips in
 
 As in 0CC-FT, all changes to the source code are marked with `// // //`.
 
+### Progress
+
+Removing references to all expansion chips and the DPCM channel.
+
 ### Notes
 
 - Replaces 2A03 with SN76489, removes all expansion chips

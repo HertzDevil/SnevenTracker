@@ -119,7 +119,7 @@ private:
 	CFDS		*m_pFDS;
 	CN163		*m_pN163;
 	CVRC7		*m_pVRC7;
-	CS5B		*m_pS5B;
+	// // //
 
 	uint8		m_iExternalSoundChip;				// External sound chip, if used
 
@@ -146,7 +146,7 @@ private:
 	uint8		m_iRegsFDS[0x10];
 
 	float		m_fLevelVRC7;
-	float		m_fLevelS5B;
+	// // //
 
 #ifdef LOGGING
 	CFile		  *m_pLog;

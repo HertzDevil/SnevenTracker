@@ -72,7 +72,7 @@ private:
 	void MixFDS(int Value, int Time);
 	void MixVRC6(int Value, int Time);
 	void MixMMC5(int Value, int Time);
-	void MixS5B(int Value, int Time);
+	// // //
 
 	void StoreChannelLevel(int Channel, int Value);
 	void ClearChannelLevels();
@@ -87,7 +87,7 @@ private:
 	Blip_Synth<blip_good_quality, -130>		SynthMMC5;	
 	Blip_Synth<blip_good_quality, -1600>	SynthN163;
 	Blip_Synth<blip_good_quality, -3500>	SynthFDS;
-	Blip_Synth<blip_good_quality, -2000>	SynthS5B;
+	// // //
 	
 	// Blip buffer object
 	Blip_Buffer	BlipBuffer;

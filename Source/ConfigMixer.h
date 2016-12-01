@@ -45,7 +45,7 @@ private:
 	int m_iLevelMMC5;
 	int m_iLevelFDS;
 	int m_iLevelN163;
-	int m_iLevelS5B;
+	// // //
 
 protected:
 	void SetupSlider(int nID) const;

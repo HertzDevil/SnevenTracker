@@ -56,7 +56,6 @@
 #include "Mixer.h"
 #include "APU.h"
 #include "emu2413.h"
-#include "emu2149.h"
 
 //#define LINEAR_MIXING
 
@@ -188,7 +187,6 @@ void CMixer::UpdateSettings(int LowCut,	int HighCut, int HighDamp, float Overall
 	Synth2A03TND.treble_eq(eq);
 	SynthVRC6.treble_eq(eq);
 	SynthMMC5.treble_eq(eq);
-	SynthS5B.treble_eq(eq);
 
 	// N163 special filtering
 	double n163_treble = 24;
@@ -217,7 +215,7 @@ void CMixer::UpdateSettings(int LowCut,	int HighCut, int HighDamp, float Overall
 	
 	// Not checked
 	SynthN163.volume(Volume * 1.1f * m_fLevelN163);
-	//SynthS5B.volume(Volume * 1.0f);
+	// // //
 
 	m_iLowCut = LowCut;
 	m_iHighCut = HighCut;
@@ -277,9 +275,7 @@ int CMixer::FinishBuffer(int t)
 	for (int i = 0; i < 6; ++i)
 		StoreChannelLevel(CHANID_VRC7_CH1 + i, OPLL_getchanvol(i));
 
-	// Get channel levels for Sunsoft
-	for (int i = 0; i < 3; ++i)
-		StoreChannelLevel(CHANID_S5B_CH1 + i, PSG_getchanvol(i));
+	// // //
 
 	for (int i = 0; i < CHANNELS; ++i) {
 		if (m_iChanLevelFallOff[i] > 0)
@@ -349,10 +345,7 @@ void CMixer::MixMMC5(int Value, int Time)
 	SynthMMC5.offset(Time, Value, &BlipBuffer);
 }
 
-void CMixer::MixS5B(int Value, int Time)
-{
-	SynthS5B.offset(Time, Value, &BlipBuffer);
-}
+// // //
 
 void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCycles)
 {
@@ -425,9 +418,7 @@ void CMixer::StoreChannelLevel(int Channel, int Value)
 		AbsVol = (int)(logf((float)AbsVol) * 3.0f);
 	}
 
-	if (Channel >= CHANID_S5B_CH1 && Channel <= CHANID_S5B_CH3) {
-		AbsVol = (int)(logf((float)AbsVol) * 2.8f);
-	}
+	// // //
 
 	if (float(AbsVol) >= m_fChannelLevels[Channel]) {
 		m_fChannelLevels[Channel] = float(AbsVol);

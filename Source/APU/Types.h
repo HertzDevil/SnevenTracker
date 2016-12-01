@@ -28,7 +28,7 @@ const uint8 SNDCHIP_VRC7  = 2;			// Konami VRCVII
 const uint8 SNDCHIP_FDS	  = 4;			// Famicom Disk Sound
 const uint8 SNDCHIP_MMC5  = 8;			// Nintendo MMC5
 const uint8 SNDCHIP_N163  = 16;			// Namco N-106
-const uint8 SNDCHIP_S5B	  = 32;			// Sunsoft 5B
+// // //
 
 enum chan_id_t {
 	CHANID_SQUARE1,
@@ -62,11 +62,7 @@ enum chan_id_t {
 	CHANID_VRC7_CH4,
 	CHANID_VRC7_CH5,
 	CHANID_VRC7_CH6,
-
-	CHANID_S5B_CH1,
-	CHANID_S5B_CH2,
-	CHANID_S5B_CH3,
-
+	// // //
 	CHANNELS		/* Total number of channels */
 };
 

@@ -30,7 +30,7 @@ enum inst_type_t {
 	INST_VRC7,
 	INST_FDS,
 	INST_N163,
-	INST_S5B
+	// // //
 };
 
 // External classes
@@ -299,35 +299,7 @@ private:
 	int		m_iWaveCount;
 };
 
-class CInstrumentS5B : public CInstrument {
-public:
-	CInstrumentS5B();
-	virtual inst_type_t GetType() const { return INST_S5B; };
-	virtual CInstrument* CreateNew() const { return new CInstrumentS5B(); };
-	virtual CInstrument* Clone() const;
-	virtual void Setup();
-	virtual void Store(CDocumentFile *pDocFile);
-	virtual bool Load(CDocumentFile *pDocFile);
-	virtual void SaveFile(CInstrumentFile *pFile, const CFamiTrackerDoc *pDoc);
-	virtual bool LoadFile(CInstrumentFile *pFile, int iVersion, CFamiTrackerDoc *pDoc);
-	virtual int Compile(CFamiTrackerDoc *pDoc, CChunk *pChunk, int Index);
-	virtual bool CanRelease() const;
-
-public:
-	int		GetSeqEnable(int Index) const;
-	int		GetSeqIndex(int Index) const;
-	void	SetSeqEnable(int Index, int Value);
-	void	SetSeqIndex(int Index, int Value);
-
-public:
-	static const int SEQUENCE_COUNT = 5;
-	static const int SEQUENCE_TYPES[];
-
-private:
-	int		m_iSeqEnable[SEQ_COUNT];
-	int		m_iSeqIndex[SEQ_COUNT];
-	// TODO
-};
+// // //
 
 // This takes care of reference counting
 // TODO replace this with boost shared_ptr
