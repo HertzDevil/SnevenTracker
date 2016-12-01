@@ -366,31 +366,15 @@
     <ClCompile Include="Source\Accelerator.cpp" />
     <ClCompile Include="Source\Action.cpp" />
     <ClCompile Include="Source\Apu\APU.cpp" />
-    <ClCompile Include="Source\Apu\DPCM.cpp" />
-    <ClCompile Include="Source\APU\emu2149.c" />
-    <ClCompile Include="Source\APU\emu2413.c" />
-    <ClCompile Include="Source\APU\FDS.cpp" />
-    <ClCompile Include="Source\APU\FDSSound.cpp" />
     <ClCompile Include="Source\Apu\Mixer.cpp" />
-    <ClCompile Include="Source\APU\MMC5.CPP" />
-    <ClCompile Include="Source\APU\N163.CPP" />
     <ClCompile Include="Source\Apu\Noise.cpp" />
-    <ClCompile Include="Source\APU\S5B.cpp" />
     <ClCompile Include="Source\Apu\Square.cpp" />
     <ClCompile Include="Source\Apu\Triangle.cpp" />
-    <ClCompile Include="Source\Apu\VRC6.cpp" />
-    <ClCompile Include="Source\APU\VRC7.cpp" />
     <ClCompile Include="Source\Blip_Buffer\Blip_Buffer.cpp" />
     <ClCompile Include="Source\ChannelHandler.cpp" />
     <ClCompile Include="Source\ChannelMap.cpp" />
     <ClCompile Include="Source\Channels2A03.cpp" />
     <ClCompile Include="Source\ChannelsDlg.cpp" />
-    <ClCompile Include="Source\ChannelsFDS.cpp" />
-    <ClCompile Include="Source\ChannelsMMC5.cpp" />
-    <ClCompile Include="Source\ChannelsN163.cpp" />
-    <ClCompile Include="Source\ChannelsS5B.cpp" />
-    <ClCompile Include="Source\ChannelsVRC6.cpp" />
-    <ClCompile Include="Source\ChannelsVRC7.cpp" />
     <ClCompile Include="Source\Chunk.cpp" />
     <ClCompile Include="Source\ChunkRenderBinary.cpp" />
     <ClCompile Include="Source\ChunkRenderText.cpp" />
@@ -435,7 +419,6 @@
     <ClCompile Include="Source\DirectSound.cpp" />
     <ClCompile Include="Source\DocumentFile.cpp" />
     <ClCompile Include="Source\DocumentWrapper.cpp" />
-    <ClCompile Include="Source\DSample.cpp" />
     <ClCompile Include="Source\Exception.cpp" />
     <ClCompile Include="Source\ExportDialog.cpp" />
     <ClCompile Include="Source\ExportTest\ExportTest.cpp" />
@@ -472,29 +455,9 @@
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="Source\InstrumentEditor2A03.cpp" />
-    <ClCompile Include="Source\InstrumentEditorDPCM.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="Source\InstrumentEditorFDS.cpp" />
-    <ClCompile Include="Source\InstrumentEditorFDSEnvelope.cpp" />
-    <ClCompile Include="Source\InstrumentEditorN163.cpp" />
-    <ClCompile Include="Source\InstrumentEditorN163Wave.cpp" />
-    <ClCompile Include="Source\InstrumentEditorS5B.cpp" />
-    <ClCompile Include="Source\InstrumentEditorVRC6.cpp" />
-    <ClCompile Include="Source\InstrumentEditorVRC7.cpp" />
     <ClCompile Include="Source\InstrumentEditPanel.cpp" />
-    <ClCompile Include="Source\InstrumentFDS.cpp" />
     <ClCompile Include="Source\InstrumentFileTree.cpp" />
     <ClCompile Include="Source\InstrumentListCtrl.cpp" />
-    <ClCompile Include="Source\InstrumentN163.cpp" />
-    <ClCompile Include="Source\InstrumentS5B.cpp" />
-    <ClCompile Include="Source\InstrumentVRC6.cpp" />
-    <ClCompile Include="Source\InstrumentVRC7.cpp" />
     <ClCompile Include="Source\MainFrm.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
@@ -519,14 +482,6 @@
     <ClCompile Include="Source\PatternData.cpp" />
     <ClCompile Include="Source\PatternEditor.cpp" />
     <ClCompile Include="Source\PatternEditorTypes.cpp" />
-    <ClCompile Include="Source\PCMImport.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-    </ClCompile>
     <ClCompile Include="Source\PerformanceDlg.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
@@ -537,8 +492,6 @@
     </ClCompile>
     <ClCompile Include="Source\resampler\resample.cpp" />
     <ClCompile Include="Source\resampler\sinc.cpp" />
-    <ClCompile Include="Source\SampleEditorDlg.cpp" />
-    <ClCompile Include="Source\SampleEditorView.cpp" />
     <ClCompile Include="Source\Sequence.cpp" />
     <ClCompile Include="Source\SequenceEditor.cpp" />
     <ClCompile Include="Source\SequenceSetting.cpp" />
@@ -574,7 +527,6 @@
     <ClCompile Include="Source\VisualizerSpectrum.cpp" />
     <ClCompile Include="Source\VisualizerStatic.cpp" />
     <ClCompile Include="Source\VisualizerWnd.cpp" />
-    <ClCompile Include="Source\WaveEditor.cpp" />
     <ClCompile Include="Source\WaveFile.cpp" />
     <ClCompile Include="Source\WavProgressDlg.cpp" />
   </ItemGroup>
@@ -698,37 +650,18 @@ makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\
     <ClInclude Include="Source\AboutDlg.h" />
     <ClInclude Include="Source\Accelerator.h" />
     <ClInclude Include="Source\Action.h" />
-    <ClInclude Include="Source\APU\2413tone.h" />
     <ClInclude Include="Source\Apu\APU.h" />
     <ClInclude Include="Source\Apu\Channel.h" />
-    <ClInclude Include="Source\Apu\DPCM.h" />
-    <ClInclude Include="Source\APU\emu2149.h" />
-    <ClInclude Include="Source\APU\emu2413.h" />
-    <ClInclude Include="Source\Apu\External.h" />
-    <ClInclude Include="Source\APU\FDS.h" />
-    <ClInclude Include="Source\APU\FDSSound.h" />
     <ClInclude Include="Source\Apu\Mixer.h" />
-    <ClInclude Include="Source\APU\MMC5.h" />
-    <ClInclude Include="Source\APU\N163.h" />
     <ClInclude Include="Source\Apu\Noise.h" />
-    <ClInclude Include="Source\APU\S5B.h" />
     <ClInclude Include="Source\Apu\Square.h" />
     <ClInclude Include="Source\Apu\Triangle.h" />
     <ClInclude Include="Source\APU\Types.h" />
-    <ClInclude Include="Source\Apu\VRC6.h" />
-    <ClInclude Include="Source\APU\VRC7.h" />
-    <ClInclude Include="Source\APU\vrc7tone.h" />
     <ClInclude Include="Source\Blip_Buffer\Blip_Buffer.h" />
     <ClInclude Include="Source\ChannelHandler.h" />
     <ClInclude Include="Source\ChannelMap.h" />
     <ClInclude Include="Source\Channels2A03.h" />
     <ClInclude Include="Source\ChannelsDlg.h" />
-    <ClInclude Include="Source\ChannelsFDS.h" />
-    <ClInclude Include="Source\ChannelsMMC5.h" />
-    <ClInclude Include="Source\ChannelsN163.h" />
-    <ClInclude Include="Source\ChannelsS5B.h" />
-    <ClInclude Include="Source\ChannelsVRC6.h" />
-    <ClInclude Include="Source\ChannelsVRC7.h" />
     <ClInclude Include="Source\Chunk.h" />
     <ClInclude Include="Source\ChunkRenderBinary.h" />
     <ClInclude Include="Source\ChunkRenderText.h" />
@@ -756,7 +689,6 @@ makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\
     <ClInclude Include="Source\DocumentFile.h" />
     <ClInclude Include="Source\DocumentWrapper.h" />
     <ClInclude Include="Source\Driver.h" />
-    <ClInclude Include="Source\DSample.h" />
     <ClInclude Include="Source\Exception.h" />
     <ClInclude Include="Source\ExportDialog.h" />
     <ClInclude Include="Source\ExportTest\ExportTest.h" />
@@ -773,14 +705,6 @@ makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\
     <ClInclude Include="Source\Instrument.h" />
     <ClInclude Include="Source\InstrumentEditDlg.h" />
     <ClInclude Include="Source\InstrumentEditor2A03.h" />
-    <ClInclude Include="Source\InstrumentEditorDPCM.h" />
-    <ClInclude Include="Source\InstrumentEditorFDS.h" />
-    <ClInclude Include="Source\InstrumentEditorFDSEnvelope.h" />
-    <ClInclude Include="Source\InstrumentEditorN163.h" />
-    <ClInclude Include="Source\InstrumentEditorN163Wave.h" />
-    <ClInclude Include="Source\InstrumentEditorS5B.h" />
-    <ClInclude Include="Source\InstrumentEditorVRC6.h" />
-    <ClInclude Include="Source\InstrumentEditorVRC7.h" />
     <ClInclude Include="Source\InstrumentEditPanel.h" />
     <ClInclude Include="Source\InstrumentFileTree.h" />
     <ClInclude Include="Source\MainFrm.h" />
@@ -793,12 +717,9 @@ makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\
     <ClInclude Include="Source\PatternData.h" />
     <ClInclude Include="Source\PatternEditor.h" />
     <ClInclude Include="Source\PatternEditorTypes.h" />
-    <ClInclude Include="Source\PCMImport.h" />
     <ClInclude Include="Source\PerformanceDlg.h" />
     <ClInclude Include="Source\resampler\resample.hpp" />
     <ClInclude Include="Source\resampler\sinc.hpp" />
-    <ClInclude Include="Source\SampleEditorDlg.h" />
-    <ClInclude Include="Source\SampleEditorView.h" />
     <ClInclude Include="Source\Sequence.h" />
     <ClInclude Include="Source\SequenceEditor.h" />
     <ClInclude Include="Source\SequenceSetting.h" />
@@ -813,7 +734,6 @@ makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\
     <ClInclude Include="Source\VisualizerSpectrum.h" />
     <ClInclude Include="Source\VisualizerStatic.h" />
     <ClInclude Include="Source\VisualizerWnd.h" />
-    <ClInclude Include="Source\WaveEditor.h" />
     <ClInclude Include="Source\WaveFile.h" />
     <ClInclude Include="Source\WavProgressDlg.h" />
     <ClInclude Include="version.h" />
@@ -858,13 +778,8 @@ makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\
     <None Include="..\nsf driver\player.s" />
     <None Include="..\nsf driver\vrc6.s" />
     <None Include="..\nsf driver\vrc7.s" />
-    <None Include="FamiTracker.reg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="changelog.txt" />
-    <Text Include="gpl.txt" />
-    <Text Include="ReadMe.txt" />
-    <Text Include="Texts\FastTracker effects.txt" />
+    <None Include="LICENSE.txt" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="res\FamiTracker.manifest">
