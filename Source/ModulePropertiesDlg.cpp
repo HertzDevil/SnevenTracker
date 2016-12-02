@@ -106,10 +106,6 @@ void CModulePropertiesDlg::OnBnClickedOk()
 	CComboBox *pExpansionChipBox = static_cast<CComboBox*>(GetDlgItem(IDC_EXPANSION));
 	CMainFrame *pMainFrame = static_cast<CMainFrame*>(GetParentFrame());
 
-	// Expansion chip
-	unsigned int iExpansionChip = theApp.GetChannelMap()->GetChipIdent(pExpansionChipBox->GetCurSel());
-	unsigned int iChannels = static_cast<CSliderCtrl*>(GetDlgItem(IDC_CHANNELS))->GetPos();
-
 	// // //
 
 	// Vibrato 
