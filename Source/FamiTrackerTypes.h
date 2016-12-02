@@ -72,8 +72,7 @@ const int MIN_SPEED = 1;
 // instead, check the channelsavailable variable and allocate dynamically
 const int MAX_CHANNELS	 = 5 + 3 + 2 + 6 + 1 + 8 + 3;		
 
-const int CHANNELS_DEFAULT = 5;
-// // //
+const int CHANNELS_DEFAULT = 4;		// // //
 
 const int OCTAVE_RANGE = 8;
 const int NOTE_RANGE   = 12;
@@ -95,21 +94,6 @@ enum sequence_t {
 	SEQ_COUNT
 };
 
-// New sequence types
-/*
-enum {
-	SEQ_VOLUME,
-	SEQ_ARPEGGIO,
-	SEQ_PITCH,
-	SEQ_HIPITCH,		// TODO: remove this eventually
-	SEQ_DUTYCYCLE,
-	SEQ_SUNSOFT_NOISE,
-
-	SEQ_COUNT
-};
-*/
-//const int SEQ_SUNSOFT_NOISE = SEQ_DUTYCYCLE + 1;
-
 // Channel effects
 enum effect_t {
 	EF_NONE = 0,
@@ -120,8 +104,8 @@ enum effect_t {
 	EF_VOLUME,
 	EF_PORTAMENTO,
 	EF_PORTAOFF,				// unused!!
-	EF_SWEEPUP,
-	EF_SWEEPDOWN,
+	EF_SWEEPUP,		// // // unused
+	EF_SWEEPDOWN,		// // // unused
 	EF_ARPEGGIO,
 	EF_VIBRATO,
 	EF_TREMOLO,
@@ -157,8 +141,8 @@ const char EFF_CHAR[] = {
 	'E',	// Volume
 	'3',	// Porta on
 	 0,		// Porta off		// unused
-	'H',	// Sweep up
-	'I',	// Sweep down
+	 0,		// // // unused
+	 0,		// // // unused
 	'0',	// Arpeggio
 	'4',	// Vibrato
 	'7',	// Tremolo
@@ -174,12 +158,6 @@ const char EFF_CHAR[] = {
 	'A',	// Volume slide
 	'S',	// Note cut
 	// // //
-	//'9'	// Targeted volume slide
-	/*
-	'H',	// VRC7 modulator
-	'I',	// VRC7 carrier
-	'J',	// VRC7 modulator/feedback level
-	*/
 };
 
 

@@ -31,7 +31,7 @@
     <RootNamespace>FamiTracker</RootNamespace>
     <Keyword>MFCProj</Keyword>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>DCSG-Tracker</ProjectName>
+    <ProjectName>SnevenTracker</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'" Label="Configuration">

@@ -41,7 +41,7 @@
  */
 
 const TCHAR CFrameEditor::DEFAULT_FONT[] = _T("System");
-const TCHAR CFrameEditor::CLIPBOARD_ID[] = _T("FamiTracker Frames");
+const TCHAR CFrameEditor::CLIPBOARD_ID[] = _T("FamiTracker Frames"); // keep
 
 IMPLEMENT_DYNAMIC(CFrameEditor, CWnd)
 

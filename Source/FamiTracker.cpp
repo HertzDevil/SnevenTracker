@@ -39,8 +39,8 @@
 #endif /* EXPORT_TEST */
 
 // Single instance-stuff
-const TCHAR FT_SHARED_MUTEX_NAME[]	= _T("FamiTrackerMutex");	// Name of global mutex
-const TCHAR FT_SHARED_MEM_NAME[]	= _T("FamiTrackerWnd");		// Name of global memory area
+const TCHAR FT_SHARED_MUTEX_NAME[]	= _T("SnevenTrackerMutex");		// // // Name of global mutex
+const TCHAR FT_SHARED_MEM_NAME[]	= _T("SnevenTrackerWnd");		// Name of global memory area
 const DWORD	SHARED_MEM_SIZE			= 256;
 
 #ifdef _DEBUG

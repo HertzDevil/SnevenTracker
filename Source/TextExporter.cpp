@@ -594,7 +594,7 @@ const CString& CTextExport::ImportFile(LPCTSTR FileName, CFamiTrackerDoc *pDoc)
 	// begin a new document
 	if (!pDoc->OnNewDocument())
 	{
-		sResult = _T("Unable to create new Famitracker document.");
+		sResult = _T("Unable to create new SnevenTracker document.");		// // //
 		return sResult;
 	}
 
@@ -826,7 +826,7 @@ const CString& CTextExport::ExportFile(LPCTSTR FileName, CFamiTrackerDoc *pDoc)
 
 	CString s;
 
-	f.WriteString(_T("# FamiTracker text export 0.4.2\n\n"));
+	f.WriteString(_T("# SnevenTracker text export 0.1.0\n\n"));		// // //
 
 	s.Format(_T("# Song information\n"
 	            "%-15s %s\n"

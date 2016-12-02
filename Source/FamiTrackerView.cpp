@@ -43,7 +43,7 @@
 #endif
 
 // Clipboard ID
-const TCHAR CFamiTrackerView::CLIPBOARD_ID[] = _T("FamiTracker Pattern");
+const TCHAR CFamiTrackerView::CLIPBOARD_ID[] = _T("FamiTracker Pattern"); // keep
 
 // Effect texts (TODO update this list)
 const TCHAR *EFFECT_TEXTS[] = {
@@ -54,8 +54,8 @@ const TCHAR *EFFECT_TEXTS[] = {
 	{_T("EXX - Set volume")},
 	{_T("3XX - Automatic portamento, XX = speed")},
 	{_T("(not used)")},
-	{_T("HXY - Hardware sweep up, x = speed, y = shift")},
-	{_T("IXY - Hardware sweep down, x = speed, y = shift")},
+	{_T("(not used)")},
+	{_T("(not used)")},
 	{_T("0XY - Arpeggio, X = second note, Y = third note")},
 	{_T("4XY - Vibrato, x = speed, y = depth")},
 	{_T("7XY - Tremolo, x = speed, y = depth")},

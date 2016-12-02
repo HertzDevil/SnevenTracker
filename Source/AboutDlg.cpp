@@ -25,8 +25,8 @@
 
 // CAboutDlg dialog used for App About
 
-LPCTSTR LINK_WEB  = _T("http://www.famitracker.com");
-LPCTSTR LINK_MAIL = _T("mailto:jsr@famitracker.com");
+LPCTSTR LINK_WEB  = _T("http://hertzdevil.info");
+LPCTSTR LINK_MAIL = _T("mailto:nicetas.c@gmail.com");
 
 // CLinkLabel
 
@@ -145,7 +145,7 @@ BOOL CAboutDlg::OnInitDialog()
 	CString aboutString;
 
 #ifdef WIP
-	aboutString.Format(_T("FamiTracker version %i.%i.%i beta %i"), VERSION_MAJ, VERSION_MIN, VERSION_REV, VERSION_WIP);
+	aboutString.Format(_T("SnevenTracker version %i.%i.%i beta %i"), VERSION_MAJ, VERSION_MIN, VERSION_REV, VERSION_WIP);
 #else
 	CString str;
 	str.Format(_T("%i.%i.%i"), VERSION_MAJ, VERSION_MIN, VERSION_REV);

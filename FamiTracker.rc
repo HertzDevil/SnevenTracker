@@ -28,6 +28,22 @@ IDR_MAINFRAME           BITMAP                  "res\\MainToolbar-16.bmp"
 
 IDR_INSTRUMENT_TOOLBAR  BITMAP                  "res\\InstrumentToolbar-16.bmp"
 
+IDB_SAMPLEBG            BITMAP                  "res\\VisualizerBg.bmp"
+
+IDB_KEY_BLACK           BITMAP                  "res\\key_black_unpressed.bmp"
+
+IDB_KEY_BLACK_MARK      BITMAP                  "res\\key_black_pressed.bmp"
+
+IDB_KEY_WHITE           BITMAP                  "res\\key_white_unpressed.bmp"
+
+IDB_KEY_WHITE_MARK      BITMAP                  "res\\key_white_pressed.bmp"
+
+IDB_TOOLBAR_256         BITMAP                  "res\\MainToolbar-256.bmp"
+
+IDB_TOOLBAR_INST_256    BITMAP                  "res\\InstrumentToolbar-256.bmp"
+
+IDB_ABOUT               BITMAP                  "res\\About.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -220,7 +236,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Performance",                 ID_HELP_PERFORMANCE
         MENUITEM SEPARATOR
-        MENUITEM "&About FamiTracker...",       ID_APP_ABOUT
+        MENUITEM "&About SnevenTracker...",     ID_APP_ABOUT
     END
 END
 
@@ -371,8 +387,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,4,6,0
- PRODUCTVERSION 0,4,6,0
+ FILEVERSION 0,1,0,0
+ PRODUCTVERSION 0,1,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -387,14 +403,14 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "jsr software"
-            VALUE "FileDescription", "NES/Famicom sound tracker"
-            VALUE "FileVersion", "1.4.6.0"
-            VALUE "InternalName", "FamiTracker.exe"
-            VALUE "LegalCopyright", " (c) jsr 2005-2015 All rights reserved."
-            VALUE "OriginalFilename", "FamiTracker.exe"
-            VALUE "ProductName", "FamiTracker"
-            VALUE "ProductVersion", "0.4.6"
+            VALUE "CompanyName", "HertzDevil"
+            VALUE "FileDescription", "SnevenTracker, SN76489 sound tracker"
+            VALUE "FileVersion", "0.1.0.0"
+            VALUE "InternalName", "SnevenTracker.exe"
+            VALUE "LegalCopyright", " (c) HertzDevil 2016 All rights reserved."
+            VALUE "OriginalFilename", "SnevenTracker.exe"
+            VALUE "ProductName", "SnevenTracker"
+            VALUE "ProductVersion", "0.1.0.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -402,482 +418,6 @@ BEGIN
         VALUE "Translation", 0x409, 1252
     END
 END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// String Table
-//
-
-STRINGTABLE
-BEGIN
-    IDR_MAINFRAME           "DCSG-Tracker\n\nDCSG-Tracker\nDCSG-Tracker files (*.snm)\n.snm\nDCSGTracker.Module\nDCSGTracker.Module"
-    IDS_FRAME_DROP_MOVE     "Drop selection to move frames"
-    IDS_DPCM_IMPORT_QUALITY_FORMAT "Quality: %1"
-    IDS_CLIPBOARD_ERROR     "Could not register clipboard format"
-    IDS_FILE_OPEN_ERROR     "Could not open the file!"
-    IDS_FILE_VALID_ERROR    "File is not a valid FamiTracker module"
-    IDS_FILE_VERSION_ERROR  "File version is not supported"
-    IDS_INST_LIMIT          "You cannot add more instruments"
-    IDS_CLIPBOARD_OPEN_ERROR "Cannot open clipboard."
-    IDS_CLIPBOARD_NOT_AVALIABLE "Clipboard data is not available."
-    ID_TRACKER_PLAY_START   "Play module from start"
-    IDS_INSTRUMENT_FILE_FAIL "Instrument file was not vaild"
-    IDS_CLIPPING_MESSAGE    "Warning: Audio is clipping, decrease mixing levels!"
-    IDS_FILTER_FTI          "FamiTracker Instrument (*.fti)"
-    IDS_SAVE_FILE_ERROR     "Could not save file: %1"
-    IDS_START_ERROR         "Program could not start properly, default settings has been restored. Please restart the program."
-END
-
-STRINGTABLE
-BEGIN
-    AFX_IDS_APP_TITLE       "FamiTracker"
-    AFX_IDS_IDLEMESSAGE     "For Help, press F1"
-    AFX_IDS_HELPMODEMESSAGE "Select an object on which to get Help"
-END
-
-STRINGTABLE
-BEGIN
-    ID_INDICATOR_EXT        "EXT"
-    ID_INDICATOR_CAPS       "CAP"
-    ID_INDICATOR_NUM        "NUM"
-    ID_INDICATOR_SCRL       "SCRL"
-    ID_INDICATOR_OVR        "OVR"
-    ID_INDICATOR_REC        "REC"
-END
-
-STRINGTABLE
-BEGIN
-    ID_FILE_NEW             "Create a new document\nNew"
-    ID_FILE_OPEN            "Open an existing document\nOpen"
-    ID_FILE_CLOSE           "Close the active document\nClose"
-    ID_FILE_SAVE            "Save the active document\nSave"
-    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
-END
-
-STRINGTABLE
-BEGIN
-    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
-    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
-    ID_HELP_INDEX           "Opens Help\nHelp Topics"
-    ID_HELP_FINDER          "List Help topics\nHelp Topics"
-    ID_HELP_USING           "Display instructions about how to use help\nHelp"
-    ID_CONTEXT_HELP         "Display help for clicked on buttons, menus and windows\nHelp"
-    ID_HELP                 "Display help for current task or command\nHelp"
-END
-
-STRINGTABLE
-BEGIN
-    ID_FILE_MRU_FILE1       "Open this document"
-    ID_FILE_MRU_FILE2       "Open this document"
-    ID_FILE_MRU_FILE3       "Open this document"
-    ID_FILE_MRU_FILE4       "Open this document"
-    ID_FILE_MRU_FILE5       "Open this document"
-    ID_FILE_MRU_FILE6       "Open this document"
-    ID_FILE_MRU_FILE7       "Open this document"
-    ID_FILE_MRU_FILE8       "Open this document"
-    ID_FILE_MRU_FILE9       "Open this document"
-    ID_FILE_MRU_FILE10      "Open this document"
-    ID_FILE_MRU_FILE11      "Open this document"
-    ID_FILE_MRU_FILE12      "Open this document"
-    ID_FILE_MRU_FILE13      "Open this document"
-    ID_FILE_MRU_FILE14      "Open this document"
-    ID_FILE_MRU_FILE15      "Open this document"
-    ID_FILE_MRU_FILE16      "Open this document"
-END
-
-STRINGTABLE
-BEGIN
-    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
-    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
-END
-
-STRINGTABLE
-BEGIN
-    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
-END
-
-STRINGTABLE
-BEGIN
-    ID_EDIT_CLEAR           "Erase the selection\nErase"
-    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
-    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
-    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
-    ID_EDIT_FIND            "Find the specified text\nFind"
-    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
-    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
-    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
-    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
-    ID_EDIT_UNDO            "Undo the last action\nUndo"
-    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
-END
-
-STRINGTABLE
-BEGIN
-    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
-    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
-END
-
-STRINGTABLE
-BEGIN
-    AFX_IDS_SCSIZE          "Change the window size"
-    AFX_IDS_SCMOVE          "Change the window position"
-    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
-    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
-    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
-    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
-    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
-END
-
-STRINGTABLE
-BEGIN
-    AFX_IDS_SCRESTORE       "Restore the window to normal size"
-    AFX_IDS_SCTASKLIST      "Activate Task List"
-END
-
-STRINGTABLE
-BEGIN
-    ID_TRACKER_PLAY         "Play module\nPlay"
-    ID_TRACKER_PLAYPATTERN  "Play and loop current pattern\nPlay and loop"
-    ID_TRACKER_STOP         "Stop playing\nStop"
-    ID_TRACKER_EDIT         "Enable/disable edit mode\nToggle edit mode"
-    ID_TRACKER_KILLSOUND    "Promptly stop all channels"
-END
-
-STRINGTABLE
-BEGIN
-    ID_EDIT_DELETE          "Delete selection, or note if there is no selection."
-    ID_EDIT_UNLOCKCURSOR    "Makes it possible to edit without scrolling the view"
-    ID_TRACKER_NTSC         "Switch to NTSC emulation"
-    ID_TRACKER_PAL          "Switch to PAL emulation"
-    ID_SPEED_DEFALUT        "Default playback rate (60 Hz for NTSC, 50 Hz for PAL)"
-    ID_SPEED_CUSTOM         "Set the playback rate manually"
-    ID_HELP_PERFORMANCE     "Display application performance"
-    ID_EDIT_PASTEOVERWRITE  "Pasted notes will overwrite existing notes"
-END
-
-STRINGTABLE
-BEGIN
-    ID_FILE_CREATE_NSF      "Brings up the create NSF dialog\nCreate NSF"
-END
-
-STRINGTABLE
-BEGIN
-    ID_TRANSPOSE_INCREASENOTE "Increase selected note/notes by one step"
-    ID_TRANSPOSE_DECREASENOTE "Decrease selected note/notes by one step"
-    ID_TRANSPOSE_INCREASEOCTAVE "Increase selected octave/octaves by one step"
-    ID_TRANSPOSE_DECREASEOCTAVE "Decrease selected octave/octaves by one step"
-    ID_EDIT_SELECTALL       "Select pattern or all patterns\nSelect All"
-END
-
-STRINGTABLE
-BEGIN
-    ID_FILE_GENERALSETTINGS "Opens FamiTracker settings\nSettings"
-    ID_EDIT_ENABLEMIDI      "Temporarly enable / disable commands from the MIDI device"
-    ID_FRAME_INSERT         "Insert a new frame on current location\nAdd frame"
-    ID_FRAME_REMOVE         "Remove current frame\nRemove frame"
-    ID_TRACKER_PLAYROW      "Play a single row"
-END
-
-STRINGTABLE
-BEGIN
-    ID_CREATE_NSF           "Export module to NSF"
-END
-
-STRINGTABLE
-BEGIN
-    ID_SPEED_DEFAULT        "Chooses default playback rate corresponding to selected video standard"
-    ID_MODULE_MODULEPROPERTIES 
-                            "Opens the module properties window\nModule properties"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_FILE_LOAD_ERROR     "Couldn't load file properly. Make sure you have the latest version of FamiTracker."
-    IDS_CONFIG_WINDOW       "FamiTracker configuration"
-END
-
-STRINGTABLE
-BEGIN
-    ID_EDIT_PASTEMIX        "Pasted notes will mix with existing notes"
-    ID_MODULE_MOVEFRAMEDOWN "Move selected frame one step down\nMove frame down"
-    ID_MODULE_MOVEFRAMEUP   "Move selected frame one step up\nMove frame up"
-    ID_MODULE_SAVEINSTRUMENT "Save instrument to file\nSave instrument"
-    ID_MODULE_LOADINSTRUMENT "Load instrument from file\nLoad instrument"
-END
-
-STRINGTABLE
-BEGIN
-    ID_MODULE_ADDINSTRUMENT "Add a new instrument to the module\nAdd instrument"
-    ID_MODULE_REMOVEINSTRUMENT 
-                            "Remove instrument from module\nRemove instrument"
-END
-
-STRINGTABLE
-BEGIN
-    ID_NEXT_SONG            "Select next song\nNext song"
-    ID_PREV_SONG            "Select previous song\nPrevious song"
-    ID_EDIT_INSTRUMENTMASK  "Disables insertion of values in the instrument column"
-    ID_TRACKER_SWITCHTOTRACKINSTRUMENT 
-                            "Switch to channel instruments when playing"
-    ID_FRAME_INSERT_UNIQUE  "Insert new frame with empty patterns"
-    ID_FILE_CREATEWAV       "Saves the file as a WAV-file\nCreate WAV"
-    ID_VIEW_CONTROLPANEL    "Show or hide the control panel"
-    ID_EDIT_CLEARPATTERNS   "Resets all patterns and frames"
-    ID_EDIT_INTERPOLATE     "Interpolates a selection between two values\nInterpolate"
-END
-
-STRINGTABLE
-BEGIN
-    ID_TRACKER_SOLOCHANNEL  "Mutes/unmutes all but the selected channel"
-    ID_TRACKER_TOGGLECHANNEL "Mute/unmute selected channel"
-    ID_EDIT_GRADIENT        "Interpolates a selection of values"
-    ID_MODULE_EDITINSTRUMENT "Open instrument editor\nEdit instrument"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_INFO_TITLE          "(title)"
-    IDS_INFO_AUTHOR         "(author)"
-    IDS_OUT_OF_SLOTS        "Out of sample slots"
-    IDS_OUT_OF_SAMPLEMEM_FORMAT 
-                            "Couldn't load sample, out of sample memory (max %1 kB is avaliable)"
-    IDS_DPCM_IMPORT_GAIN_FORMAT "Gain: %1 dB"
-    IDS_OPEN_FILE_ERROR     "Could not open file: %1"
-    IDS_INFO_COPYRIGHT      "(copyright)"
-    IDS_IMPORT_FAILED       "Import module failed"
-    IDS_IMPORT_CHIP_MISMATCH 
-                            "Imported file must be of the same expansion chip type as current file."
-    IDS_IMPORT_INSTRUMENT_COUNT "Can't import file, out of instrument slots!"
-    IDS_IMPORT_SAMPLE_SLOTS "Could not import all samples, out of sample slots!"
-    IDS_DPCM_IMPORT_TITLE_FORMAT "PCM Import (%1)"
-    IDS_DPCM_IMPORT_WAVE_FORMAT "%1 Hz, %2 bits, %3"
-    IDS_DPCM_IMPORT_TARGET_FORMAT "Target sample rate: %1 Hz"
-    IDS_PERFORMANCE_FRAMERATE_FORMAT "Frame rate: %1 Hz"
-    IDS_PERFORMANCE_UNDERRUN_FORMAT "Underruns: %1"
-END
-
-STRINGTABLE
-BEGIN
-    ID_MODULE_DUPLICATEFRAME 
-                            "Inserts a copy of current frame\nDuplicate frame"
-END
-
-STRINGTABLE
-BEGIN
-    ID_EDIT_REVERSE         "Reverses a selection\nReverse"
-    ID_TRACKER_DPCM         "Display information about the DPCM channel"
-END
-
-STRINGTABLE
-BEGIN
-    ID_INSTRUMENT_REMOVE    "Remove instrument from module\nRemove instrument"
-    ID_INSTRUMENT_EDIT      "Open instrument edtor\nEdit instrument"
-    ID_INSTRUMENT_CLONE     "Create a copy of selected instrument\nClone instrument"
-    ID_EDIT_REPLACEINSTRUMENT 
-                            "Replaces all instruments in a selection with the selected instrument\nReplace instrument"
-END
-
-STRINGTABLE
-BEGIN
-    ID_CLEANUP_REMOVEUNUSEDPATTERNS 
-                            "Removes all unused patterns\nRemove unused patterns"
-    ID_HELP_EFFECTTABLE     "Open help window with effect table"
-    ID_CLEANUP_REMOVEUNUSEDINSTRUMENTS 
-                            "Removes all unused instruments\nRemove unused instruments"
-END
-
-STRINGTABLE
-BEGIN
-    ID_MODULE_FRAME_INSERT  "Insert a new frame on current location"
-    ID_MODULE_FRAME_REMOVE  "Removes selected frame"
-    ID_MODULE_REMOVEFRAME   "Removes selected frame\nRemove frame"
-    ID_MODULE_COMMENTS      "Open module comments dialog\nComments"
-    ID_MODULE_INSERTFRAME   "Inserts a new frame\nInsert frame"
-    ID_INSTRUMENT_NEW       "Add a new instrument to the module\nAdd instrument"
-    ID_INSTRUMENT_LOAD      "Load instrument from file\nLoad instrument"
-    ID_INSTRUMENT_SAVE      "Save instrument to file\nSave instrument"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_SAVE_ERROR          "Couldn't save file, check that it isn't write protected or shared with other applications and enough disk space is available."
-END
-
-STRINGTABLE
-BEGIN
-    IDC_OPT_WRAPCURSOR      "Wrap around the cursor when reaching top or bottom in the pattern editor."
-    IDC_OPT_FREECURSOR      "Unlocks the cursor from the center of the pattern editor."
-    IDC_OPT_WAVEPREVIEW     "Preview wave and DPCM files in the open file dialog when loading samples to the module."
-    IDC_OPT_KEYREPEAT       "Enable key repetition in the pattern editor."
-    IDC_OPT_HEXROW          "Display row numbers in hexadecimal."
-    IDC_OPT_WRAPFRAMES      "Move to next or previous frame when reaching top or bottom in the pattern editor."
-    IDC_OPT_FRAMEPREVIEW    "Preview next and previous frame in the pattern editor."
-    IDC_OPT_NODPCMRESET     "Prevents resetting the DPCM channel on note stop commands."
-    IDC_OPT_NOSTEPMOVE      "Ignore the pattern step setting when moving the cursor, only use it when inserting notes."
-END
-
-STRINGTABLE
-BEGIN
-    IDC_OPT_PULLUPDELETE    "Makes delete key pull up rows rather than only deleting the value."
-    IDC_OPT_BACKUPS         "Creates a backup copy of the existing file when saving a module."
-    IDC_OPT_SINGLEINSTANCE  "Only allow one single instance of the FamiTracker application."
-    IDC_OPT_PREVIEWFULLROW  "Preview all channels when inserting notes in the pattern editor."
-END
-
-STRINGTABLE
-BEGIN
-    ID_MODULE_DUPLICATEFRAMEPATTERNS 
-                            "Inserts a copy of current frame including all patterns\nDuplicate patterns"
-    ID_EDIT_EXPANDPATTERNS  "Expands selected pattern\nExpand pattern"
-    ID_EDIT_SHRINKPATTERNS  "Shrinks selected pattern\nShrink pattern"
-    ID_FRAMEEDITOR_TOP      "Moves the frame editor to the top of the window (default)\nTop"
-    ID_FRAMEEDITOR_LEFT     "Moves the frame editor to the left of the window\nLeft"
-END
-
-STRINGTABLE
-BEGIN
-    ID_INSTRUMENT_DEEPCLONE "Creates a copy of selected instrument including all sequences\nDeep clone instrument"
-END
-
-STRINGTABLE
-BEGIN
-    ID_TRACKER_PLAY_CURSOR  "Play pattern from cursor"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_CLEARPATTERN        "Do you want to reset all patterns and frames? There is no undo for this command."
-    IDS_CLIPBOARD_COPY_ERROR 
-                            "An error occured while trying to copy data to the clipboard."
-    IDS_CLIPBOARD_PASTE_ERROR 
-                            "An error occured while trying to paste data from the clipboard."
-    IDS_DPCM_SPACE_FORMAT   "Space used %1 kB, left %2 kB (%3 kB available)"
-    IDS_FILE_VERSION_TOO_NEW 
-                            "This file was created in a newer version of FamiTracker. Please download the most recent version to open this file."
-    IDS_INSTRUMENT_EDITOR_TITLE "Instrument editor - %1"
-    IDS_INST_VERSION_UNSUPPORTED "File version not supported!"
-    IDS_FILE_SAVED          "File saved (%1 bytes)"
-    IDS_MIDI_ERR_INPUT      "MIDI Error: Could not open MIDI input device!"
-    IDS_MIDI_ERR_OUTPUT     "MIDI Error: Could not open MIDI output device!"
-    IDS_NEW_SOUND_CONFIG    "New sound configuration has been loaded"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_REMOVE_INSTRUMENTS  "Do you want to remove all unused instruments? There is no undo for this action."
-    IDS_REMOVE_PATTERNS     "Do you want to remove all unused patterns? There is no undo for this action."
-    IDS_SONG_DELETE         "Do you want to delete this song? There is no undo for this action."
-    IDS_SOUND_FAIL          "It appears the current sound settings aren't working, change settings and try again."
-    IDS_UNDERRUN_MESSAGE    "Warning: Audio buffer underrun, increase the audio buffer size!"
-    IDS_WELCOME_VER_FORMAT  "Welcome to FamiTracker %1, press F1 for help"
-    IDS_DPCM_IMPORT_INVALID_WAVEFILE 
-                            "Cannot load this sample, file is invalid or incompatible. (Only uncompressed PCM is supported.)"
-    IDS_INST_FILE_ERROR     "Could not load instrument file! Check that you have the most recent version of FamiTracker."
-    IDS_NEW_2A03_INSTRUMENT "New 2A03 instrument"
-    IDS_NEW_VRC6_INSTRUMENT "New VRC6 instrument"
-    IDS_NEW_VRC7_INSTRUMENT "New VRC7 instrument"
-    IDS_NEW_FDS_INSTRUMENT  "New FDS instrument"
-    IDS_NEW_N163_INSTRUMENT "New Namco instrument"
-    IDS_NEW_S5B_INSTRUMENT  "New Sunsoft instrument"
-    IDS_FRAME_DROP_COPY_NEW "Drop selection to copy frames to new pattern numbers"
-    IDS_FRAME_DROP_COPY     "Drop selection to copy frames"
-END
-
-STRINGTABLE
-BEGIN
-    ID_INDICATOR_CHIP       "No expansion chip"
-    ID_INDICATOR_INSTRUMENT "Instrument: %1"
-    ID_INDICATOR_OCTAVE     "Octave: %1"
-    ID_INDICATOR_RATE       "000 Hz"
-    ID_INDICATOR_TEMPO      "000.00 BPM"
-    ID_INDICATOR_TIME       "00:00:00 "
-    ID_INDICATOR_POS        "00 / 00    "
-END
-
-STRINGTABLE
-BEGIN
-    ID_HELP_FAQ             "Open help window with the FAQ"
-    ID_TRACKER_DISPLAYREGISTERSTATE 
-                            "Display channel register values and tuning information"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_WAVE_PROGRESS_FILE_FORMAT "Saving to: %1"
-    IDS_WAVE_PROGRESS_FRAME_FORMAT "Frame: %1 (%2 done)"
-    IDS_WAVE_PROGRESS_TIME_FORMAT "Time: %1 (%2 done)"
-    IDS_WAVE_PROGRESS_ELAPSED_FORMAT "Elapsed time: %1"
-    IDS_DSOUND_ERROR        "DirectX: DirectSound error!"
-    IDS_DSOUND_BUFFER_ERROR "DirectX: DirectSound error: Could not create buffer!"
-    IDS_EDIT_MODE           "Changed to edit mode"
-    IDS_NORMAL_MODE         "Changed to normal mode"
-    IDS_MIDI_MESSAGE_ON_FORMAT 
-                            "MIDI message: Note on (note = %1, octave = %2, velocity = %3)"
-    IDS_MIDI_MESSAGE_OFF    "MIDI message: Note off"
-END
-
-STRINGTABLE
-BEGIN
-    IDC_OPT_DOUBLECLICK     "Don't select the whole channel when double-clicking in the pattern editor."
-END
-
-STRINGTABLE
-BEGIN
-    IDS_LOADING_FILE        "Loading file..."
-    IDS_FILTER_DMC          "Delta modulated samples (*.dmc)"
-    IDS_FILTER_WAV          "Waveform Audio File Format (*.wav)"
-    IDS_FILTER_TXT          "Text files (*.txt)"
-    IDS_DPCM_EDIT_INFO_FORMAT "Wave end: %1, Size: %2 bytes "
-    IDS_WAVE_EXPORT_DONE    "Done"
-    IDS_WAVE_EXPORT_FINISHED "finished"
-    IDS_ABOUT_TOOLTIP_MAIL  "Send mail to jsr@famitracker.com"
-    IDS_ABOUT_TOOLTIP_WEB   "Go to http://www.famitracker.com"
-    IDS_ABOUT_VERSION_FORMAT "FamiTracker version %1"
-    IDS_PROPERTIES_CHANNELS "Channels:"
-    IDS_LOADING_DONE        "File loaded"
-    IDS_DPCM_IMPORT_SIZE_FORMAT "Converted size: %1 bytes"
-    IDS_INSTRUMENT_FOLDER   "Choose a folder where you have instrument files"
-END
-
-STRINGTABLE
-BEGIN
-    ID_FILE_IMPORTTEXT      "Imports pattern text files"
-    ID_FILE_EXPORTTEXT      "Exports pattern text files"
-    ID_EDIT_VOLUMEMASK      "Disables insertion of values in the volume column"
-END
-
-#endif    // English (United States) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Swedish (Sweden) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_SVE)
-LANGUAGE LANG_SWEDISH, SUBLANG_SWEDISH
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
-
-IDB_SAMPLEBG            BITMAP                  "res\\VisualizerBg.bmp"
-
-IDB_KEY_BLACK           BITMAP                  "res\\key_black_unpressed.bmp"
-
-IDB_KEY_BLACK_MARK      BITMAP                  "res\\key_black_pressed.bmp"
-
-IDB_KEY_WHITE           BITMAP                  "res\\key_white_unpressed.bmp"
-
-IDB_KEY_WHITE_MARK      BITMAP                  "res\\key_white_pressed.bmp"
-
-IDB_TOOLBAR_256         BITMAP                  "res\\MainToolbar-256.bmp"
-
-IDB_TOOLBAR_INST_256    BITMAP                  "res\\InstrumentToolbar-256.bmp"
-
-IDB_ABOUT               BITMAP                  "res\\About.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -898,7 +438,7 @@ BEGIN
         VERTGUIDE, 84
         VERTGUIDE, 221
         TOPMARGIN, 12
-        BOTTOMMARGIN, 331
+        BOTTOMMARGIN, 295
         HORZGUIDE, 49
     END
 
@@ -1133,6 +673,10 @@ BEGIN
         HORZGUIDE, 138
     END
 
+    IDD_SPEED, DIALOG
+    BEGIN
+    END
+
     IDD_PROPERTIES, DIALOG
     BEGIN
     END
@@ -1153,37 +697,34 @@ END
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 285, 336
+IDD_ABOUTBOX DIALOGEX 0, 0, 285, 300
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "About FamiTracker"
+CAPTION "About SnevenTracker"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "Copyright (C) 2005 - 2015 jsr",IDC_ABOUT3,54,92,167,11
+    LTEXT           "Copyright (C) 2016 HertzDevil",IDC_ABOUT3,54,92,167,11
     DEFPUSHBUTTON   "OK",IDOK,228,64,50,16,WS_GROUP
-    LTEXT           "• FDS sound emulator from nezplug (including a fix by rainwarrior)",IDC_STATIC,54,313,224,8
     LTEXT           "E-mail:",IDC_STATIC,54,108,24,10
-    LTEXT           "This software is licensed under the GNU General Public\n License. Source is available on the webpage.",IDC_STATIC,54,167,224,17
-    ICON            IDR_MAINFRAME,IDC_STATIC,7,63,20,20,SS_REALSIZEIMAGE
+    LTEXT           "This software is licensed under the GNU General Public\n License. Source is available on the Github repository.",IDC_STATIC,54,167,224,17
+    ICON            IDR_MAINFRAME,IDC_STATIC,7,63,21,20,SS_REALSIZEIMAGE
     LTEXT           "Contributions:",IDC_STATIC,54,191,224,9
-    LTEXT           "All comments and feedback are welcome\nGreets to everyone at the 2A03.org forum and everyone who has contributed with bug reports and suggestions!",IDC_STATIC,54,137,224,26
-    LTEXT           "jsr@famitracker.com",IDC_MAIL,84,108,70,10,SS_NOTIFY
-    LTEXT           "http://www.famitracker.com",IDC_WEBPAGE,84,121,95,9,SS_NOTIFY
+    LTEXT           "All comments and feedback are welcome\nGreets to everyone who has contributed with bug reports and suggestions!",IDC_STATIC,54,137,224,26
+    LTEXT           "nicetas.c@gmail.com",IDC_MAIL,84,108,70,10,SS_NOTIFY
+    LTEXT           "http://hertzdevil.info",IDC_WEBPAGE,84,121,95,9,SS_NOTIFY
     LTEXT           "Web:",IDC_STATIC,54,121,24,9
-    LTEXT           "Libraries:",IDC_STATIC,54,260,224,8
-    LTEXT           "• Blip_buffer 0.4.0 is Copyright (C) blargg (http://www.slack.net/~ant/nes-emu/)\n",IDC_STATIC,54,273,224,16
-    LTEXT           "• Fast Fourier Transform code is (C) Reliable Software",IDC_STATIC,54,292,224,8
-    LTEXT           "• YM2413 && YM2149 emulators are written by Mitsutaka Okazaki",IDC_STATIC,54,303,224,8
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,54,271,215,1
-    LTEXT           "• Export plugin support by Gradualore",IDC_STATIC,54,204,224,9
-    LTEXT           "• Icon is made by Kuhneghetz",IDC_STATIC,54,214,224,9
-    LTEXT           "• Toolbar icons are made by ilkke",IDC_STATIC,54,223,224,9
+    LTEXT           "Libraries:",IDC_STATIC,54,253,224,8
+    LTEXT           "- Blip_buffer 0.4.0 is Copyright (C) blargg (http://www.slack.net/~ant/nes-emu/)\n",IDC_STATIC,54,267,224,16
+    LTEXT           "- Fast Fourier Transform code is (C) Reliable Software",IDC_STATIC,54,286,224,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,54,263,211,1
+    LTEXT           "- Icon is made by Kuhneghetz",IDC_STATIC,54,216,224,9
+    LTEXT           "- Toolbar icons are made by ilkke",IDC_STATIC,54,227,224,9
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,54,201,211,1
-    LTEXT           "• DPCM import resampler by Jarhmander",IDC_STATIC,54,233,224,9
-    LTEXT           "A Famicom/NES music tracker",IDC_ABOUT2,54,76,167,11,SS_NOPREFIX
-    LTEXT           "• Module text import/export by rainwarrior",IDC_STATIC,54,244,224,9
+    LTEXT           "A SN76489 music tracker",IDC_ABOUT2,54,76,167,11,SS_NOPREFIX
+    LTEXT           "- Module text import/export by rainwarrior",IDC_STATIC,54,238,224,9
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,49,287,1
-    LTEXT           "A Famicom/NES music tracker",IDC_ABOUT1,54,58,167,11,SS_NOPREFIX
+    LTEXT           "A SN76489 music tracker",IDC_ABOUT1,54,58,167,11,SS_NOPREFIX
     CONTROL         "",IDC_HEAD,"Static",SS_OWNERDRAW,0,0,287,49
+    LTEXT           "- Original software by jsr",IDC_STATIC,54,205,224,9
 END
 
 IDD_MAINFRAME DIALOGEX 0, 0, 413, 126
@@ -1597,56 +1138,12 @@ IDI_LEFT                ICON                    "res\\LeftArrow.ico"
 IDI_RIGHT               ICON                    "res\\RightArrow.ico"
 
 
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE 
-BEGIN
-    "resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "#include ""afxres.h""\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
-    "#define _AFX_NO_OLE_RESOURCES\r\n"
-    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
-    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
-    "\r\n"
-    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
-    "LANGUAGE 9, 1\r\n"
-    "#pragma code_page(1252)\r\n"
-    "#include ""res\\FamiTracker.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
-    "#include ""afxres.rc""         // Standard components\r\n"
-    "#endif\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // RT_MANIFEST
 //
 
 ID_MANIFEST             RT_MANIFEST             "res\\FamiTracker.manifest"
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// HTML
-//
-
-IDR_EXPORT_TEST_REPORT  HTML                    "res\\export_report.htm"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1738,6 +1235,501 @@ IDD_PROPERTIES AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
+
+IDD_ABOUTBOX AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDR_MAINFRAME           "SnevenTracker\n\nSnevenTracker\nSnevenTracker modules (*.snm)\n.snm\nSnevenTracker.Module\nSnevenTracker.Module"
+    IDS_FRAME_DROP_MOVE     "Drop selection to move frames"
+    IDS_DPCM_IMPORT_QUALITY_FORMAT "Quality: %1"
+    IDS_CLIPBOARD_ERROR     "Could not register clipboard format"
+    IDS_FILE_OPEN_ERROR     "Could not open the file!"
+    IDS_FILE_VALID_ERROR    "File is not a valid SnevenTracker module"
+    IDS_FILE_VERSION_ERROR  "File version is not supported"
+    IDS_INST_LIMIT          "You cannot add more instruments"
+    IDS_CLIPBOARD_OPEN_ERROR "Cannot open clipboard."
+    IDS_CLIPBOARD_NOT_AVALIABLE "Clipboard data is not available."
+    ID_TRACKER_PLAY_START   "Play module from start"
+    IDS_INSTRUMENT_FILE_FAIL "Instrument file was not vaild"
+    IDS_CLIPPING_MESSAGE    "Warning: Audio is clipping, decrease mixing levels!"
+    IDS_FILTER_FTI          "SnevenTracker Instrument (*.sni)"
+    IDS_SAVE_FILE_ERROR     "Could not save file: %1"
+    IDS_START_ERROR         "Program could not start properly, default settings has been restored. Please restart the program."
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_APP_TITLE       "SnevenTracker"
+    AFX_IDS_IDLEMESSAGE     "For Help, press F1"
+    AFX_IDS_HELPMODEMESSAGE "Select an object on which to get Help"
+END
+
+STRINGTABLE
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Open an existing document\nOpen"
+    ID_FILE_CLOSE           "Close the active document\nClose"
+    ID_FILE_SAVE            "Save the active document\nSave"
+    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
+END
+
+STRINGTABLE
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+    ID_HELP_INDEX           "Opens Help\nHelp Topics"
+    ID_HELP_FINDER          "List Help topics\nHelp Topics"
+    ID_HELP_USING           "Display instructions about how to use help\nHelp"
+    ID_CONTEXT_HELP         "Display help for clicked on buttons, menus and windows\nHelp"
+    ID_HELP                 "Display help for current task or command\nHelp"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this document"
+    ID_FILE_MRU_FILE2       "Open this document"
+    ID_FILE_MRU_FILE3       "Open this document"
+    ID_FILE_MRU_FILE4       "Open this document"
+    ID_FILE_MRU_FILE5       "Open this document"
+    ID_FILE_MRU_FILE6       "Open this document"
+    ID_FILE_MRU_FILE7       "Open this document"
+    ID_FILE_MRU_FILE8       "Open this document"
+    ID_FILE_MRU_FILE9       "Open this document"
+    ID_FILE_MRU_FILE10      "Open this document"
+    ID_FILE_MRU_FILE11      "Open this document"
+    ID_FILE_MRU_FILE12      "Open this document"
+    ID_FILE_MRU_FILE13      "Open this document"
+    ID_FILE_MRU_FILE14      "Open this document"
+    ID_FILE_MRU_FILE15      "Open this document"
+    ID_FILE_MRU_FILE16      "Open this document"
+END
+
+STRINGTABLE
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE
+BEGIN
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+END
+
+STRINGTABLE
+BEGIN
+    ID_TRACKER_PLAY         "Play module\nPlay"
+    ID_TRACKER_PLAYPATTERN  "Play and loop current pattern\nPlay and loop"
+    ID_TRACKER_STOP         "Stop playing\nStop"
+    ID_TRACKER_EDIT         "Enable/disable edit mode\nToggle edit mode"
+    ID_TRACKER_KILLSOUND    "Promptly stop all channels"
+END
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_DELETE          "Delete selection, or note if there is no selection."
+    ID_EDIT_UNLOCKCURSOR    "Makes it possible to edit without scrolling the view"
+    ID_TRACKER_NTSC         "Switch to NTSC emulation"
+    ID_TRACKER_PAL          "Switch to PAL emulation"
+    ID_SPEED_DEFALUT        "Default playback rate (60 Hz for NTSC, 50 Hz for PAL)"
+    ID_SPEED_CUSTOM         "Set the playback rate manually"
+    ID_HELP_PERFORMANCE     "Display application performance"
+    ID_EDIT_PASTEOVERWRITE  "Pasted notes will overwrite existing notes"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_CREATE_NSF      "Brings up the create NSF dialog\nCreate NSF"
+END
+
+STRINGTABLE
+BEGIN
+    ID_TRANSPOSE_INCREASENOTE "Increase selected note/notes by one step"
+    ID_TRANSPOSE_DECREASENOTE "Decrease selected note/notes by one step"
+    ID_TRANSPOSE_INCREASEOCTAVE "Increase selected octave/octaves by one step"
+    ID_TRANSPOSE_DECREASEOCTAVE "Decrease selected octave/octaves by one step"
+    ID_EDIT_SELECTALL       "Select pattern or all patterns\nSelect All"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_GENERALSETTINGS "Opens SnevenTracker settings\nSettings"
+    ID_EDIT_ENABLEMIDI      "Temporarly enable / disable commands from the MIDI device"
+    ID_FRAME_INSERT         "Insert a new frame on current location\nAdd frame"
+    ID_FRAME_REMOVE         "Remove current frame\nRemove frame"
+    ID_TRACKER_PLAYROW      "Play a single row"
+END
+
+STRINGTABLE
+BEGIN
+    ID_CREATE_NSF           "Export module to NSF"
+END
+
+STRINGTABLE
+BEGIN
+    ID_SPEED_DEFAULT        "Chooses default playback rate corresponding to selected video standard"
+    ID_MODULE_MODULEPROPERTIES 
+                            "Opens the module properties window\nModule properties"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_FILE_LOAD_ERROR     "Couldn't load file properly. Make sure you have the latest version of SnevenTracker."
+    IDS_CONFIG_WINDOW       "SnevenTracker configuration"
+END
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_PASTEMIX        "Pasted notes will mix with existing notes"
+    ID_MODULE_MOVEFRAMEDOWN "Move selected frame one step down\nMove frame down"
+    ID_MODULE_MOVEFRAMEUP   "Move selected frame one step up\nMove frame up"
+    ID_MODULE_SAVEINSTRUMENT "Save instrument to file\nSave instrument"
+    ID_MODULE_LOADINSTRUMENT "Load instrument from file\nLoad instrument"
+END
+
+STRINGTABLE
+BEGIN
+    ID_MODULE_ADDINSTRUMENT "Add a new instrument to the module\nAdd instrument"
+    ID_MODULE_REMOVEINSTRUMENT 
+                            "Remove instrument from module\nRemove instrument"
+END
+
+STRINGTABLE
+BEGIN
+    ID_NEXT_SONG            "Select next song\nNext song"
+    ID_PREV_SONG            "Select previous song\nPrevious song"
+    ID_EDIT_INSTRUMENTMASK  "Disables insertion of values in the instrument column"
+    ID_TRACKER_SWITCHTOTRACKINSTRUMENT 
+                            "Switch to channel instruments when playing"
+    ID_FRAME_INSERT_UNIQUE  "Insert new frame with empty patterns"
+    ID_FILE_CREATEWAV       "Saves the file as a WAV-file\nCreate WAV"
+    ID_VIEW_CONTROLPANEL    "Show or hide the control panel"
+    ID_EDIT_CLEARPATTERNS   "Resets all patterns and frames"
+    ID_EDIT_INTERPOLATE     "Interpolates a selection between two values\nInterpolate"
+END
+
+STRINGTABLE
+BEGIN
+    ID_TRACKER_SOLOCHANNEL  "Mutes/unmutes all but the selected channel"
+    ID_TRACKER_TOGGLECHANNEL "Mute/unmute selected channel"
+    ID_EDIT_GRADIENT        "Interpolates a selection of values"
+    ID_MODULE_EDITINSTRUMENT "Open instrument editor\nEdit instrument"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_INFO_TITLE          "(title)"
+    IDS_INFO_AUTHOR         "(author)"
+    IDS_OUT_OF_SLOTS        "Out of sample slots"
+    IDS_OUT_OF_SAMPLEMEM_FORMAT 
+                            "Couldn't load sample, out of sample memory (max %1 kB is avaliable)"
+    IDS_DPCM_IMPORT_GAIN_FORMAT "Gain: %1 dB"
+    IDS_OPEN_FILE_ERROR     "Could not open file: %1"
+    IDS_INFO_COPYRIGHT      "(copyright)"
+    IDS_IMPORT_FAILED       "Import module failed"
+    IDS_IMPORT_CHIP_MISMATCH 
+                            "Imported file must be of the same expansion chip type as current file."
+    IDS_IMPORT_INSTRUMENT_COUNT "Can't import file, out of instrument slots!"
+    IDS_IMPORT_SAMPLE_SLOTS "Could not import all samples, out of sample slots!"
+    IDS_DPCM_IMPORT_TITLE_FORMAT "PCM Import (%1)"
+    IDS_DPCM_IMPORT_WAVE_FORMAT "%1 Hz, %2 bits, %3"
+    IDS_DPCM_IMPORT_TARGET_FORMAT "Target sample rate: %1 Hz"
+    IDS_PERFORMANCE_FRAMERATE_FORMAT "Frame rate: %1 Hz"
+    IDS_PERFORMANCE_UNDERRUN_FORMAT "Underruns: %1"
+END
+
+STRINGTABLE
+BEGIN
+    ID_MODULE_DUPLICATEFRAME 
+                            "Inserts a copy of current frame\nDuplicate frame"
+END
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_REVERSE         "Reverses a selection\nReverse"
+    ID_TRACKER_DPCM         "Display information about the DPCM channel"
+END
+
+STRINGTABLE
+BEGIN
+    ID_INSTRUMENT_REMOVE    "Remove instrument from module\nRemove instrument"
+    ID_INSTRUMENT_EDIT      "Open instrument edtor\nEdit instrument"
+    ID_INSTRUMENT_CLONE     "Create a copy of selected instrument\nClone instrument"
+    ID_EDIT_REPLACEINSTRUMENT 
+                            "Replaces all instruments in a selection with the selected instrument\nReplace instrument"
+END
+
+STRINGTABLE
+BEGIN
+    ID_CLEANUP_REMOVEUNUSEDPATTERNS 
+                            "Removes all unused patterns\nRemove unused patterns"
+    ID_HELP_EFFECTTABLE     "Open help window with effect table"
+    ID_CLEANUP_REMOVEUNUSEDINSTRUMENTS 
+                            "Removes all unused instruments\nRemove unused instruments"
+END
+
+STRINGTABLE
+BEGIN
+    ID_MODULE_FRAME_INSERT  "Insert a new frame on current location"
+    ID_MODULE_FRAME_REMOVE  "Removes selected frame"
+    ID_MODULE_REMOVEFRAME   "Removes selected frame\nRemove frame"
+    ID_MODULE_COMMENTS      "Open module comments dialog\nComments"
+    ID_MODULE_INSERTFRAME   "Inserts a new frame\nInsert frame"
+    ID_INSTRUMENT_NEW       "Add a new instrument to the module\nAdd instrument"
+    ID_INSTRUMENT_LOAD      "Load instrument from file\nLoad instrument"
+    ID_INSTRUMENT_SAVE      "Save instrument to file\nSave instrument"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SAVE_ERROR          "Couldn't save file, check that it isn't write protected or shared with other applications and enough disk space is available."
+END
+
+STRINGTABLE
+BEGIN
+    IDC_OPT_WRAPCURSOR      "Wrap around the cursor when reaching top or bottom in the pattern editor."
+    IDC_OPT_FREECURSOR      "Unlocks the cursor from the center of the pattern editor."
+    IDC_OPT_WAVEPREVIEW     "Preview wave and DPCM files in the open file dialog when loading samples to the module."
+    IDC_OPT_KEYREPEAT       "Enable key repetition in the pattern editor."
+    IDC_OPT_HEXROW          "Display row numbers in hexadecimal."
+    IDC_OPT_WRAPFRAMES      "Move to next or previous frame when reaching top or bottom in the pattern editor."
+    IDC_OPT_FRAMEPREVIEW    "Preview next and previous frame in the pattern editor."
+    IDC_OPT_NODPCMRESET     "Prevents resetting the DPCM channel on note stop commands."
+    IDC_OPT_NOSTEPMOVE      "Ignore the pattern step setting when moving the cursor, only use it when inserting notes."
+END
+
+STRINGTABLE
+BEGIN
+    IDC_OPT_PULLUPDELETE    "Makes delete key pull up rows rather than only deleting the value."
+    IDC_OPT_BACKUPS         "Creates a backup copy of the existing file when saving a module."
+    IDC_OPT_SINGLEINSTANCE  "Only allow one single instance of the SnevenTracker application."
+    IDC_OPT_PREVIEWFULLROW  "Preview all channels when inserting notes in the pattern editor."
+END
+
+STRINGTABLE
+BEGIN
+    ID_MODULE_DUPLICATEFRAMEPATTERNS 
+                            "Inserts a copy of current frame including all patterns\nDuplicate patterns"
+    ID_EDIT_EXPANDPATTERNS  "Expands selected pattern\nExpand pattern"
+    ID_EDIT_SHRINKPATTERNS  "Shrinks selected pattern\nShrink pattern"
+    ID_FRAMEEDITOR_TOP      "Moves the frame editor to the top of the window (default)\nTop"
+    ID_FRAMEEDITOR_LEFT     "Moves the frame editor to the left of the window\nLeft"
+END
+
+STRINGTABLE
+BEGIN
+    ID_INSTRUMENT_DEEPCLONE "Creates a copy of selected instrument including all sequences\nDeep clone instrument"
+END
+
+STRINGTABLE
+BEGIN
+    ID_TRACKER_PLAY_CURSOR  "Play pattern from cursor"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CLEARPATTERN        "Do you want to reset all patterns and frames? There is no undo for this command."
+    IDS_CLIPBOARD_COPY_ERROR 
+                            "An error occured while trying to copy data to the clipboard."
+    IDS_CLIPBOARD_PASTE_ERROR 
+                            "An error occured while trying to paste data from the clipboard."
+    IDS_DPCM_SPACE_FORMAT   "Space used %1 kB, left %2 kB (%3 kB available)"
+    IDS_FILE_VERSION_TOO_NEW 
+                            "This file was created in a newer version of SnevenTracker. Please download the most recent version to open this file."
+    IDS_INSTRUMENT_EDITOR_TITLE "Instrument editor - %1"
+    IDS_INST_VERSION_UNSUPPORTED "File version not supported!"
+    IDS_FILE_SAVED          "File saved (%1 bytes)"
+    IDS_MIDI_ERR_INPUT      "MIDI Error: Could not open MIDI input device!"
+    IDS_MIDI_ERR_OUTPUT     "MIDI Error: Could not open MIDI output device!"
+    IDS_NEW_SOUND_CONFIG    "New sound configuration has been loaded"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_REMOVE_INSTRUMENTS  "Do you want to remove all unused instruments? There is no undo for this action."
+    IDS_REMOVE_PATTERNS     "Do you want to remove all unused patterns? There is no undo for this action."
+    IDS_SONG_DELETE         "Do you want to delete this song? There is no undo for this action."
+    IDS_SOUND_FAIL          "It appears the current sound settings aren't working, change settings and try again."
+    IDS_UNDERRUN_MESSAGE    "Warning: Audio buffer underrun, increase the audio buffer size!"
+    IDS_WELCOME_VER_FORMAT  "Welcome to SnevenTracker %1, press F1 for help"
+    IDS_DPCM_IMPORT_INVALID_WAVEFILE 
+                            "Cannot load this sample, file is invalid or incompatible. (Only uncompressed PCM is supported.)"
+    IDS_INST_FILE_ERROR     "Could not load instrument file! Check that you have the most recent version of SnevenTracker."
+    IDS_NEW_2A03_INSTRUMENT "New 2A03 instrument"
+    IDS_NEW_VRC6_INSTRUMENT "New VRC6 instrument"
+    IDS_NEW_VRC7_INSTRUMENT "New VRC7 instrument"
+    IDS_NEW_FDS_INSTRUMENT  "New FDS instrument"
+    IDS_NEW_N163_INSTRUMENT "New Namco instrument"
+    IDS_NEW_S5B_INSTRUMENT  "New Sunsoft instrument"
+    IDS_FRAME_DROP_COPY_NEW "Drop selection to copy frames to new pattern numbers"
+    IDS_FRAME_DROP_COPY     "Drop selection to copy frames"
+END
+
+STRINGTABLE
+BEGIN
+    ID_INDICATOR_CHIP       "No expansion chip"
+    ID_INDICATOR_INSTRUMENT "Instrument: %1"
+    ID_INDICATOR_OCTAVE     "Octave: %1"
+    ID_INDICATOR_RATE       "000 Hz"
+    ID_INDICATOR_TEMPO      "000.00 BPM"
+    ID_INDICATOR_TIME       "00:00:00 "
+    ID_INDICATOR_POS        "00 / 00    "
+END
+
+STRINGTABLE
+BEGIN
+    ID_HELP_FAQ             "Open help window with the FAQ"
+    ID_TRACKER_DISPLAYREGISTERSTATE 
+                            "Display channel register values and tuning information"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_WAVE_PROGRESS_FILE_FORMAT "Saving to: %1"
+    IDS_WAVE_PROGRESS_FRAME_FORMAT "Frame: %1 (%2 done)"
+    IDS_WAVE_PROGRESS_TIME_FORMAT "Time: %1 (%2 done)"
+    IDS_WAVE_PROGRESS_ELAPSED_FORMAT "Elapsed time: %1"
+    IDS_DSOUND_ERROR        "DirectX: DirectSound error!"
+    IDS_DSOUND_BUFFER_ERROR "DirectX: DirectSound error: Could not create buffer!"
+    IDS_EDIT_MODE           "Changed to edit mode"
+    IDS_NORMAL_MODE         "Changed to normal mode"
+    IDS_MIDI_MESSAGE_ON_FORMAT 
+                            "MIDI message: Note on (note = %1, octave = %2, velocity = %3)"
+    IDS_MIDI_MESSAGE_OFF    "MIDI message: Note off"
+END
+
+STRINGTABLE
+BEGIN
+    IDC_OPT_DOUBLECLICK     "Don't select the whole channel when double-clicking in the pattern editor."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_LOADING_FILE        "Loading file..."
+    IDS_FILTER_DMC          "Delta modulated samples (*.dmc)"
+    IDS_FILTER_WAV          "Waveform Audio File Format (*.wav)"
+    IDS_FILTER_TXT          "Text files (*.txt)"
+    IDS_DPCM_EDIT_INFO_FORMAT "Wave end: %1, Size: %2 bytes "
+    IDS_WAVE_EXPORT_DONE    "Done"
+    IDS_WAVE_EXPORT_FINISHED "finished"
+    IDS_ABOUT_TOOLTIP_MAIL  "Send mail to nicetas.c@gmail.com"
+    IDS_ABOUT_TOOLTIP_WEB   "Go to http://hertzdevil.info"
+    IDS_ABOUT_VERSION_FORMAT "SnevenTracker version %1"
+    IDS_PROPERTIES_CHANNELS "Channels:"
+    IDS_LOADING_DONE        "File loaded"
+    IDS_DPCM_IMPORT_SIZE_FORMAT "Converted size: %1 bytes"
+    IDS_INSTRUMENT_FOLDER   "Choose a folder where you have instrument files"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_IMPORTTEXT      "Imports pattern text files"
+    ID_FILE_EXPORTTEXT      "Exports pattern text files"
+    ID_EDIT_VOLUMEMASK      "Disables insertion of values in the volume column"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Swedish (Sweden) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_SVE)
+LANGUAGE LANG_SWEDISH, SUBLANG_SWEDISH
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#include ""res\\FamiTracker.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
 
 #endif    // Swedish (Sweden) resources
 /////////////////////////////////////////////////////////////////////////////
