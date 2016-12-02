@@ -32,8 +32,7 @@
 //#define NOISE_PITCH_SCALE
 
 CChannelHandler2A03::CChannelHandler2A03() : 
-	CChannelHandler(0x7FF, 0x0F),
-	// // //
+	CChannelHandler(0x3FF, 0x0F),		// // //
 	m_bManualVolume(0),
 	m_iInitVolume(0),
 	// // //

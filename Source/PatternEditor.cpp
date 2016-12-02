@@ -1248,6 +1248,8 @@ void CPatternEditor::DrawCell(CDC *pDC, int PosX, int Column, int Channel, bool 
 	static const char NOTES_C[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 	// Hex numbers
 	static const char HEX[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+	// // // Noise channel display
+	static const char NOISE[] = {'L', 'M', 'H', 'C'};
 
 	const bool m_bDisplayFlat = theApp.GetSettings()->General.bDisplayFlats;
 
@@ -1325,8 +1327,8 @@ void CPatternEditor::DrawCell(CDC *pDC, int PosX, int Column, int Channel, bool 
 				default:
 					if (pTrackerChannel->GetID() == CHANID_NOISE) {
 						// Noise
-						char NoiseFreq = (pNoteData->Note - 1 + pNoteData->Octave * 12) & 0x0F;
-						DrawChar(pDC, PosX, PosY, HEX[NoiseFreq], pColorInfo->Note);
+						char NoiseFreq = (pNoteData->Note - 1 + pNoteData->Octave * 12) & 0x03;		// // //
+						DrawChar(pDC, PosX, PosY, NOISE[NoiseFreq], pColorInfo->Note);
 						DrawChar(pDC, PosX + CHAR_WIDTH, PosY, '-', pColorInfo->Note);
 						DrawChar(pDC, PosX + CHAR_WIDTH * 2, PosY, '#', pColorInfo->Note);
 					}
