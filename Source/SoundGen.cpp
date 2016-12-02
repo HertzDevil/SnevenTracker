@@ -39,8 +39,7 @@
 #include "DirectSound.h"
 #include "APU/APU.h"
 #include "ChannelHandler.h"
-#include "Channels2A03.h"
-// // //
+#include "ChannelsSN7.h"		// // //
 #include "SoundGen.h"
 #include "Settings.h"
 #include "TrackerChannel.h"
@@ -170,9 +169,9 @@ void CSoundGen::CreateChannels()
 	}
 
 	// 2A03/2A07
-	AssignChannel(new CTrackerChannel(_T("Square 1"), SNDCHIP_NONE, CHANID_SQUARE1), new CSquare1Chan());
-	AssignChannel(new CTrackerChannel(_T("Square 2"), SNDCHIP_NONE, CHANID_SQUARE2), new CSquare1Chan());
-	AssignChannel(new CTrackerChannel(_T("Square 3"), SNDCHIP_NONE, CHANID_TRIANGLE), new CSquare1Chan());
+	AssignChannel(new CTrackerChannel(_T("Square 1"), SNDCHIP_NONE, CHANID_SQUARE1), new CSquareChan());
+	AssignChannel(new CTrackerChannel(_T("Square 2"), SNDCHIP_NONE, CHANID_SQUARE2), new CSquareChan());
+	AssignChannel(new CTrackerChannel(_T("Square 3"), SNDCHIP_NONE, CHANID_TRIANGLE), new CSquareChan());
 	AssignChannel(new CTrackerChannel(_T("Noise"), SNDCHIP_NONE, CHANID_NOISE), new CNoiseChan());
 	// // //
 }

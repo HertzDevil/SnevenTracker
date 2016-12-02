@@ -21,12 +21,12 @@
 #pragma once
 
 //
-// Derived channels, 2A03
+// Derived channels, SN76489
 //
 
-class CChannelHandler2A03 : public CChannelHandler {
+class CChannelHandlerSN7 : public CChannelHandler {		// // //
 public:
-	CChannelHandler2A03();
+	CChannelHandlerSN7();
 	virtual void ProcessChannel();
 	virtual void ResetChannel();
 
@@ -47,37 +47,21 @@ protected:
 	// // //
 	int		m_iPostEffect;
 	int		m_iPostEffectParam;
+
+	static int m_iRegisterPos[3];		// // //
 };
 
 // Square 1
-class CSquare1Chan : public CChannelHandler2A03 {
+class CSquareChan : public CChannelHandlerSN7 {		// // //
 public:
-	CSquare1Chan() : CChannelHandler2A03() { m_iDefaultDuty = 0; };
-	virtual void RefreshChannel();
-protected:
-	virtual void ClearRegisters();
-};
-
-// Square 2
-class CSquare2Chan : public CChannelHandler2A03 {
-public:
-	CSquare2Chan() : CChannelHandler2A03() { m_iDefaultDuty = 0; };
-	virtual void RefreshChannel();
-protected:
-	virtual void ClearRegisters();
-};
-
-// Triangle
-class CTriangleChan : public CChannelHandler2A03 {
-public:
-	CTriangleChan() : CChannelHandler2A03() {};
+	CSquareChan() : CChannelHandlerSN7() { m_iDefaultDuty = 0; };
 	virtual void RefreshChannel();
 protected:
 	virtual void ClearRegisters();
 };
 
 // Noise
-class CNoiseChan : public CChannelHandler2A03 {
+class CNoiseChan : public CChannelHandlerSN7 {
 public:
 	CNoiseChan();
 	virtual void RefreshChannel();

@@ -378,7 +378,7 @@
     <ClCompile Include="Source\Blip_Buffer\Blip_Buffer.cpp" />
     <ClCompile Include="Source\ChannelHandler.cpp" />
     <ClCompile Include="Source\ChannelMap.cpp" />
-    <ClCompile Include="Source\Channels2A03.cpp" />
+    <ClCompile Include="Source\ChannelsSN7.cpp" />
     <ClCompile Include="Source\ChannelsDlg.cpp" />
     <ClCompile Include="Source\Chunk.cpp" />
     <ClCompile Include="Source\ChunkRenderBinary.cpp" />
@@ -662,7 +662,7 @@ makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\
     <ClInclude Include="Source\Blip_Buffer\Blip_Buffer.h" />
     <ClInclude Include="Source\ChannelHandler.h" />
     <ClInclude Include="Source\ChannelMap.h" />
-    <ClInclude Include="Source\Channels2A03.h" />
+    <ClInclude Include="Source\ChannelsSN7.h" />
     <ClInclude Include="Source\ChannelsDlg.h" />
     <ClInclude Include="Source\Chunk.h" />
     <ClInclude Include="Source\ChunkRenderBinary.h" />

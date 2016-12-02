@@ -25,13 +25,17 @@
 #include "FamiTracker.h"
 #include "FamiTrackerDoc.h"
 #include "ChannelHandler.h"
-#include "Channels2A03.h"
+#include "ChannelsSN7.h"		// // //
 #include "Settings.h"
 #include "SoundGen.h"
 
 //#define NOISE_PITCH_SCALE
 
-CChannelHandler2A03::CChannelHandler2A03() : 
+int CChannelHandlerSN7::m_iRegisterPos[] = {
+	CHANID_SQUARE1, CHANID_SQUARE2, CHANID_TRIANGLE
+};		// // //
+
+CChannelHandlerSN7::CChannelHandlerSN7() : 
 	CChannelHandler(0x3FF, 0x0F),		// // //
 	m_bManualVolume(0),
 	m_iInitVolume(0),
@@ -41,7 +45,7 @@ CChannelHandler2A03::CChannelHandler2A03() :
 {
 }
 
-void CChannelHandler2A03::HandleNoteData(stChanNote *pNoteData, int EffColumns)
+void CChannelHandlerSN7::HandleNoteData(stChanNote *pNoteData, int EffColumns)
 {
 	m_iPostEffect = 0;
 	m_iPostEffectParam = 0;
@@ -59,28 +63,36 @@ void CChannelHandler2A03::HandleNoteData(stChanNote *pNoteData, int EffColumns)
 	}
 }
 
-void CChannelHandler2A03::HandleCustomEffects(int EffNum, int EffParam)
+void CChannelHandlerSN7::HandleCustomEffects(int EffNum, int EffParam)
 {
 	#define GET_SLIDE_SPEED(x) (((x & 0xF0) >> 3) + 1)
 
 	if (!CheckCommonEffects(EffNum, EffParam)) {
 		// Custom effects
 		switch (EffNum) {
-			// // //
-			case EF_DUTY_CYCLE:
-				m_iDefaultDuty = m_iDutyPeriod = EffParam;
-				break;
-			case EF_SLIDE_UP:
-			case EF_SLIDE_DOWN:
-				m_iPostEffect = EffNum;
-				m_iPostEffectParam = EffParam;
-				SetupSlide(EffNum, EffParam);
-				break;
+		case EF_SN_CONTROL:		// // //
+			if (EffParam >= 0xC1 && EffParam <= 0xC3) {
+				EffParam -= 0xC1;
+				m_iRegisterPos[CHANID_SQUARE1] = CHANID_SQUARE1;
+				m_iRegisterPos[CHANID_SQUARE2] = CHANID_SQUARE2;
+				m_iRegisterPos[CHANID_TRIANGLE] = EffParam;
+				m_iRegisterPos[EffParam] = CHANID_TRIANGLE;
+			}
+			break;
+		case EF_DUTY_CYCLE:
+			m_iDefaultDuty = m_iDutyPeriod = EffParam;
+			break;
+		case EF_SLIDE_UP:
+		case EF_SLIDE_DOWN:
+			m_iPostEffect = EffNum;
+			m_iPostEffectParam = EffParam;
+			SetupSlide(EffNum, EffParam);
+			break;
 		}
 	}
 }
 
-bool CChannelHandler2A03::HandleInstrument(int Instrument, bool Trigger, bool NewInstrument)
+bool CChannelHandlerSN7::HandleInstrument(int Instrument, bool Trigger, bool NewInstrument)
 {
 	CFamiTrackerDoc *pDocument = m_pSoundGen->GetDocument();
 	CInstrumentContainer<CInstrument2A03> instContainer(pDocument, Instrument);
@@ -102,19 +114,19 @@ bool CChannelHandler2A03::HandleInstrument(int Instrument, bool Trigger, bool Ne
 	return true;
 }
 
-void CChannelHandler2A03::HandleEmptyNote()
+void CChannelHandlerSN7::HandleEmptyNote()
 {
 	if (m_bManualVolume)
 		m_iSeqVolume = m_iInitVolume;
 	// // //
 }
 
-void CChannelHandler2A03::HandleCut()
+void CChannelHandlerSN7::HandleCut()
 {
 	CutNote();
 }
 
-void CChannelHandler2A03::HandleRelease()
+void CChannelHandlerSN7::HandleRelease()
 {
 	if (!m_bRelease) {
 		ReleaseNote();
@@ -123,7 +135,7 @@ void CChannelHandler2A03::HandleRelease()
 	// // //
 }
 
-void CChannelHandler2A03::HandleNote(int Note, int Octave)
+void CChannelHandlerSN7::HandleNote(int Note, int Octave)
 {
 	m_iNote			= RunNote(Octave, Note);
 	m_iDutyPeriod	= m_iDefaultDuty;
@@ -134,7 +146,7 @@ void CChannelHandler2A03::HandleNote(int Note, int Octave)
 	// // //
 }
 
-void CChannelHandler2A03::ProcessChannel()
+void CChannelHandlerSN7::ProcessChannel()
 {
 	// Default effects
 	CChannelHandler::ProcessChannel();
@@ -146,16 +158,16 @@ void CChannelHandler2A03::ProcessChannel()
 		RunSequence(i);
 }
 
-void CChannelHandler2A03::ResetChannel()
+void CChannelHandlerSN7::ResetChannel()
 {
 	CChannelHandler::ResetChannel();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Square 1 
+// Square 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CSquare1Chan::RefreshChannel()
+void CSquareChan::RefreshChannel()
 {
 	int Period = CalculatePeriod();
 	int Volume = CalculateVolume();
@@ -163,108 +175,26 @@ void CSquare1Chan::RefreshChannel()
 	unsigned char HiFreq = (Period >> 4) & 0x3F;
 	unsigned char LoFreq = (Period & 0xF);
 
-	WriteRegister(0x01 + m_iChannelID * 2, 0xF ^ Volume);		// // //
-	WriteRegister(0x00 + m_iChannelID * 2, LoFreq);
+	const uint16 Base = m_iRegisterPos[m_iChannelID] * 2;		// // //
+	WriteRegister(Base, LoFreq);
 	WriteRegister(  -1, HiFreq); // double-byte
+	WriteRegister(Base + 1, 0xF ^ Volume);
 }
 
-void CSquare1Chan::ClearRegisters()
+void CSquareChan::ClearRegisters()
 {
-	// // //
-	WriteRegister(0x00 + m_iChannelID * 2, 0x00);
+	const uint16 Base = m_iRegisterPos[m_iChannelID] * 2;		// // //
+	WriteRegister(Base, 0x00);
 	WriteRegister(  -1, 0x00); // double-byte
-	WriteRegister(0x01 + m_iChannelID * 2, 0xF);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Square 2 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void CSquare2Chan::RefreshChannel()
-{
-	int Period = CalculatePeriod();
-	int Volume = CalculateVolume();
-	char DutyCycle = (m_iDutyPeriod & 0x03);
-
-	unsigned char HiFreq		= (Period & 0xFF);
-	unsigned char LoFreq		= (Period >> 8);
-	unsigned char LastLoFreq	= (m_iLastPeriod >> 8);
-
-	if (!m_bGate || !Volume) {
-		//DutyCycle = 0;
-		WriteRegister(0x4004, 0x30);
-		m_iLastPeriod = 0xFFFF;
-		return;
-	}
-
-	WriteRegister(0x4004, (DutyCycle << 6) | 0x30 | Volume);
-
-	if (m_cSweep) {
-		if (m_cSweep & 0x80) {
-			WriteRegister(0x4005, m_cSweep);
-			m_cSweep &= 0x7F;
-			WriteRegister(0x4017, 0x80);		// Clear sweep unit
-			WriteRegister(0x4017, 0x00);
-			WriteRegister(0x4006, HiFreq);
-			WriteRegister(0x4007, LoFreq);
-			m_iLastPeriod = 0xFFFF;
-		}
-	}
-	else {
-		WriteRegister(0x4005, 0x08);
-		WriteRegister(0x4017, 0x80);
-		WriteRegister(0x4017, 0x00);
-		WriteRegister(0x4006, HiFreq);
-		
-		if (LoFreq != LastLoFreq)
-			WriteRegister(0x4007, LoFreq);
-	}
-
-	m_iLastPeriod = Period;
-}
-
-void CSquare2Chan::ClearRegisters()
-{
-	WriteRegister(0x4004, 0x30);
-	WriteRegister(0x4005, 0x08);
-	WriteRegister(0x4006, 0x00);
-	WriteRegister(0x4007, 0x00);
-	m_iLastPeriod = 0xFFFF;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Triangle 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void CTriangleChan::RefreshChannel()
-{
-	int Freq = CalculatePeriod();
-
-	unsigned char HiFreq = (Freq & 0xFF);
-	unsigned char LoFreq = (Freq >> 8);
-	
-	if (m_iSeqVolume > 0 && m_iVolume > 0 && m_bGate) {
-		WriteRegister(0x4008, 0x81);
-		WriteRegister(0x400A, HiFreq);
-		WriteRegister(0x400B, LoFreq);
-	}
-	else
-		WriteRegister(0x4008, 0);
-}
-
-void CTriangleChan::ClearRegisters()
-{
-	WriteRegister(0x4008, 0);
-	WriteRegister(0x4009, 0);
-	WriteRegister(0x400A, 0);
-	WriteRegister(0x400B, 0);
+	WriteRegister(Base + 1, 0xF);
+	m_iRegisterPos[m_iChannelID] = m_iChannelID;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Noise
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CNoiseChan::CNoiseChan() : CChannelHandler2A03() 
+CNoiseChan::CNoiseChan() : CChannelHandlerSN7() 
 { 
 	m_iDefaultDuty = 0; 
 	/*
@@ -325,11 +255,6 @@ void CNoiseChan::RefreshChannel()
 	int Period = CalculatePeriod();
 	int Volume = CalculateVolume();
 	char NoiseMode = m_iDutyPeriod & 0x01;
-
-	if (!m_bGate || !Volume) {
-		WriteRegister(0x07, 0xF);		// // //
-		return;
-	}
 
 #ifdef NOISE_PITCH_SCALE
 	Period = (Period >> 4) & 0x0F;

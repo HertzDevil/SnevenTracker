@@ -9,10 +9,6 @@ provide insight into eventually supporting them in
 
 As in 0CC-FT, all changes to the source code are marked with `// // //`.
 
-### Progress
-
-Replacing "FamiTracker" with "SnevenTracker".
-
 ### Notes
 
 - Replaces 2A03 with SN76489, removes all expansion chips

@@ -120,6 +120,7 @@ enum effect_t {
 	EF_SLIDE_DOWN,
 	EF_VOLUME_SLIDE,
 	EF_NOTE_CUT,
+	EF_SN_CONTROL,		// // // generic control
 	// // //
 //	EF_TARGET_VOLUME_SLIDE, 
 /*
@@ -157,7 +158,7 @@ const char EFF_CHAR[] = {
 	'R',	// Slide down
 	'A',	// Volume slide
 	'S',	// Note cut
-	// // //
+	'N',	// // //
 };
 
 

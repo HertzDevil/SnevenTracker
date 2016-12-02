@@ -363,9 +363,6 @@
     <ClCompile Include="Source\ChannelHandler.cpp">
       <Filter>Source Files\Sound Driver\Channels</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Channels2A03.cpp">
-      <Filter>Source Files\Sound Driver\Channels</Filter>
-    </ClCompile>
     <ClCompile Include="Source\DirectSound.cpp">
       <Filter>Source Files\Sound Driver\Audio</Filter>
     </ClCompile>
@@ -425,6 +422,9 @@
     </ClCompile>
     <ClCompile Include="Source\APU\SN76489_new.cpp">
       <Filter>Source Files\Sound Driver\Emulation\Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ChannelsSN7.cpp">
+      <Filter>Source Files\Sound Driver\Channels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -489,9 +489,6 @@
       <Filter>Header Files\Sound Driver Headers\Blip_Buffer Headers</Filter>
     </ClInclude>
     <ClInclude Include="Source\ChannelHandler.h">
-      <Filter>Header Files\Sound Driver Headers\Channels Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Channels2A03.h">
       <Filter>Header Files\Sound Driver Headers\Channels Headers</Filter>
     </ClInclude>
     <ClInclude Include="Source\DirectSound.h">
@@ -685,6 +682,9 @@
     </ClInclude>
     <ClInclude Include="Source\APU\SN76489_new.h">
       <Filter>Header Files\Sound Driver Headers\Emulation Headers\Internal Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ChannelsSN7.h">
+      <Filter>Header Files\Sound Driver Headers\Channels Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
