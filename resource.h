@@ -4,7 +4,6 @@
 //
 #define ID_MANIFEST                     1
 #define ID_INVALID_WAVEFILE             3
-#define VERSION_MIN                     4
 #define IDC_MOVE_UP                     6
 #define IDC_MOVE_DOWN                   7
 #define IDD_ABOUTBOX                    100

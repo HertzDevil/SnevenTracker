@@ -47,9 +47,7 @@ const DWORD	SHARED_MEM_SIZE			= 256;
 #define new DEBUG_NEW
 #endif
 
-#ifdef RELEASE_BUILD
-#pragma message("Building SVN release build...")
-#endif /* RELEASE_BUILD */
+// // //
 
 // CFamiTrackerApp
 

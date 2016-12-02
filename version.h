@@ -28,19 +28,10 @@
 
 // Version info
 #define VERSION_MAJ  0
-#define VERSION_MIN  4
-#define VERSION_REV  6
+#define VERSION_MIN  1
+#define VERSION_REV  0
 
 #define VERSION_WIP  0
 
-#ifdef RELEASE_BUILD
-
-#include "config.h"
-#define VERSION VERSION_MAJ,VERSION_MIN,VERSION_REV,SVN_VERSION
-
-#else
-
+// // //
 #define VERSION VERSION_MAJ,VERSION_MIN,VERSION_REV,VERSION_WIP
-
-#endif /* RELEASE_BUILD */
-
