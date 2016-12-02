@@ -18,6 +18,7 @@
 ** must bear this legend.
 */
 
+#include <algorithm>		// // //
 #include <iterator> 
 #include <string>
 #include <sstream>

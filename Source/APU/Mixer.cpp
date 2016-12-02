@@ -139,7 +139,7 @@ void CMixer::UpdateSettings(int LowCut,	int HighCut, int HighDamp, float Overall
 	// // //
 
 	// Volume levels
-	SynthSN76489Left.volume(Volume * 0.25f * m_fLevelAPU1);
+	SynthSN76489Left.volume(Volume * 0.2f * m_fLevelAPU1);
 	SynthSN76489Right.volume(0);
 	// // //
 

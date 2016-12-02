@@ -18,7 +18,7 @@
 ** must bear this legend.
 */
 
-// // //
+#include <memory>		// // //
 #include <map>
 #include <vector>
 #include "stdafx.h"

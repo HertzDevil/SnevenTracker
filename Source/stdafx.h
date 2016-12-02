@@ -30,6 +30,7 @@
 // Get rid of warnings in VS 2005
 #define _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_WARNINGS
+#define NO_WARN_MBCS_MFC_DEPRECATION		// // //
 
 #ifndef VC_EXTRALEAN
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers

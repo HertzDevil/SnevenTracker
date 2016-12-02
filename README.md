@@ -17,7 +17,8 @@ Replacing "FamiTracker" with "SnevenTracker".
 
 - Replaces 2A03 with SN76489, removes all expansion chips
 - Tracker functionality chiefly based on MOD2PSG2
-- Produces `.snm` files, same format as `.ftm` files but incompatible
+- Produces `.snm` files, zero compatibility with FamiTracker or 0CC-FT except
+  for clipboard formats
 - Should support multiple master clock rates and both versions of the LFSR,
   also Game Gear stereo functionality
 - Should support two instances of the SN76489, plus an extra sound chip
