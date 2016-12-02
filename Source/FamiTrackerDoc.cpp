@@ -69,7 +69,7 @@ const int	CFamiTrackerDoc::DEFAULT_SECOND_HIGHLIGHT = 16;
 const bool	CFamiTrackerDoc::DEFAULT_LINEAR_PITCH = false;
 
 // File I/O constants
-static const char *FILE_HEADER				= "DCSG-TrackerModule";		// // //
+static const char *FILE_HEADER				= "SnevenTracker Module";		// // //
 static const char *FILE_BLOCK_PARAMS		= "PARAMS";
 static const char *FILE_BLOCK_INFO			= "INFO";
 static const char *FILE_BLOCK_INSTRUMENTS	= "INSTRUMENTS";
