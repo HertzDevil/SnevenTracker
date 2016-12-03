@@ -46,6 +46,7 @@
 #include "MIDI.h"
 #include "VGM/Logger.h"		// // //
 #include "VGM/Writer/SN76489.h"		// // //
+#include <sstream>		// // //
 
 #ifdef EXPORT_TEST
 #include "ExportTest/ExportTest.h"
@@ -943,11 +944,12 @@ void CSoundGen::VGMStartLogging(const char *Filename)		// // //
 	SAFE_RELEASE(m_pVGMLogger);
 	m_pVGMLogger = new CVGMLogger {Filename};
 	m_pVGMLogger->SetFrequency(m_pDocument->GetFrameRate());
+	m_pVGMLogger->SetGD3Tag(VGMMakeGD3Tag());
 	m_pVGMWriter = new CVGMWriterSN76489 {*m_pVGMLogger};
 	m_bVGMLogRequest = true;
 }
 
-bool CSoundGen::VGMStopLogging()
+bool CSoundGen::VGMStopLogging()		// // //
 {
 	bool status = false;
 	try {
@@ -960,6 +962,30 @@ bool CSoundGen::VGMStopLogging()
 	SAFE_RELEASE(m_pVGMWriter);
 	SAFE_RELEASE(m_pVGMLogger);
 	return status;
+}
+
+std::vector<char> CSoundGen::VGMMakeGD3Tag() const		// // //
+{
+	//TODO: maybe put this into CVGMLogger
+	std::wstringstream Gd3 { };
+	Gd3 << CT2W {m_pDocument->GetTrackTitle(m_iPlayTrack)}.m_psz; Gd3.put(0x0000); Gd3.put(0x0000);
+	Gd3 << CT2W {m_pDocument->GetSongName()}.m_psz; Gd3.put(0x0000); Gd3.put(0x0000);
+	Gd3 << CT2W {_T("Sega Master System / Game Gear")}.m_psz; Gd3.put(0x0000); Gd3.put(0x0000);
+	Gd3 << CT2W {m_pDocument->GetSongArtist()}.m_psz; Gd3.put(0x0000); Gd3.put(0x0000);
+	Gd3.put(0x0000); // release date
+	Gd3 << L"SnevenTracker"; Gd3.put(0x0000);
+	Gd3 << CT2W {m_pDocument->GetSongCopyright()}.m_psz; Gd3.put(0x0000);
+
+	uint32_t Temp;
+	std::vector<char> Tag;
+	auto gd3str = Gd3.str();
+	auto b = reinterpret_cast<const char*>(gd3str.data());
+	auto e = reinterpret_cast<const char*>(gd3str.data() + gd3str.size());
+	Temp = 0x20336447; Tag.insert(Tag.end(), (const char*)&Temp, (const char*)(&Temp + 1));
+	Temp = 0x00000100; Tag.insert(Tag.end(), (const char*)&Temp, (const char*)(&Temp + 1));
+	Temp = e - b;      Tag.insert(Tag.end(), (const char*)&Temp, (const char*)(&Temp + 1));
+	Tag.insert(Tag.end(), b, e);
+	return Tag;
 }
 
 // Return current tempo setting in BPM

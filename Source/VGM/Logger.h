@@ -102,6 +102,8 @@ public:
 	void InsertByte(const std::vector<char> &b);
 	// inserts a loop point at the current time
 	void Loop();
+	// sets the GD3 tag
+	void SetGD3Tag(std::vector<char> tag);
 
 	// writes to the file stream
 	// returns true if no errors occurred
@@ -121,6 +123,7 @@ private:
 
 	std::vector<char> m_cCommands;
 	std::vector<char> m_cCommandsIntro;
+	std::vector<char> m_cGD3Tag;
 	Header m_Header;
 
 	std::ofstream m_File;

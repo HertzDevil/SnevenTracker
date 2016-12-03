@@ -131,30 +131,37 @@ void CVGMLogger::Loop()
 	}
 }
 
+void CVGMLogger::SetGD3Tag(std::vector<char> tag)
+{
+	m_cGD3Tag = tag;
+}
+
 bool CVGMLogger::Commit()
 {
 	FlushDelay();
 
-	uint64_t Size = m_Header.GetData().size() + m_cCommandsIntro.size()
+	uint64_t Size = m_Header.GetData().size() + m_cGD3Tag.size() + m_cCommandsIntro.size()
 				  + m_cCommands.size() + 1;
 	if (Size > 0xFFFFFFFFull)
 		throw std::out_of_range {"VGM file is too large"};
 	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::EofOffset,
 		(uint32_t)Size - CVGMLogger::HEADER_POS::EofOffset);
-	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::GD3Offset, 0x00000000);
+	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::GD3Offset, 
+		m_cGD3Tag.empty() ? 0x00000000 :
+			m_Header.GetData().size() - (size_t)CVGMLogger::HEADER_POS::GD3Offset);
 	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::TotalSamples, m_iCurrentSamples);
 	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::LoopOffset,
-		(uint32_t)Size - m_cCommands.size() - 1 - (size_t)CVGMLogger::HEADER_POS::LoopOffset);
+		!m_bLooped ? 0x00000000 :
+			((uint32_t)Size - m_cCommands.size() - 1 - (size_t)CVGMLogger::HEADER_POS::LoopOffset));
 	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::LoopSamples,
 		m_iCurrentSamples - m_iIntroSamples);
 	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::DataOffset,
-		m_Header.GetData().size() - (size_t)CVGMLogger::HEADER_POS::DataOffset);
+		m_Header.GetData().size() + m_cGD3Tag.size() - (size_t)CVGMLogger::HEADER_POS::DataOffset);
 	for (const auto &x : m_pWriters)
 		x->UpdateHeader(m_Header);
 
 	bool Status = WriteToFile(m_File);
 	m_File.close();
-
 	Status = Status && CompressVGM(m_pFileName) == 0;
 	return Status;
 }
@@ -172,13 +179,23 @@ void CVGMLogger::FlushDelay()
 		uint16_t t = Samples > 0xFFFF ? 0xFFFF : (uint16_t)Samples;
 		Samples -= t;
 		switch (t) {
+		case 2 * 44100 / 50:
+			m_cCommands.push_back(0x63);
+			// [[fallthrough]]
 		case 44100 / 50:
 			m_cCommands.push_back(0x63); break;
+		case 2 * 44100 / 60:
+			m_cCommands.push_back(0x62);
+			// [[fallthrough]]
 		case 44100 / 60:
 			m_cCommands.push_back(0x62); break;
 		default:
 			if (t <= 16)
 				m_cCommands.push_back(0x6F + (char)t);
+			else if (t <= 32) {
+				m_cCommands.push_back(0x7F);
+				m_cCommands.push_back(0x5F + (char)t);
+			}
 			else {
 				m_cCommands.push_back(0x61);
 				m_cCommands.push_back(t & 0xFF);
@@ -197,6 +214,7 @@ bool CVGMLogger::WriteToFile(std::ofstream &f)
 {
 	auto h = m_Header.GetData();
 	f.write(h.data(), h.size());
+	f.write(m_cGD3Tag.data(), m_cGD3Tag.size());
 	f.write(m_cCommandsIntro.data(), m_cCommandsIntro.size());
 	f.write(m_cCommands.data(), m_cCommands.size());
 	f.put(0x66); // end of data

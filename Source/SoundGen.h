@@ -27,6 +27,7 @@
 #include <afxmt.h>		// Synchronization objects
 #include "WaveFile.h"
 #include "Common.h"
+#include <vector>		// // //
 
 const int VIBRATO_LENGTH = 256;
 const int TREMOLO_LENGTH = 256;
@@ -239,6 +240,8 @@ private:
 	void		HaltPlayer();
 	void		MakeSilent();
 	void		SetupSpeed();
+
+	std::vector<char> VGMMakeGD3Tag() const;		// // //
 
 	// Player
 	void		ReadPatternRow();
