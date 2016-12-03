@@ -972,7 +972,7 @@ std::vector<char> CSoundGen::VGMMakeGD3Tag() const		// // //
 	Gd3 << CT2W {m_pDocument->GetSongName()}.m_psz; Gd3.put(0x0000); Gd3.put(0x0000);
 	Gd3 << CT2W {_T("Sega Master System / Game Gear")}.m_psz; Gd3.put(0x0000); Gd3.put(0x0000);
 	Gd3 << CT2W {m_pDocument->GetSongArtist()}.m_psz; Gd3.put(0x0000); Gd3.put(0x0000);
-	Gd3.put(0x0000); // release date
+	Gd3 << CT2W {CTime::GetCurrentTime().Format(_T("%Y/%m/%d"))}.m_psz; Gd3.put(0x0000);
 	Gd3 << L"SnevenTracker"; Gd3.put(0x0000);
 	Gd3 << CT2W {m_pDocument->GetSongCopyright()}.m_psz; Gd3.put(0x0000);
 
