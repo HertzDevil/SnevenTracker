@@ -154,7 +154,7 @@ int CChannelHandlerSN7::CalculateVolume() const		// // //
 	if (m_iSeqVolume > 0 && m_iVolume > 0 && Volume == 0)
 		Volume = 1;
 
-	if (!m_bGate)
+	if (!m_bGate || Volume < 0)
 		Volume = 0;
 
 	return Volume;
