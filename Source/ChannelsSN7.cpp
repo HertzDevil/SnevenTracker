@@ -146,6 +146,20 @@ void CChannelHandlerSN7::HandleNote(int Note, int Octave)
 	// // //
 }
 
+int CChannelHandlerSN7::CalculateVolume() const		// // //
+{
+	// Volume calculation
+	int Volume = (m_iVolume >> VOL_COLUMN_SHIFT) + m_iSeqVolume - 15 - GetTremolo();
+
+	if (m_iSeqVolume > 0 && m_iVolume > 0 && Volume == 0)
+		Volume = 1;
+
+	if (!m_bGate)
+		Volume = 0;
+
+	return Volume;
+}
+
 void CChannelHandlerSN7::ProcessChannel()
 {
 	// Default effects

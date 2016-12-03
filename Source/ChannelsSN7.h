@@ -38,6 +38,7 @@ protected:
 	virtual void HandleCut();
 	virtual void HandleRelease();
 	virtual void HandleNote(int Note, int Octave);
+	int CalculateVolume() const override;		// // //
 
 protected:
 	unsigned char m_cSweep;			// Sweep, used by pulse channels
