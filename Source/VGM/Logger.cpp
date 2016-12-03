@@ -22,6 +22,8 @@
 
 #include "Logger.h"
 #include "Writer/Base.h"
+#include "../vgmtools/vgm_cmp.h"
+#include "../stdafx.h" // _tcsdup
 
 const char CVGMLogger::Header::IDENT[4] = {'V', 'g', 'm', ' '};
 const int CVGMLogger::Header::VER_MAJ = 1;
@@ -51,7 +53,8 @@ const uint64_t CVGMLogger::SAMPLE_RATE = 44100u;
 const double CVGMLogger::DEFAULT_FREQUENCY = 60.;
 
 CVGMLogger::CVGMLogger(const char *fname) :
-	m_File(fname, std::ios::out | std::ios::binary)
+	m_File(fname, std::ios::out | std::ios::binary),
+	m_pFileName(_tcsdup(fname))
 {
 	if (!m_File)
 		throw std::runtime_error {"Cannot open VGM file"};
@@ -60,7 +63,9 @@ CVGMLogger::CVGMLogger(const char *fname) :
 
 CVGMLogger::~CVGMLogger()
 {
-	m_File.close();
+	delete[] m_pFileName;
+	if (m_File.is_open())
+		m_File.close();
 }
 
 void CVGMLogger::DelaySamples(uint64_t count)
@@ -147,7 +152,11 @@ bool CVGMLogger::Commit()
 	for (const auto &x : m_pWriters)
 		x->UpdateHeader(m_Header);
 
-	return WriteToFile(m_File);
+	bool Status = WriteToFile(m_File);
+	m_File.close();
+
+	Status = Status && CompressVGM(m_pFileName) == 0;
+	return Status;
 }
 
 void CVGMLogger::FlushDelay()

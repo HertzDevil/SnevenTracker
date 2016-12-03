@@ -440,7 +440,7 @@ BEGIN
         VERTGUIDE, 84
         VERTGUIDE, 221
         TOPMARGIN, 12
-        BOTTOMMARGIN, 295
+        BOTTOMMARGIN, 313
         HORZGUIDE, 49
     END
 
@@ -699,7 +699,7 @@ END
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 285, 300
+IDD_ABOUTBOX DIALOGEX 0, 0, 285, 318
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About SnevenTracker"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -714,10 +714,10 @@ BEGIN
     LTEXT           "nicetas.c@gmail.com",IDC_MAIL,84,108,70,10,SS_NOTIFY
     LTEXT           "http://hertzdevil.info",IDC_WEBPAGE,84,121,95,9,SS_NOTIFY
     LTEXT           "Web:",IDC_STATIC,54,121,24,9
-    LTEXT           "Libraries:",IDC_STATIC,54,253,224,8
-    LTEXT           "- Blip_buffer 0.4.0 is Copyright (C) blargg (http://www.slack.net/~ant/nes-emu/)\n",IDC_STATIC,54,267,224,16
-    LTEXT           "- Fast Fourier Transform code is (C) Reliable Software",IDC_STATIC,54,286,224,8
-    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,54,263,211,1
+    LTEXT           "Libraries:",IDC_STATIC,54,268,224,8
+    LTEXT           "- Blip_buffer 0.4.0 is Copyright (C) blargg (http://www.slack.net/~ant/nes-emu/)\n",IDC_STATIC,54,282,224,16
+    LTEXT           "- Fast Fourier Transform code is (C) Reliable Software",IDC_STATIC,54,301,224,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,54,278,211,1
     LTEXT           "- Icon is made by Kuhneghetz",IDC_STATIC,54,216,224,9
     LTEXT           "- Toolbar icons are made by ilkke",IDC_STATIC,54,227,224,9
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,54,201,211,1
@@ -727,6 +727,7 @@ BEGIN
     LTEXT           "A SN76489 music tracker",IDC_ABOUT1,54,58,167,11,SS_NOPREFIX
     CONTROL         "",IDC_HEAD,"Static",SS_OWNERDRAW,0,0,287,49
     LTEXT           "- Original software by jsr",IDC_STATIC,54,205,224,9
+    LTEXT           "- vgm_cmp VGM compressor by Valley Bell",IDC_STATIC,54,249,224,9
 END
 
 IDD_MAINFRAME DIALOGEX 0, 0, 413, 126

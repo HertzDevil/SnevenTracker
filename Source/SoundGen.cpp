@@ -951,16 +951,14 @@ bool CSoundGen::VGMStopLogging()
 {
 	bool status = false;
 	try {
-		if (m_pVGMLogger && m_pVGMLogger->Commit()) {
-			status = true;
-			m_pAPU->SetVGMWriter(VGMChip::SN76489, nullptr);
-		}
-		SAFE_RELEASE(m_pVGMWriter);
-		SAFE_RELEASE(m_pVGMLogger);
+		status = m_pVGMLogger && m_pVGMLogger->Commit();
 	}
 	catch (std::exception &) {
 		status = false;
 	}
+	m_pAPU->SetVGMWriter(VGMChip::SN76489, nullptr);
+	SAFE_RELEASE(m_pVGMWriter);
+	SAFE_RELEASE(m_pVGMLogger);
 	return status;
 }
 

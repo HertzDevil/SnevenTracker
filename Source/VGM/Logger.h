@@ -122,7 +122,9 @@ private:
 	std::vector<char> m_cCommands;
 	std::vector<char> m_cCommandsIntro;
 	Header m_Header;
+
 	std::ofstream m_File;
+	const char *m_pFileName = nullptr;
 
 	std::vector<const CVGMWriterBase*> m_pWriters;
 

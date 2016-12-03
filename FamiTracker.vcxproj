@@ -523,6 +523,8 @@
     </ClCompile>
     <ClCompile Include="Source\TextExporter.cpp" />
     <ClCompile Include="Source\TrackerChannel.cpp" />
+    <ClCompile Include="Source\vgmtools\chip_cmp.c" />
+    <ClCompile Include="Source\vgmtools\vgm_cmp.c" />
     <ClCompile Include="Source\VGM\Logger.cpp" />
     <ClCompile Include="Source\VGM\Writer\Base.cpp" />
     <ClCompile Include="Source\VGM\Writer\SN76489.cpp" />
@@ -729,6 +731,12 @@ makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\
     <ClInclude Include="Source\stdafx.h" />
     <ClInclude Include="Source\TextExporter.h" />
     <ClInclude Include="Source\TrackerChannel.h" />
+    <ClInclude Include="Source\vgmtools\common.h" />
+    <ClInclude Include="Source\vgmtools\stdbool.h" />
+    <ClInclude Include="Source\vgmtools\stdtype.h" />
+    <ClInclude Include="Source\vgmtools\VGMFile.h" />
+    <ClInclude Include="Source\vgmtools\vgm_cmp.h" />
+    <ClInclude Include="Source\vgmtools\vgm_lib.h" />
     <ClInclude Include="Source\VGM\Constants.h" />
     <ClInclude Include="Source\VGM\Logger.h" />
     <ClInclude Include="Source\VGM\Writer\Base.h" />

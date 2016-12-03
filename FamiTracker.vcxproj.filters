@@ -199,6 +199,12 @@
     <Filter Include="Source Files\Sound Driver\VGM\Writer">
       <UniqueIdentifier>{26440461-7e1b-468a-aa6f-2749797c8c31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Sound Driver Headers\VGM\VGMTools">
+      <UniqueIdentifier>{e6c9becf-1c4f-4e9a-a3e6-449ba3a17276}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sound Driver\VGM\VGMTools">
+      <UniqueIdentifier>{874e189b-3267-4efb-8ea8-c8aed7f27005}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Exception.cpp">
@@ -446,6 +452,12 @@
     </ClCompile>
     <ClCompile Include="Source\VGM\Writer\SN76489.cpp">
       <Filter>Source Files\Sound Driver\VGM\Writer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\vgmtools\chip_cmp.c">
+      <Filter>Source Files\Sound Driver\VGM\VGMTools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\vgmtools\vgm_cmp.c">
+      <Filter>Source Files\Sound Driver\VGM\VGMTools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -718,6 +730,24 @@
     </ClInclude>
     <ClInclude Include="Source\VGM\Constants.h">
       <Filter>Header Files\Sound Driver Headers\VGM</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\vgmtools\common.h">
+      <Filter>Header Files\Sound Driver Headers\VGM\VGMTools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\vgmtools\stdbool.h">
+      <Filter>Header Files\Sound Driver Headers\VGM\VGMTools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\vgmtools\stdtype.h">
+      <Filter>Header Files\Sound Driver Headers\VGM\VGMTools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\vgmtools\vgm_lib.h">
+      <Filter>Header Files\Sound Driver Headers\VGM\VGMTools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\vgmtools\VGMFile.h">
+      <Filter>Header Files\Sound Driver Headers\VGM\VGMTools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\vgmtools\vgm_cmp.h">
+      <Filter>Header Files\Sound Driver Headers\VGM\VGMTools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
