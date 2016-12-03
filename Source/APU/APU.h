@@ -25,12 +25,15 @@
 
 #include "../Common.h"
 #include "Mixer.h"
+#include "../VGM/Constants.h"		// // //
 
 // External classes
 class CSquare;
 class CTriangle;
 class CNoise;
 class CSN76489;		// // //
+
+class CVGMWriterBase;		// // //
 
 #ifdef LOGGING
 class CFile;
@@ -61,6 +64,8 @@ public:
 	uint8	GetReg(int Chip, int Reg) const;
 
 	void	SetChipLevel(chip_level_t Chip, float Level);
+
+	void	SetVGMWriter(VGMChip Chip, const CVGMWriterBase *pWrite);		// // //
 
 #ifdef LOGGING
 	void	Log();

@@ -123,7 +123,9 @@
 #define IDB_KEY_BLACK_MARK              173
 #define IDS_INSTRUMENT_FOLDER           173
 #define IDB_KEY_WHITE                   174
+#define IDS_FILTER_VGM                  174
 #define ID_CLONE_SEQUENCE               175
+#define IDS_VGM_START                   175
 #define IDB_KEY_WHITE_MARK              176
 #define ID_MODULE_TEST_EXPORT           176
 #define ID_INCREASEVALUES               177
@@ -508,6 +510,7 @@
 #define ID_HELP_FAQ                     33122
 #define ID_POPUP_CLONESEQUENCE          33125
 #define ID_TRACKER_DISPLAYREGISTERSTATE 33126
+#define ID_TRACKER_LOGVGMFILE           33127
 #define ID_INSTRUMENT_ADD_2A03          36864
 #define ID_INSTRUMENT_ADD_FDS           36865
 #define ID_INSTRUMENT_ADD_MMC5          36866
@@ -528,7 +531,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        322
-#define _APS_NEXT_COMMAND_VALUE         33127
+#define _APS_NEXT_COMMAND_VALUE         33128
 #define _APS_NEXT_CONTROL_VALUE         1280
 #define _APS_NEXT_SYMED_VALUE           179
 #endif

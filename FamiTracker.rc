@@ -215,6 +215,8 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Custom",                      ID_SPEED_CUSTOM
         END
+        MENUITEM SEPARATOR
+        MENUITEM "Log &VGM File...",            ID_TRACKER_LOGVGMFILE
     END
     POPUP "&View"
     BEGIN
@@ -1676,6 +1678,8 @@ BEGIN
     IDS_LOADING_DONE        "File loaded"
     IDS_DPCM_IMPORT_SIZE_FORMAT "Converted size: %1 bytes"
     IDS_INSTRUMENT_FOLDER   "Choose a folder where you have instrument files"
+    IDS_FILTER_VGM          "VGM 1.61 sound file (*.vgm)"
+    IDS_VGM_START           "VGM logging will begin from the next play until the song is stopped."
 END
 
 STRINGTABLE

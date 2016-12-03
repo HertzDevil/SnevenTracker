@@ -40,6 +40,7 @@ enum PATHS {
 	PATH_NSF,
 	PATH_DMC,
 	PATH_WAV,
+	PATH_VGM,		// // //
 
 	PATH_COUNT
 };

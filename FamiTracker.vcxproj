@@ -523,6 +523,9 @@
     </ClCompile>
     <ClCompile Include="Source\TextExporter.cpp" />
     <ClCompile Include="Source\TrackerChannel.cpp" />
+    <ClCompile Include="Source\VGM\Logger.cpp" />
+    <ClCompile Include="Source\VGM\Writer\Base.cpp" />
+    <ClCompile Include="Source\VGM\Writer\SN76489.cpp" />
     <ClCompile Include="Source\VisualizerScope.cpp" />
     <ClCompile Include="Source\VisualizerSpectrum.cpp" />
     <ClCompile Include="Source\VisualizerStatic.cpp" />
@@ -726,6 +729,10 @@ makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\
     <ClInclude Include="Source\stdafx.h" />
     <ClInclude Include="Source\TextExporter.h" />
     <ClInclude Include="Source\TrackerChannel.h" />
+    <ClInclude Include="Source\VGM\Constants.h" />
+    <ClInclude Include="Source\VGM\Logger.h" />
+    <ClInclude Include="Source\VGM\Writer\Base.h" />
+    <ClInclude Include="Source\VGM\Writer\SN76489.h" />
     <ClInclude Include="Source\VisualizerScope.h" />
     <ClInclude Include="Source\VisualizerSpectrum.h" />
     <ClInclude Include="Source\VisualizerStatic.h" />

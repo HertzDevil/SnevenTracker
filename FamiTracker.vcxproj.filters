@@ -187,6 +187,18 @@
     <Filter Include="NSF driver">
       <UniqueIdentifier>{2c7beaf4-acf2-4009-9793-c2d0c073e00d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Sound Driver\VGM">
+      <UniqueIdentifier>{0921d5ad-71e9-4e71-ad3c-d457a3e06f16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sound Driver Headers\VGM">
+      <UniqueIdentifier>{83a2158c-5bfa-4af5-b1c4-5c734d4c36d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sound Driver Headers\VGM\Writer">
+      <UniqueIdentifier>{ee76024f-42c6-4f8e-90cf-84a87c38e08a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sound Driver\VGM\Writer">
+      <UniqueIdentifier>{26440461-7e1b-468a-aa6f-2749797c8c31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Exception.cpp">
@@ -425,6 +437,15 @@
     </ClCompile>
     <ClCompile Include="Source\ChannelsSN7.cpp">
       <Filter>Source Files\Sound Driver\Channels</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\VGM\Logger.cpp">
+      <Filter>Source Files\Sound Driver\VGM</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\VGM\Writer\Base.cpp">
+      <Filter>Source Files\Sound Driver\VGM\Writer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\VGM\Writer\SN76489.cpp">
+      <Filter>Source Files\Sound Driver\VGM\Writer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -685,6 +706,18 @@
     </ClInclude>
     <ClInclude Include="Source\ChannelsSN7.h">
       <Filter>Header Files\Sound Driver Headers\Channels Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\VGM\Logger.h">
+      <Filter>Header Files\Sound Driver Headers\VGM</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\VGM\Writer\Base.h">
+      <Filter>Header Files\Sound Driver Headers\VGM\Writer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\VGM\Writer\SN76489.h">
+      <Filter>Header Files\Sound Driver Headers\VGM\Writer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\VGM\Constants.h">
+      <Filter>Header Files\Sound Driver Headers\VGM</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

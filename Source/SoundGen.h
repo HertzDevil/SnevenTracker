@@ -77,6 +77,8 @@ class CDSoundChannel;
 class CVisualizerWnd;
 // // //
 class CTrackerChannel;
+class CVGMLogger;		// // //
+class CVGMWriterBase;		// // //
 
 #ifdef EXPORT_TEST
 class CExportTest;
@@ -175,7 +177,9 @@ public:
 	// Other
 	uint8		GetReg(int Chip, int Reg) const;
 
-	// // //
+	// // // VGM logging
+	void		VGMStartLogging(const char *Filename);
+	bool		VGMStopLogging();
 
 	void		WriteRegister(uint16 Reg, uint8 Value);
 	void		WriteExternalRegister(uint16 Reg, uint8 Value);
@@ -236,8 +240,6 @@ private:
 	void		MakeSilent();
 	void		SetupSpeed();
 
-	// // //
-	
 	// Player
 	void		ReadPatternRow();
 	void		PlayerStepRow();
@@ -344,9 +346,12 @@ private:
 	int					m_iTempoRemainder;
 	bool				m_bUpdateRow;
 
+	bool				m_bVGMLogRequest;		// // //
+
 	CWaveFile			m_wfWaveFile;
 
-	// // //
+	CVGMLogger			*m_pVGMLogger;		// // //
+	CVGMWriterBase		*m_pVGMWriter;		// // // TODO: make it multichip-ready
 
 	// Player state
 	int					m_iQueuedFrame;					// Queued frame

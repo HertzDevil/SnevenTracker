@@ -29,6 +29,7 @@
 #include "Triangle.h"
 #include "Noise.h"
 #include "SN76489_new.h"		// // //
+#include "../VGM/Writer/Base.h"		// // //
 
 const int	 CAPU::SEQUENCER_PERIOD		= 7458;
 //const int	 CAPU::SEQUENCER_PERIOD_PAL	= 7458;			// ????
@@ -306,7 +307,14 @@ void CAPU::SetChipLevel(chip_level_t Chip, float Level)
 	m_pMixer->SetChipLevel(Chip, fLevel);
 }
 
-// // //
+void CAPU::SetVGMWriter(VGMChip Chip, const CVGMWriterBase *pWrite)		// // //
+{
+	switch (Chip) {
+	case VGMChip::SN76489:
+		m_pSN76489->SetVGMWriter(pWrite);
+		break;
+	}
+}
 
 uint8 CAPU::GetReg(int Chip, int Reg) const 
 {

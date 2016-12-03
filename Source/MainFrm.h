@@ -323,6 +323,9 @@ public:
 	afx_msg void OnToggleSpeed();
 	afx_msg LRESULT OnDisplayMessageString(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnDisplayMessageID(WPARAM wParam, LPARAM lParam);
+
+	afx_msg void OnTrackerLogVGMFile();		// // //
+	afx_msg void OnUpdateTrackerLogVGMFile(CCmdUI *pCmdUI);		// // //
 protected:
 	virtual void OnUpdateFrameTitle(BOOL bAddToTitle);
 public:

@@ -287,7 +287,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_MESSAGE(WM_USER_DISPLAY_MESSAGE_STRING, OnDisplayMessageString)
 	ON_MESSAGE(WM_USER_DISPLAY_MESSAGE_ID, OnDisplayMessageID)
 	ON_COMMAND(ID_VIEW_TOOLBAR, &CMainFrame::OnViewToolbar)
-	END_MESSAGE_MAP()
+
+	ON_COMMAND(ID_TRACKER_LOGVGMFILE, OnTrackerLogVGMFile)		// // //
+	ON_UPDATE_COMMAND_UI(ID_TRACKER_LOGVGMFILE, OnUpdateTrackerLogVGMFile)		// // //
+END_MESSAGE_MAP()
 
 
 BOOL CMainFrame::Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle , const RECT& rect , CWnd* pParentWnd , LPCTSTR lpszMenuName , DWORD dwExStyle , CCreateContext* pContext)
@@ -2548,6 +2551,35 @@ LRESULT CMainFrame::OnDisplayMessageID(WPARAM wParam, LPARAM lParam)
 {
 	AfxMessageBox((UINT)wParam, (UINT)lParam);
 	return 0;
+}
+
+void CMainFrame::OnTrackerLogVGMFile()		// // //
+{
+	CSoundGen *pSoundGen = theApp.GetSoundGenerator();
+
+	if (pSoundGen == NULL) {
+		// Should really never be displayed (only during debugging)
+		SetMessageText(_T("Audio is not working"));
+		return;
+	}
+
+	CFamiTrackerDoc	*pDoc = static_cast<CFamiTrackerDoc*>(GetActiveDocument());
+	CString	DefFileName = pDoc->GetFileTitle();
+	
+	CString fileFilter = LoadDefaultFilter(IDS_FILTER_VGM, _T(".vgm"));
+	CFileDialog FileDialog(FALSE, _T(".vgm"), DefFileName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, fileFilter);
+	FileDialog.m_pOFN->lpstrInitialDir = theApp.GetSettings()->GetPath(PATH_VGM);
+
+	if (FileDialog.DoModal() == IDCANCEL)
+		return;
+	
+	pSoundGen->VGMStartLogging(FileDialog.GetPathName());
+	SetMessageText(IDS_VGM_START);
+}
+
+void CMainFrame::OnUpdateTrackerLogVGMFile(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(!theApp.GetSoundGenerator()->IsPlaying());
 }
 
 void CMainFrame::CheckAudioStatus()

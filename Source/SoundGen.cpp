@@ -44,6 +44,8 @@
 #include "Settings.h"
 #include "TrackerChannel.h"
 #include "MIDI.h"
+#include "VGM/Logger.h"		// // //
+#include "VGM/Writer/SN76489.h"		// // //
 
 #ifdef EXPORT_TEST
 #include "ExportTest/ExportTest.h"
@@ -104,7 +106,9 @@ CSoundGen::CSoundGen() :
 	m_bRendering(false),
 	m_bPlaying(false),
 	m_bHaltRequest(false),
-	// // //
+	m_pVGMLogger(nullptr),		// // //
+	m_pVGMWriter(nullptr),		// // //
+	m_bVGMLogRequest(False),		// // //
 	m_pVisualizerWnd(NULL),
 	m_iSpeed(0),
 	m_iTempo(0),
@@ -145,7 +149,9 @@ CSoundGen::~CSoundGen()
 {
 	// Delete APU
 	SAFE_RELEASE(m_pAPU);
-	// // //
+	
+	SAFE_RELEASE(m_pVGMWriter);		// // //
+	SAFE_RELEASE(m_pVGMLogger);		// // //
 
 	// Remove channels
 	for (int i = 0; i < CHANNELS; ++i) {
@@ -817,6 +823,12 @@ void CSoundGen::BeginPlayer(play_mode_t Mode, int Track)
 
 	ResetTempo();
 	ResetAPU();
+
+	if (m_bVGMLogRequest) {		// // //
+		m_bVGMLogRequest = false;
+		ASSERT(m_pVGMWriter != nullptr);
+		m_pAPU->SetVGMWriter(VGMChip::SN76489, m_pVGMWriter);
+	}
 }
 
 void CSoundGen::HaltPlayer()
@@ -830,7 +842,8 @@ void CSoundGen::HaltPlayer()
 
 	MakeSilent();
 
-	// // //
+	// TODO: do something if logging failed
+	VGMStopLogging();		// // //
 /*
 	for (int i = 0; i < CHANNELS; ++i) {
 		if (m_pChannels[i] != NULL) {
@@ -924,6 +937,33 @@ void CSoundGen::SetupSpeed()
 	m_iTempoRemainder = (m_iTempo * 24) % m_iSpeed;
 }
 
+void CSoundGen::VGMStartLogging(const char *Filename)		// // //
+{
+	SAFE_RELEASE(m_pVGMWriter);
+	SAFE_RELEASE(m_pVGMLogger);
+	m_pVGMLogger = new CVGMLogger {Filename};
+	m_pVGMLogger->SetFrequency(m_pDocument->GetFrameRate());
+	m_pVGMWriter = new CVGMWriterSN76489 {*m_pVGMLogger};
+	m_bVGMLogRequest = true;
+}
+
+bool CSoundGen::VGMStopLogging()
+{
+	bool status = false;
+	try {
+		if (m_pVGMLogger && m_pVGMLogger->Commit()) {
+			status = true;
+			m_pAPU->SetVGMWriter(VGMChip::SN76489, nullptr);
+		}
+		SAFE_RELEASE(m_pVGMWriter);
+		SAFE_RELEASE(m_pVGMLogger);
+	}
+	catch (std::exception &) {
+		status = false;
+	}
+	return status;
+}
+
 // Return current tempo setting in BPM
 float CSoundGen::GetTempo() const
 {
@@ -941,7 +981,6 @@ void CSoundGen::RunFrame()
 	m_pTrackerView->PlayerTick();
 
 	if (IsPlaying()) {
-		
 		++m_iPlayTicks;
 
 		if (m_bRendering) {
@@ -981,6 +1020,9 @@ void CSoundGen::RunFrame()
 		else {
 			m_bUpdateRow = false;
 		}
+
+		if (m_pVGMLogger != nullptr)		// // //
+			m_pVGMLogger->DelayTicks(1);
 	}
 }
 
@@ -1856,7 +1898,6 @@ void CSoundGen::WriteExternalRegister(uint16 Reg, uint8 Value)
 
 void CSoundGen::WriteRegister(uint16 Reg, uint8 Value)
 {
-	// Empty
 }
 
 void CSoundGen::WriteExternalRegister(uint16 Reg, uint8 Value)

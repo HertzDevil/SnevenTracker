@@ -19,6 +19,7 @@
 */
 
 #include "SN76489_new.h"
+#include "../VGM/Writer/Base.h"
 
 const uint16 CSN76489::VOLUME_TABLE[] = {
 	1516, 1205, 957, 760, 603, 479, 381, 303, 240, 191, 152, 120, 96, 76, 60, 0
@@ -109,7 +110,7 @@ void CSNNoise::Write(uint16 Address, uint8 Value)
 	switch (Address) {
 	case 0:
 		m_iFeedbackMode = Value & 0x03;
-		m_bShortNoise = (Value & 0x04) != 0;
+		m_bShortNoise = (Value & 0x04) == 0;
 		m_iLFSRState = LFSR_INIT; break;
 	case 2:
 		m_iAttenuation = Value & 0x0F; break;
@@ -193,23 +194,34 @@ void CSN76489::Write(uint16 Address, uint8 Value)
 {
 	switch (Address) {
 	case 0: case 2: case 4:
+		Value &= 0x0F;
 		m_iAddressLatch = (uint8)Address;
-		m_SquareChannel[Address / 2]->Write(0, Value & 0x0F);
+		m_SquareChannel[Address / 2]->Write(0, Value);
 		break;
 	case 1: case 3: case 5:
-		m_SquareChannel[Address / 2]->Write(2, Value & 0x0F);
+		Value &= 0x0F;
+		m_SquareChannel[Address / 2]->Write(2, Value);
 		break;
 	case 6:
-		m_NoiseChannel->Write(0, Value & 0x07);
+		Value &= 0x07;
+		m_NoiseChannel->Write(0, Value);
 		break;
 	case 7:
-		m_NoiseChannel->Write(2, Value & 0x0F);
+		Value &= 0x0F;
+		m_NoiseChannel->Write(2, Value);
 		break;
 	default:
+		Value &= 0x3F;
 		m_SquareChannel[m_iAddressLatch / 2]->Write(1, Value & 0x3F);
 		if (m_iAddressLatch / 2 == CHANID_TRIANGLE)
 			m_NoiseChannel->CachePeriod(m_SquareChannel[CHANID_TRIANGLE]->GetPeriod());
+		if (m_pVGMWriter != nullptr)
+			m_pVGMWriter->WriteReg(0, Value);
 	}
+
+	if (Address != -1)
+		if (m_pVGMWriter != nullptr)
+			m_pVGMWriter->WriteReg(0, 0x80 | (Address << 4) | Value);
 
 	if (Address == 4 || Address == 5)
 		m_NoiseChannel->CachePeriod(m_SquareChannel[CHANID_TRIANGLE]->GetPeriod());
@@ -218,4 +230,9 @@ void CSN76489::Write(uint16 Address, uint8 Value)
 uint8 CSN76489::Read(uint16 Address, bool &Mapped)
 {
 	return 0;
+}
+
+void CSN76489::SetVGMWriter(const CVGMWriterBase *pWrite)
+{
+	m_pVGMWriter = pWrite; // do not propagate to channel classes i guess
 }

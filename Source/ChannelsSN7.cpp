@@ -268,7 +268,7 @@ void CNoiseChan::RefreshChannel()
 {
 	int Period = CalculatePeriod();
 	int Volume = CalculateVolume();
-	char NoiseMode = m_iDutyPeriod & 0x01;
+	char NoiseMode = !(m_iDutyPeriod & 0x01);		// // //
 
 #ifdef NOISE_PITCH_SCALE
 	Period = (Period >> 4) & 0x0F;

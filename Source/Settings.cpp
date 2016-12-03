@@ -157,6 +157,7 @@ void CSettings::SetupSettings()
 	SETTING_STRING("Paths", "NSF path", "", &Paths[PATH_NSF]);
 	SETTING_STRING("Paths", "DMC path", "", &Paths[PATH_DMC]);
 	SETTING_STRING("Paths", "WAV path", "", &Paths[PATH_WAV]);
+	SETTING_STRING("Paths", "VGM path", "", &Paths[PATH_VGM]);		// // //
 
 	SETTING_STRING("Paths", "Instrument menu", "", &InstrumentMenuPath);
 

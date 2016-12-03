@@ -104,10 +104,14 @@ public:
 
 	void	Write(uint16 Address, uint8 Value) override;
 	uint8	Read(uint16 Address, bool &Mapped) override;
+
+	// TODO: CExternal should become a composite of CExChannel
+	void	SetVGMWriter(const CVGMWriterBase *pWrite);
 	
 	static const uint16 VOLUME_TABLE[16];
 
 private:
+	const CVGMWriterBase *m_pVGMWriter = nullptr;
 	CSNSquare *m_SquareChannel[3];
 	CSNNoise *m_NoiseChannel;
 	uint8	m_iAddressLatch;

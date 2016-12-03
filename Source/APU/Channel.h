@@ -22,6 +22,7 @@
 #define CHANNEL_H
 
 class CMixer;
+class CVGMWriterBase;		// // //
 
 //
 // This class is used to derive the audio channels
@@ -86,6 +87,10 @@ public:
 		m_iTime = 0;
 	}
 
+	virtual inline void SetVGMWriter(const CVGMWriterBase *pWrite) {		// // //
+		m_pVGMWriter = pWrite;
+	}
+
 protected:
 	inline void Mix(int32 Value) {
 		int32 Delta = Value - m_iLastValue;
@@ -96,6 +101,7 @@ protected:
 
 protected:
 	CMixer	*m_pMixer;
+	const CVGMWriterBase *m_pVGMWriter = nullptr;
 
 	uint32	m_iTime;			// Cycle counter, resets every new frame
 	uint8	m_iChip;
