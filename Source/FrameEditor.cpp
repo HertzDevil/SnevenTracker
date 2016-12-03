@@ -667,11 +667,10 @@ void CFrameEditor::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 				m_iCursorPos = 0;
 				m_bCursor = true;
 				if (SelectedChannel == m_pDocument->GetAvailableChannels() - 1)
-					m_pView->SetFocus();
-				else {
+					m_pView->SelectChannel(0);		// // // 0CC-FT
+				else
 					m_pView->SelectChannel(SelectedChannel + 1);
-					m_iNewPattern = m_pDocument->GetPatternAtFrame(Track, SelectedFrame, SelectedChannel);
-				}
+				m_iNewPattern = m_pDocument->GetPatternAtFrame(Track, SelectedFrame, SelectedChannel);
 			}
 			else
 				m_iCursorPos = 1;

@@ -200,8 +200,11 @@ CFamiTrackerView::CFamiTrackerView() :
 	m_bMaskVolume(true),
 	m_bSwitchToInstrument(false),
 	m_iOctave(3),
+	m_iLastNote(NONE),		// // // 0CC-FT
 	m_iLastVolume(MAX_VOLUME),
-	m_iLastInstrument(0),
+	m_iLastInstrument(MAX_INSTRUMENTS),
+	m_iLastEffect(EF_NONE),		// // // 0CC-FT
+	m_iLastEffectParam(0),		// // // 0CC-FT
 	m_iSwitchToInstrument(-1),
 	m_bFollowMode(true),
 	m_iAutoArpPtr(0),
@@ -2316,6 +2319,8 @@ bool CFamiTrackerView::EditEffNumberColumn(stChanNote &Note, unsigned char nChar
 	if (CheckRepeatKey(nChar)) {
 		Note.EffNumber[EffectIndex] = m_iLastEffect;
 		Note.EffParam[EffectIndex] = m_iLastEffectParam;
+		if (EditStyle != EDIT_STYLE2)		// // // 0CC-FT
+			bStepDown = true;
 		return true;
 	}
 
@@ -2376,6 +2381,8 @@ bool CFamiTrackerView::EditEffParamColumn(stChanNote &Note, int Key, int EffectI
 	if (CheckRepeatKey(Key)) {
 		Note.EffNumber[EffectIndex] = m_iLastEffect;
 		Note.EffParam[EffectIndex] = m_iLastEffectParam;
+		if (EditStyle != EDIT_STYLE2)		// // // 0CC-FT
+			bStepDown = true;
 		return true;
 	}
 
@@ -2483,6 +2490,8 @@ void CFamiTrackerView::HandleKeyboardInput(char nChar)
 					Note.Note = GET_NOTE(m_iLastNote);
 					Note.Octave = GET_OCTAVE(m_iLastNote);
 				}
+				if (EditStyle != EDIT_STYLE2)		// // // 0CC-FT
+					bStepDown = true;
 			}
 			else if (CheckClearKey(nChar)) {
 				// Remove note
