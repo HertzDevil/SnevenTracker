@@ -2,6 +2,7 @@
 
 ### Version 0.2.1
 
+- Overloaded `Nxx` for Game Gear stereo control
 - Channels no longer reduce to zero volume when the mixed volume is less than 0 (to match 0CC-FT's 5B behaviour)
 - Fixed arpeggio on noise channel now maps 0 to `L-#` and 2 to `H-#` **(backward-incompatible change, modify your modules accordingly)**
 - Fixed VGM logs putting 0 in the sample count fields
