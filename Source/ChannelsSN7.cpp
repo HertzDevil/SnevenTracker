@@ -71,8 +71,8 @@ void CChannelHandlerSN7::HandleCustomEffects(int EffNum, int EffParam)
 		// Custom effects
 		switch (EffNum) {
 		case EF_SN_CONTROL:		// // //
-			if (EffParam >= 0x01 && EffParam <= 0x1F) {
-				SetStereo(EffParam <= 0x10, EffParam >= 0x10);
+			if (EffParam >= 0x00 && EffParam <= 0x1F) {
+				SetStereo(EffParam && EffParam <= 0x10, EffParam >= 0x10);
 				break;
 			}
 			if (EffParam >= 0xC1 && EffParam <= 0xC3) {

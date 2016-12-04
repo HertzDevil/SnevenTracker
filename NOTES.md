@@ -22,11 +22,11 @@ _(TODO)_
 
 ## New Effects
 
-#### N01 - N1F
+#### N00 - N1F
 
 - **Name:** Panning setting
 - **Target:** SN76489, ~~T6W28~~
-- **Description:** Changes the volume balance for the left and right output channels. `N01` is left, `N10` is center, `N1F` is right. ~~Intermediate values are supported only by the T6W28 chip; it effectively decreases the output volume in one of the output channels, but never silences it unless `N01` or `N1F` is used.~~
+- **Description:** Changes the volume balance for the left and right output channels. `N01` is left, `N10` is center, `N1F` is right. ~~Intermediate values are supported only by the T6W28 chip; it effectively decreases the output volume in one of the output channels, but never silences it unless `N01` or `N1F` is used.~~ The special `N00` silences both channels.
 
 #### NCx
 
