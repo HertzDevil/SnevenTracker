@@ -40,6 +40,8 @@ protected:
 	virtual void HandleNote(int Note, int Octave);
 	int CalculateVolume() const override;		// // //
 
+	void SetStereo(bool Left, bool Right) const;
+
 protected:
 	unsigned char m_cSweep;			// Sweep, used by pulse channels
 
@@ -50,6 +52,8 @@ protected:
 	int		m_iPostEffectParam;
 
 	static int m_iRegisterPos[3];		// // //
+	static uint8 m_cStereoFlag;		// // //
+	static uint8 m_cStereoFlagLast;		// // //
 };
 
 // Square 1

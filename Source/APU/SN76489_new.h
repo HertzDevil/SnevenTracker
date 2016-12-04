@@ -28,15 +28,34 @@
 #include "Channel.h"
 #include "External.h"
 
-class CSNSquare : public CExChannel
+class CSN76489Channel : public CExChannel
+{
+public:
+	using CExChannel::CExChannel;
+	virtual void	Reset() = 0;
+	virtual void	Write(uint16 Address, uint8 Value) = 0;
+	virtual void	Process(uint32 Time) = 0;
+
+	virtual void	SetStereo(bool Left, bool Right) final;
+	virtual bool	GetLeftOutput() const final;
+	virtual bool	GetRightOutput() const final;
+
+private:
+	bool m_bLeft = true;
+	bool m_bRight = true;
+};
+
+
+
+class CSNSquare final : public CSN76489Channel
 {
 public:
 	CSNSquare(CMixer *pMixer, int ID);
 	~CSNSquare();
 
-	void	Reset();
-	void	Write(uint16 Address, uint8 Value);
-	void	Process(uint32 Time);
+	void	Reset() override final;
+	void	Write(uint16 Address, uint8 Value) override final;
+	void	Process(uint32 Time) override final;
 
 	uint16	GetPeriod() const;
 
@@ -66,15 +85,15 @@ enum SN_noise_fb_t
 	SN_NOI_DIV_CH3,
 };
 
-class CSNNoise : public CExChannel
+class CSNNoise final : public CSN76489Channel
 {
 public:
 	CSNNoise(CMixer *pMixer);
 	~CSNNoise();
 
-	void	Reset();
-	void	Write(uint16 Address, uint8 Value);
-	void	Process(uint32 Time);
+	void	Reset() override final;
+	void	Write(uint16 Address, uint8 Value) override final;
+	void	Process(uint32 Time) override final;
 
 	void	CachePeriod(uint16 Period);
 
@@ -108,11 +127,15 @@ public:
 	// TODO: CExternal should become a composite of CExChannel
 	void	SetVGMWriter(const CVGMWriterBase *pWrite);
 	
+	static const size_t CHANNEL_COUNT = 4;
+	static const uint16 STEREO_PORT;
 	static const uint16 VOLUME_TABLE[16];
 
 private:
+	void	UpdateNoisePeriod() const;
+
+private:
 	const CVGMWriterBase *m_pVGMWriter = nullptr;
-	CSNSquare *m_SquareChannel[3];
-	CSNNoise *m_NoiseChannel;
+	CSN76489Channel *m_pChannels[CHANNEL_COUNT];
 	uint8	m_iAddressLatch;
 };

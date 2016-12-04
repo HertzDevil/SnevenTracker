@@ -224,7 +224,7 @@ void CAPU::Write(uint16 Address, uint8 Value)
 
 	Process();
 
-	if (Address <= 0x10 || Address == (uint16)-1) {		// // //
+	if (Address == CSN76489::STEREO_PORT || Address <= 0x10 || Address == (uint16)-1) {		// // //
 		m_pSN76489->Write(Address, Value);
 	}
 

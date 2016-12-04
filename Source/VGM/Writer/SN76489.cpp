@@ -35,6 +35,9 @@ VGMChip CVGMWriterSN76489::GetChip() const
 std::vector<char>
 CVGMWriterSN76489::Command(uint32_t adr, uint32_t val, uint32_t port) const
 {
+	// ignore adr since the SN76489 doesn't really have one
+	if (port == 0x06) // GG stereo port
+		return {0x4F, (char)val};
 	return {0x50, (char)val};
 }
 

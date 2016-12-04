@@ -29,9 +29,11 @@
 #include "Settings.h"
 #include "SoundGen.h"
 
-int CChannelHandlerSN7::m_iRegisterPos[] = {
+int CChannelHandlerSN7::m_iRegisterPos[] = {		// // //
 	CHANID_SQUARE1, CHANID_SQUARE2, CHANID_SQUARE3
-};		// // //
+};
+uint8 CChannelHandlerSN7::m_cStereoFlag = 0xFFu;		// // //
+uint8 CChannelHandlerSN7::m_cStereoFlagLast = 0xFFu;		// // //
 
 CChannelHandlerSN7::CChannelHandlerSN7() : 
 	CChannelHandler(0x3FF, 0x0F),		// // //
@@ -69,12 +71,17 @@ void CChannelHandlerSN7::HandleCustomEffects(int EffNum, int EffParam)
 		// Custom effects
 		switch (EffNum) {
 		case EF_SN_CONTROL:		// // //
+			if (EffParam >= 0x01 && EffParam <= 0x1F) {
+				SetStereo(EffParam <= 0x10, EffParam >= 0x10);
+				break;
+			}
 			if (EffParam >= 0xC1 && EffParam <= 0xC3) {
 				EffParam -= 0xC1;
 				m_iRegisterPos[CHANID_SQUARE1] = CHANID_SQUARE1;
 				m_iRegisterPos[CHANID_SQUARE2] = CHANID_SQUARE2;
 				m_iRegisterPos[CHANID_SQUARE3] = EffParam;
 				m_iRegisterPos[EffParam] = CHANID_SQUARE3;
+				break;
 			}
 			break;
 		case EF_DUTY_CYCLE:
@@ -158,6 +165,15 @@ int CChannelHandlerSN7::CalculateVolume() const		// // //
 	return Volume;
 }
 
+void CChannelHandlerSN7::SetStereo(bool Left, bool Right) const
+{
+	m_cStereoFlag &= ~(0x11 << m_iChannelID);
+	if (Left)
+		m_cStereoFlag |= ((uint8_t)0x10) << m_iChannelID;
+	if (Right)
+		m_cStereoFlag |= ((uint8_t)0x01) << m_iChannelID;
+}
+
 void CChannelHandlerSN7::ProcessChannel()
 {
 	// Default effects
@@ -181,6 +197,11 @@ void CChannelHandlerSN7::ResetChannel()
 
 void CSquareChan::RefreshChannel()
 {
+	// TODO: move this into an appropriate chip handler class
+	// once this is done, do the same refactoring in 0CC-FT
+	if (m_iChannelID == CHANID_SQUARE1 && m_cStereoFlagLast != m_cStereoFlag)
+		WriteRegister(/* CSN76489::STEREO_PORT */ 0x4F, m_cStereoFlagLast = m_cStereoFlag);
+
 	int Period = CalculatePeriod();
 	int Volume = CalculateVolume();
 	// // //
@@ -200,6 +221,7 @@ void CSquareChan::ClearRegisters()
 	WriteRegister(  -1, 0x00); // double-byte
 	WriteRegister(Base + 1, 0xF);
 	m_iRegisterPos[m_iChannelID] = m_iChannelID;
+	SetStereo(true, true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -270,6 +292,7 @@ void CNoiseChan::ClearRegisters()
 	m_iLastCtrl = 0;		// // //
 	WriteRegister(0x06, 0);
 	WriteRegister(0x07, 0xF);
+	SetStereo(true, true);
 }
 
 int CNoiseChan::TriggerNote(int Note)
