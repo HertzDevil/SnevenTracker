@@ -178,7 +178,7 @@ void CSoundGen::CreateChannels()
 	// 2A03/2A07
 	AssignChannel(new CTrackerChannel(_T("Square 1"), SNDCHIP_NONE, CHANID_SQUARE1), new CSquareChan());
 	AssignChannel(new CTrackerChannel(_T("Square 2"), SNDCHIP_NONE, CHANID_SQUARE2), new CSquareChan());
-	AssignChannel(new CTrackerChannel(_T("Square 3"), SNDCHIP_NONE, CHANID_TRIANGLE), new CSquareChan());
+	AssignChannel(new CTrackerChannel(_T("Square 3"), SNDCHIP_NONE, CHANID_SQUARE3), new CSquareChan());
 	AssignChannel(new CTrackerChannel(_T("Noise"), SNDCHIP_NONE, CHANID_NOISE), new CNoiseChan());
 	// // //
 }
@@ -1233,7 +1233,7 @@ void CSoundGen::LoadMachineSettings(int Machine, int Rate)		// // //
 	// Setup note tables
 	m_pChannels[CHANID_SQUARE1]->SetNoteTable(m_pNoteLookupTable);
 	m_pChannels[CHANID_SQUARE2]->SetNoteTable(m_pNoteLookupTable);
-	m_pChannels[CHANID_TRIANGLE]->SetNoteTable(m_pNoteLookupTable);
+	m_pChannels[CHANID_SQUARE3]->SetNoteTable(m_pNoteLookupTable);
 // // //
 }
 

@@ -230,7 +230,7 @@ void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCy
 			switch (ChanID) {
 				case CHANID_SQUARE1:
 				case CHANID_SQUARE2:
-				case CHANID_TRIANGLE:
+				case CHANID_SQUARE3:
 				case CHANID_NOISE:
 					SynthSN76489Left.offset(FrameCycles, Value, &BlipBuffer);
 			}
@@ -257,7 +257,7 @@ void CMixer::StoreChannelLevel(int Channel, int Value)
 	switch (Channel) {		// // // 
 	case CHANID_SQUARE1:
 	case CHANID_SQUARE2:
-	case CHANID_TRIANGLE:
+	case CHANID_SQUARE3:
 	case CHANID_NOISE:
 		int Lv = AbsVol;
 		AbsVol = 0;

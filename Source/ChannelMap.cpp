@@ -48,11 +48,11 @@ void CChannelMap::SetupSoundChips()
 	// Add available chips
 #ifdef _DEBUG
 	// Under development
-	AddChip(SNDCHIP_NONE, new CInstrument2A03(), _T("NES channels only"));
+	AddChip(SNDCHIP_NONE, new CInstrument2A03(), _T("SN76489 channels only"));
 	// // //
 #else /* _DEBUG */
 	// Ready for use
-	AddChip(SNDCHIP_NONE, new CInstrument2A03(), _T("NES channels only"));
+	AddChip(SNDCHIP_NONE, new CInstrument2A03(), _T("SN76489 channels only"));
 	// // //
 #endif /* _DEBUG */
 }

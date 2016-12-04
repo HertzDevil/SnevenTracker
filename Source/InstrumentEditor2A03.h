@@ -30,7 +30,7 @@ public:
 	CInstrumentEditor2A03(CWnd* pParent = NULL);   // standard constructor
 	virtual ~CInstrumentEditor2A03();
 	virtual int GetIDD() const { return IDD; };
-	virtual TCHAR *GetTitle() const { return _T("2A03 settings"); };
+	virtual TCHAR *GetTitle() const { return _T("SN76489 settings"); };		// // //
 
 	// Public
 	virtual void SelectInstrument(int Instrument);

@@ -329,13 +329,13 @@ void CPatternCompiler::CompileData(int Track, int Pattern, int Channel)
 					}
 					break;*/
 				case EF_SWEEPUP:
-					if (ChanID < CHANID_TRIANGLE) {
+					if (ChanID < CHANID_SQUARE3) {
 						WriteData(Command(CMD_EFF_SWEEP));
 						WriteData(0x88 | (EffParam & 0x77));	// Calculate sweep
 					}
 					break;
 				case EF_SWEEPDOWN:
-					if (ChanID < CHANID_TRIANGLE) {
+					if (ChanID < CHANID_SQUARE3) {
 						WriteData(Command(CMD_EFF_SWEEP));
 						WriteData(0x80 | (EffParam & 0x77));	// Calculate sweep
 					}

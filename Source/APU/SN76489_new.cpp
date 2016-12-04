@@ -213,8 +213,8 @@ void CSN76489::Write(uint16 Address, uint8 Value)
 	default:
 		Value &= 0x3F;
 		m_SquareChannel[m_iAddressLatch / 2]->Write(1, Value & 0x3F);
-		if (m_iAddressLatch / 2 == CHANID_TRIANGLE)
-			m_NoiseChannel->CachePeriod(m_SquareChannel[CHANID_TRIANGLE]->GetPeriod());
+		if (m_iAddressLatch / 2 == CHANID_SQUARE3)
+			m_NoiseChannel->CachePeriod(m_SquareChannel[CHANID_SQUARE3]->GetPeriod());
 		if (m_pVGMWriter != nullptr)
 			m_pVGMWriter->WriteReg(0, Value);
 	}
@@ -224,7 +224,7 @@ void CSN76489::Write(uint16 Address, uint8 Value)
 			m_pVGMWriter->WriteReg(0, 0x80 | (Address << 4) | Value);
 
 	if (Address == 4 || Address == 5)
-		m_NoiseChannel->CachePeriod(m_SquareChannel[CHANID_TRIANGLE]->GetPeriod());
+		m_NoiseChannel->CachePeriod(m_SquareChannel[CHANID_SQUARE3]->GetPeriod());
 }
 
 uint8 CSN76489::Read(uint16 Address, bool &Mapped)

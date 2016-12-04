@@ -32,7 +32,7 @@
 //#define NOISE_PITCH_SCALE
 
 int CChannelHandlerSN7::m_iRegisterPos[] = {
-	CHANID_SQUARE1, CHANID_SQUARE2, CHANID_TRIANGLE
+	CHANID_SQUARE1, CHANID_SQUARE2, CHANID_SQUARE3
 };		// // //
 
 CChannelHandlerSN7::CChannelHandlerSN7() : 
@@ -75,8 +75,8 @@ void CChannelHandlerSN7::HandleCustomEffects(int EffNum, int EffParam)
 				EffParam -= 0xC1;
 				m_iRegisterPos[CHANID_SQUARE1] = CHANID_SQUARE1;
 				m_iRegisterPos[CHANID_SQUARE2] = CHANID_SQUARE2;
-				m_iRegisterPos[CHANID_TRIANGLE] = EffParam;
-				m_iRegisterPos[EffParam] = CHANID_TRIANGLE;
+				m_iRegisterPos[CHANID_SQUARE3] = EffParam;
+				m_iRegisterPos[EffParam] = CHANID_SQUARE3;
 			}
 			break;
 		case EF_DUTY_CYCLE:

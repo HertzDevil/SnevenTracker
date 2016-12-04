@@ -161,7 +161,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_FILE_GENERALSETTINGS, OnFileGeneralsettings)
 	ON_COMMAND(ID_FILE_IMPORTTEXT, OnFileImportText)
 	ON_COMMAND(ID_FILE_EXPORTTEXT, OnFileExportText)
-	ON_COMMAND(ID_FILE_CREATE_NSF, OnCreateNSF)
+// // //	ON_COMMAND(ID_FILE_CREATE_NSF, OnCreateNSF)
 	ON_COMMAND(ID_FILE_CREATEWAV, OnCreateWAV)
 	ON_COMMAND(ID_EDIT_UNDO, OnEditUndo)
 	ON_COMMAND(ID_EDIT_REDO, OnEditRedo)
@@ -204,7 +204,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_TRACKER_KILLSOUND, OnTrackerKillsound)
 	ON_COMMAND(ID_TRACKER_SWITCHTOTRACKINSTRUMENT, OnTrackerSwitchToInstrument)
 	// // //
-	ON_COMMAND(ID_TRACKER_DISPLAYREGISTERSTATE, OnTrackerDisplayRegisterState)
+// // //	ON_COMMAND(ID_TRACKER_DISPLAYREGISTERSTATE, OnTrackerDisplayRegisterState)
 	ON_COMMAND(ID_VIEW_CONTROLPANEL, OnViewControlpanel)
 	ON_COMMAND(ID_HELP, CFrameWnd::OnHelp)
 	ON_COMMAND(ID_HELP_FINDER, CFrameWnd::OnHelpFinder)
@@ -2144,7 +2144,7 @@ void CMainFrame::OnNewInstrumentMenu(NMHDR* pNotifyStruct, LRESULT* result)
 	int Chip = pDoc->GetExpansionChip();
 	int SelectedChip = pDoc->GetChannel(pView->GetSelectedChannel())->GetChip();	// where the cursor is located
 
-	menu.AppendMenu(MF_STRING, ID_INSTRUMENT_ADD_2A03, _T("New 2A03 instrument"));
+	menu.AppendMenu(MF_STRING, ID_INSTRUMENT_ADD_2A03, _T("New SN76489 instrument"));		// // //
 
 	// // //
 

@@ -1615,7 +1615,7 @@ BEGIN
     IDS_DPCM_IMPORT_INVALID_WAVEFILE 
                             "Cannot load this sample, file is invalid or incompatible. (Only uncompressed PCM is supported.)"
     IDS_INST_FILE_ERROR     "Could not load instrument file! Check that you have the most recent version of SnevenTracker."
-    IDS_NEW_2A03_INSTRUMENT "New 2A03 instrument"
+    IDS_NEW_2A03_INSTRUMENT "New SN76489 instrument"
     IDS_NEW_VRC6_INSTRUMENT "New VRC6 instrument"
     IDS_NEW_VRC7_INSTRUMENT "New VRC7 instrument"
     IDS_NEW_FDS_INSTRUMENT  "New FDS instrument"

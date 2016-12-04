@@ -28,7 +28,7 @@ const uint8 SNDCHIP_NONE  = 0;
 enum chan_id_t {
 	CHANID_SQUARE1,
 	CHANID_SQUARE2,
-	CHANID_TRIANGLE,
+	CHANID_SQUARE3,
 	CHANID_NOISE,
 	// // //
 	CHANNELS		/* Total number of channels */

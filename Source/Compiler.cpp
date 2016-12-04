@@ -1453,7 +1453,7 @@ void CCompiler::WriteChannelMap()
 	
 	pChunk->StoreByte(CHANID_SQUARE1 + 1);
 	pChunk->StoreByte(CHANID_SQUARE2 + 1);
-	pChunk->StoreByte(CHANID_TRIANGLE + 1);
+	pChunk->StoreByte(CHANID_SQUARE3 + 1);
 	pChunk->StoreByte(CHANID_NOISE + 1);
 
 	if (m_pDocument->ExpansionEnabled(SNDCHIP_VRC6)) {
