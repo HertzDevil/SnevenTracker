@@ -217,7 +217,7 @@ int CMixer::FinishBuffer(int t)
 
 // // //
 
-void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCycles)
+void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCycles, bool Right)		// // //
 {
 	// Add sound to mixer
 	//
@@ -233,8 +233,10 @@ void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCy
 				case CHANID_SQUARE2:
 				case CHANID_SQUARE3:
 				case CHANID_NOISE:
-					SynthSN76489Left.offset(FrameCycles, Value, &BlipBufferLeft);		// // //
-					SynthSN76489Right.offset(FrameCycles, Value, &BlipBufferRight);
+					if (Right)		// // //
+						SynthSN76489Right.offset(FrameCycles, Value, &BlipBufferRight);
+					else
+						SynthSN76489Left.offset(FrameCycles, Value, &BlipBufferLeft);
 			}
 			break;
 		// // //

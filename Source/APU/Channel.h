@@ -37,7 +37,8 @@ public:
 		m_iChip(Chip),
 		m_iChanId(ID),
 		m_iTime(0),
-		m_iLastValue(0) 
+		m_iLastValueLeft(0),		// // //
+		m_iLastValueRight(0)
 	{
 	}
 
@@ -51,10 +52,26 @@ public:
 
 protected:
 	inline void Mix(int32 Value) {
-		int32 Delta = Value - m_iLastValue;
+		MixLeft(Value);		// // //
+		MixRight(Value);
+	}
+	inline void Mix(int32 Left, int32 Right) {
+		MixLeft(Left);
+		MixRight(Right);
+	}
+
+private:
+	inline void MixSingle(int32 Value, int32 &Last, bool Right) {		// // //
+		int32 Delta = Value - Last;
 		if (Delta)
-			m_pMixer->AddValue(m_iChanId, m_iChip, Delta, Value, m_iTime);
-		m_iLastValue = Value;
+			m_pMixer->AddValue(m_iChanId, m_iChip, Delta, Value, m_iTime, Right);
+		Last = Value;
+	}
+	inline void MixLeft(int32 Value) {		// // //
+		MixSingle(Value, m_iLastValueLeft, false);
+	}
+	inline void MixRight(int32 Value) {		// // //
+		MixSingle(Value, m_iLastValueRight, true);
 	}
 
 protected:
@@ -64,7 +81,8 @@ protected:
 	uint32	m_iTime;			// Cycle counter, resets every new frame
 	uint8	m_iChip;
 	uint8	m_iChanId;
-	int32	m_iLastValue;		// Last value sent to mixer
+	int32	m_iLastValueLeft;		// Last value sent to mixer
+	int32	m_iLastValueRight;		// // // stereo support
 };
 
 #endif /* CHANNEL_H */

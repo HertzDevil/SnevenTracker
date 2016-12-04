@@ -38,7 +38,7 @@ public:
 	~CMixer();
 
 	void	ExternalSound(int Chip);
-	void	AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCycles);
+	void	AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCycles, bool Right);		// // //
 	void	UpdateSettings(int LowCut,	int HighCut, int HighDamp, float OverallVol);
 
 	bool	AllocateBuffer(unsigned int Size, uint32 SampleRate, uint8 NrChannels);
