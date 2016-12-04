@@ -25,25 +25,13 @@
 #include <memory>
 #include <cmath>
 #include "APU.h"
-#include "Square.h"
-#include "Triangle.h"
-#include "Noise.h"
 #include "SN76489_new.h"		// // //
 #include "../VGM/Writer/Base.h"		// // //
 
-const int	 CAPU::SEQUENCER_PERIOD		= 7458;
-//const int	 CAPU::SEQUENCER_PERIOD_PAL	= 7458;			// ????
 const uint32 CAPU::BASE_FREQ_NTSC		= 3579540;		// // //
 const uint32 CAPU::BASE_FREQ_PAL		= 3546893;
 const uint8	 CAPU::FRAME_RATE_NTSC		= 60;
 const uint8	 CAPU::FRAME_RATE_PAL		= 50;
-
-const uint8 CAPU::LENGTH_TABLE[] = {
-	0x0A, 0xFE, 0x14, 0x02, 0x28, 0x04, 0x50, 0x06,
-	0xA0, 0x08, 0x3C, 0x0A, 0x0E, 0x0C, 0x1A, 0x0E,
-	0x0C, 0x10, 0x18, 0x12, 0x30, 0x14, 0x60, 0x16,
-	0xC0, 0x18, 0x48, 0x1A, 0x10, 0x1C, 0x20, 0x1E
-};
 
 // // //
 

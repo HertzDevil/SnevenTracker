@@ -26,8 +26,8 @@
 #include "../Blip_Buffer/blip_buffer.h"
 
 enum chip_level_t {
-	CHIP_LEVEL_APU1,
-	CHIP_LEVEL_APU2,
+	CHIP_LEVEL_SN7L,
+	CHIP_LEVEL_SN7R,
 	// // //
 };
 
@@ -66,8 +66,6 @@ private:
 
 private:
 	// Blip buffer synths
-	Blip_Synth<blip_good_quality, -500>		Synth2A03SS;
-	Blip_Synth<blip_good_quality, -500>		Synth2A03TND;
 	Blip_Synth<blip_good_quality, -3000>		SynthSN76489Left;		// // //
 	Blip_Synth<blip_good_quality, -3000>		SynthSN76489Right;
 	// // //
@@ -91,9 +89,8 @@ private:
 	int			m_iHighDamp;
 	float		m_fOverallVol;
 
-	float		m_fLevelAPU1;
-	float		m_fLevelAPU2;
-	// // //
+	float		m_fLevelSN7Left;		// // //
+	float		m_fLevelSN7Right;		// // //
 };
 
 #endif /* MIXER_H */

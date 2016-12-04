@@ -71,8 +71,8 @@ CMixer::CMixer()
 	memset(m_fChannelLevels, 0, sizeof(float) * CHANNELS);
 	memset(m_iChanLevelFallOff, 0, sizeof(uint32) * CHANNELS);
 
-	m_fLevelAPU1 = 1.0f;
-	m_fLevelAPU2 = 1.0f;
+	m_fLevelSN7Left = 1.0f;
+	m_fLevelSN7Right = 1.0f;
 	// // //
 
 	m_iExternalChip = 0;
@@ -101,11 +101,11 @@ void CMixer::ExternalSound(int Chip)
 void CMixer::SetChipLevel(chip_level_t Chip, float Level)
 {
 	switch (Chip) {
-		case CHIP_LEVEL_APU1:
-			m_fLevelAPU1 = Level;
+		case CHIP_LEVEL_SN7L:
+			m_fLevelSN7Left = Level;
 			break;
-		case CHIP_LEVEL_APU2:
-			m_fLevelAPU2 = Level;
+		case CHIP_LEVEL_SN7R:
+			m_fLevelSN7Right = Level;
 			break;
 		// // //
 	}
@@ -134,15 +134,13 @@ void CMixer::UpdateSettings(int LowCut,	int HighCut, int HighDamp, float Overall
 
 	blip_eq_t eq(-HighDamp, HighCut, m_iSampleRate);
 
-	Synth2A03SS.treble_eq(eq);
-	Synth2A03TND.treble_eq(eq);
 	SynthSN76489Left.treble_eq(eq);
 	SynthSN76489Right.treble_eq(eq);
 	// // //
 
 	// Volume levels
-	SynthSN76489Left.volume(Volume * 0.2f * m_fLevelAPU1);
-	SynthSN76489Right.volume(Volume * 0.2f * m_fLevelAPU2);		// // //
+	SynthSN76489Left.volume(Volume * 0.2f * m_fLevelSN7Left);
+	SynthSN76489Right.volume(Volume * 0.2f * m_fLevelSN7Right);		// // //
 
 	m_iLowCut = LowCut;
 	m_iHighCut = HighCut;

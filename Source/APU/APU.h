@@ -28,9 +28,6 @@
 #include "../VGM/Constants.h"		// // //
 
 // External classes
-class CSquare;
-class CTriangle;
-class CNoise;
 class CSN76489;		// // //
 
 class CVGMWriterBase;		// // //
@@ -72,15 +69,11 @@ public:
 #endif
 
 public:
-	static const uint8	LENGTH_TABLE[];
 	static const uint32	BASE_FREQ_NTSC;
 	static const uint32	BASE_FREQ_PAL;
 	static const uint8	FRAME_RATE_NTSC;
 	static const uint8	FRAME_RATE_PAL;
 
-private:
-	static const int SEQUENCER_PERIOD;
-	
 private:
 	inline void RunSN(uint32 Time);		// // //
 

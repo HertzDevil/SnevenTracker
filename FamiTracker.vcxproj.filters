@@ -366,15 +366,6 @@
     <ClCompile Include="Source\Apu\Mixer.cpp">
       <Filter>Source Files\Sound Driver\Emulation</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Apu\Noise.cpp">
-      <Filter>Source Files\Sound Driver\Emulation\Internal</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Apu\Square.cpp">
-      <Filter>Source Files\Sound Driver\Emulation\Internal</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Apu\Triangle.cpp">
-      <Filter>Source Files\Sound Driver\Emulation\Internal</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Blip_Buffer\Blip_Buffer.cpp">
       <Filter>Source Files\Sound Driver\Emulation\Blip_Buffer</Filter>
     </ClCompile>
@@ -508,15 +499,6 @@
     </ClInclude>
     <ClInclude Include="Source\APU\Types.h">
       <Filter>Header Files\Sound Driver Headers\Emulation Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Apu\Noise.h">
-      <Filter>Header Files\Sound Driver Headers\Emulation Headers\Internal Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Apu\Square.h">
-      <Filter>Header Files\Sound Driver Headers\Emulation Headers\Internal Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Apu\Triangle.h">
-      <Filter>Header Files\Sound Driver Headers\Emulation Headers\Internal Headers</Filter>
     </ClInclude>
     <ClInclude Include="Source\Blip_Buffer\Blip_Buffer.h">
       <Filter>Header Files\Sound Driver Headers\Blip_Buffer Headers</Filter>

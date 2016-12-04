@@ -510,8 +510,8 @@ bool CSoundGen::ResetAudioDevice()
 	if (!m_pAPU->SetupSound(SampleRate, 2, (m_iMachineType == NTSC) ? MACHINE_NTSC : MACHINE_PAL))		// // //
 		return false;
 
-	m_pAPU->SetChipLevel(CHIP_LEVEL_APU1, float(pSettings->ChipLevels.iLevelAPU1 / 10.0f));
-	m_pAPU->SetChipLevel(CHIP_LEVEL_APU2, float(pSettings->ChipLevels.iLevelAPU2 / 10.0f));
+	m_pAPU->SetChipLevel(CHIP_LEVEL_SN7L, float(pSettings->ChipLevels.iLevelAPU1 / 10.0f));
+	m_pAPU->SetChipLevel(CHIP_LEVEL_SN7R, float(pSettings->ChipLevels.iLevelAPU2 / 10.0f));
 // // //
 
 	// Update blip-buffer filtering 
