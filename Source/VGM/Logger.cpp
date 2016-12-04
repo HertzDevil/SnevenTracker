@@ -117,7 +117,7 @@ void CVGMLogger::InsertByte(const std::vector<char> &b)
 void CVGMLogger::Loop()
 {
 	FlushDelay();
-	m_iIntroSamples = m_iCurrentSamples;
+	m_iIntroSamples = (uint32_t)m_fCurrentTime;
 
 	if (m_bLooped) {
 		uint64_t NewTime = (uint64_t)m_fCurrentTime;
@@ -149,12 +149,12 @@ bool CVGMLogger::Commit()
 	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::GD3Offset, 
 		m_cGD3Tag.empty() ? 0x00000000 :
 			m_Header.GetData().size() - (size_t)CVGMLogger::HEADER_POS::GD3Offset);
-	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::TotalSamples, m_iCurrentSamples);
+	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::TotalSamples, (uint32_t)m_fCurrentTime);
 	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::LoopOffset,
 		!m_bLooped ? 0x00000000 :
 			((uint32_t)Size - m_cCommands.size() - 1 - (size_t)CVGMLogger::HEADER_POS::LoopOffset));
 	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::LoopSamples,
-		m_iCurrentSamples - m_iIntroSamples);
+		(uint32_t)m_fCurrentTime - m_iIntroSamples);
 	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::DataOffset,
 		m_Header.GetData().size() + m_cGD3Tag.size() - (size_t)CVGMLogger::HEADER_POS::DataOffset);
 	for (const auto &x : m_pWriters)
@@ -174,6 +174,8 @@ void CVGMLogger::FlushDelay()
 					 - (uint64_t)(m_fCurrentTime);
 	m_fCurrentTime += m_fDelayTime;
 	m_fDelayTime = 0;
+	if (m_fCurrentTime > 0xFFFFFFFFull)
+		throw std::out_of_range {"VGM file contains too many samples"};
 
 	while (Samples) {
 		uint16_t t = Samples > 0xFFFF ? 0xFFFF : (uint16_t)Samples;
@@ -203,11 +205,6 @@ void CVGMLogger::FlushDelay()
 			}
 		}
 	}
-
-	Samples += m_iCurrentSamples;
-	if (Samples > 0xFFFFFFFFull)
-		throw std::out_of_range {"VGM file contains too many samples"};
-	m_iCurrentSamples = (uint32_t)Samples;
 }
 
 bool CVGMLogger::WriteToFile(std::ofstream &f)

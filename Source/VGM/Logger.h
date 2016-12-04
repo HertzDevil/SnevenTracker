@@ -118,7 +118,6 @@ private:
 	double m_fDelayTime = 0.;
 	double m_fRefreshInterval = 0.;
 	uint32_t m_iRefreshRate = (uint32_t)DEFAULT_FREQUENCY;
-	uint32_t m_iCurrentSamples = 0;
 	uint32_t m_iIntroSamples = 0;
 
 	std::vector<char> m_cCommands;
