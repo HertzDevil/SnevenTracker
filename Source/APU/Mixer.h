@@ -73,7 +73,8 @@ private:
 	// // //
 	
 	// Blip buffer object
-	Blip_Buffer	BlipBuffer;
+	Blip_Buffer	BlipBufferLeft;		// // //
+	Blip_Buffer	BlipBufferRight;		// // //
 
 	double		m_dSumSS;
 	double		m_dSumTND;

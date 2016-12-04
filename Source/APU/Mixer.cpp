@@ -51,6 +51,7 @@
 */
 
 #include "../stdafx.h"
+#include <algorithm>		// // //
 #include <memory>
 #include <cmath>
 #include "Mixer.h"
@@ -128,7 +129,8 @@ void CMixer::UpdateSettings(int LowCut,	int HighCut, int HighDamp, float Overall
 	float Volume = OverallVol * GetAttenuation();
 
 	// Blip-buffer filtering
-	BlipBuffer.bass_freq(LowCut);
+	BlipBufferLeft.bass_freq(LowCut);
+	BlipBufferRight.bass_freq(LowCut);		// // //
 
 	blip_eq_t eq(-HighDamp, HighCut, m_iSampleRate);
 
@@ -140,8 +142,7 @@ void CMixer::UpdateSettings(int LowCut,	int HighCut, int HighDamp, float Overall
 
 	// Volume levels
 	SynthSN76489Left.volume(Volume * 0.2f * m_fLevelAPU1);
-	SynthSN76489Right.volume(0);
-	// // //
+	SynthSN76489Right.volume(Volume * 0.2f * m_fLevelAPU2);		// // //
 
 	m_iLowCut = LowCut;
 	m_iHighCut = HighCut;
@@ -154,31 +155,33 @@ void CMixer::UpdateSettings(int LowCut,	int HighCut, int HighDamp, float Overall
 void CMixer::MixSamples(blip_sample_t *pBuffer, uint32 Count)
 {
 	// For VRC7
-	BlipBuffer.mix_samples(pBuffer, Count);
+	BlipBufferLeft.mix_samples(pBuffer, Count);
 	//blip_mix_samples(, Count);
 }
 
 uint32 CMixer::GetMixSampleCount(int t) const
 {
-	return BlipBuffer.count_samples(t);
+	return BlipBufferLeft.count_samples(t);
 }
 
 bool CMixer::AllocateBuffer(unsigned int BufferLength, uint32 SampleRate, uint8 NrChannels)
 {
 	m_iSampleRate = SampleRate;
-	BlipBuffer.sample_rate(SampleRate, (BufferLength * 1000 * 2) / SampleRate);
-	return true;
+	return BlipBufferLeft.set_sample_rate(SampleRate, (BufferLength * 1000 * 2) / SampleRate) == nullptr		// // //
+		&& BlipBufferRight.set_sample_rate(SampleRate, (BufferLength * 1000 * 2) / SampleRate) == nullptr;
 }
 
 void CMixer::SetClockRate(uint32 Rate)
 {
 	// Change the clockrate
-	BlipBuffer.clock_rate(Rate);
+	BlipBufferLeft.clock_rate(Rate);
+	BlipBufferRight.clock_rate(Rate);		// // //
 }
 
 void CMixer::ClearBuffer()
 {
-	BlipBuffer.clear();
+	BlipBufferLeft.clear();
+	BlipBufferRight.clear();		// // //
 
 	m_dSumSS = 0;
 	m_dSumTND = 0;
@@ -186,13 +189,13 @@ void CMixer::ClearBuffer()
 
 int CMixer::SamplesAvail() const
 {	
-	return (int)BlipBuffer.samples_avail();
+	return std::min<int>(BlipBufferLeft.samples_avail(), BlipBufferRight.samples_avail());		// // //
 }
 
 int CMixer::FinishBuffer(int t)
 {
-	BlipBuffer.end_frame(t);
-	// // //
+	BlipBufferLeft.end_frame(t);
+	BlipBufferRight.end_frame(t);		// // //
 
 	for (int i = 0; i < CHANNELS; ++i) {
 		if (m_iChanLevelFallOff[i] > 0)
@@ -207,7 +210,7 @@ int CMixer::FinishBuffer(int t)
 	}
 
 	// Return number of samples available
-	return BlipBuffer.samples_avail();
+	return SamplesAvail();		// // //
 }
 
 //
@@ -232,7 +235,8 @@ void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCy
 				case CHANID_SQUARE2:
 				case CHANID_SQUARE3:
 				case CHANID_NOISE:
-					SynthSN76489Left.offset(FrameCycles, Value, &BlipBuffer);
+					SynthSN76489Left.offset(FrameCycles, Value, &BlipBufferLeft);		// // //
+					SynthSN76489Right.offset(FrameCycles, Value, &BlipBufferRight);
 			}
 			break;
 		// // //
@@ -241,7 +245,12 @@ void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCy
 
 int CMixer::ReadBuffer(int Size, void *Buffer, bool Stereo)
 {
-	return BlipBuffer.read_samples((blip_sample_t*)Buffer, Size);
+	if (Stereo) {		// // //
+		long Samples = BlipBufferLeft.read_samples((blip_sample_t*)Buffer, Size, true);
+		Samples += BlipBufferRight.read_samples((blip_sample_t*)Buffer + 1, Size, true);
+		return Samples;
+	}
+	return BlipBufferLeft.read_samples((blip_sample_t*)Buffer, Size);
 }
 
 int32 CMixer::GetChanOutput(uint8 Chan) const
@@ -279,5 +288,5 @@ void CMixer::ClearChannelLevels()
 
 uint32 CMixer::ResampleDuration(uint32 Time) const
 {
-	return (uint32)BlipBuffer.resampled_duration((blip_time_t)Time);
+	return (uint32)BlipBufferLeft.resampled_duration((blip_time_t)Time);
 }

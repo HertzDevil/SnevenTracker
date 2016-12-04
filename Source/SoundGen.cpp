@@ -479,7 +479,7 @@ bool CSoundGen::ResetAudioDevice()
 		iBlocks += (BufferLen / 66);
 
 	// Create channel
-	m_pDSoundChannel = m_pDSound->OpenChannel(SampleRate, SampleSize, 1, BufferLen, iBlocks);
+	m_pDSoundChannel = m_pDSound->OpenChannel(SampleRate, SampleSize, 2, BufferLen, iBlocks);		// // // stereo
 
 	// Channel failed
 	if (m_pDSoundChannel == NULL) {
@@ -507,7 +507,7 @@ bool CSoundGen::ResetAudioDevice()
 
 	m_csVisualizerWndLock.Unlock();
 
-	if (!m_pAPU->SetupSound(SampleRate, 1, (m_iMachineType == NTSC) ? MACHINE_NTSC : MACHINE_PAL))
+	if (!m_pAPU->SetupSound(SampleRate, 2, (m_iMachineType == NTSC) ? MACHINE_NTSC : MACHINE_PAL))		// // //
 		return false;
 
 	m_pAPU->SetChipLevel(CHIP_LEVEL_APU1, float(pSettings->ChipLevels.iLevelAPU1 / 10.0f));
@@ -622,9 +622,14 @@ void CSoundGen::FillBuffer(int16 *pBuffer, uint32 Size)
 		if (freq > 20000)
 			freq = 20;
 
-		sine_phase += freq / (double(m_pDSoundChannel->GetSampleRate()) / 6.283184);
-		if (sine_phase > 6.283184)
-			sine_phase -= 6.283184;
+		static bool left = false;		// // //
+		if ((left = !left)) {
+			sine_phase += freq / (double(m_pDSoundChannel->GetSampleRate()) / 6.283184);
+			if (sine_phase > 6.283184)
+				sine_phase -= 6.283184;
+		}
+		else
+			Sample = 0;
 #endif /* AUDIO_TEST */
 
 		// Clip detection
@@ -1343,7 +1348,7 @@ bool CSoundGen::RenderToFile(LPTSTR pFile, render_end_t SongEndType, int SongEnd
 		m_iRenderEndParam = m_pDocument->ScanActualLength(Track, m_iRenderEndParam, m_iRenderRowCount);
 	}
 
-	if (!m_wfWaveFile.OpenFile(pFile, theApp.GetSettings()->Sound.iSampleRate, theApp.GetSettings()->Sound.iSampleSize, 1)) {
+	if (!m_wfWaveFile.OpenFile(pFile, theApp.GetSettings()->Sound.iSampleRate, theApp.GetSettings()->Sound.iSampleSize, 2)) {		// // //
 		AfxMessageBox(IDS_FILE_OPEN_ERROR);
 		return false;
 	}
