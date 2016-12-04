@@ -32,17 +32,22 @@ class CSN76489Channel : public CExChannel
 {
 public:
 	using CExChannel::CExChannel;
-	virtual void	Reset() = 0;
-	virtual void	Write(uint16 Address, uint8 Value) = 0;
+	virtual void	Reset();
 	virtual void	Process(uint32 Time) = 0;
+	
+	virtual void	SetVGMWriter(const CVGMWriterBase *pWrite) final;
 
-	virtual void	SetStereo(bool Left, bool Right) final;
-	virtual bool	GetLeftOutput() const final;
-	virtual bool	GetRightOutput() const final;
+	void	SetStereo(bool Left, bool Right);
 
-private:
-	bool m_bLeft = true;
-	bool m_bRight = true;
+	void	SetAttenuation(uint8 Value);
+	int32	GetVolume() const;
+
+protected:
+	const CVGMWriterBase *m_pVGMWriter = nullptr;
+	
+	uint8 m_iAttenuation;
+	bool m_bLeft;
+	bool m_bRight;
 };
 
 
@@ -54,19 +59,21 @@ public:
 	~CSNSquare();
 
 	void	Reset() override final;
-	void	Write(uint16 Address, uint8 Value) override final;
 	void	Process(uint32 Time) override final;
+	
+	void	SetPeriodLo(uint8 Value);
+	void	SetPeriodHi(uint8 Value);
+	void	FlushPeriod() const;
 
 	uint16	GetPeriod() const;
 
 	static const uint16 CUTOFF_PERIOD;
 
 private:
-	uint16	m_iSquarePeriod;
-	uint8	m_iAttenuation;
-
-	bool	m_bSqaureActive;
 	uint32	m_iSquareCounter;
+	uint8	m_iSquarePeriodLo, m_iSquarePeriodHi;
+	uint16	m_iPrevPeriod;
+	bool	m_bSqaureActive;
 };
 
 
@@ -77,12 +84,18 @@ enum SN_noise_cfg_t
 	SN_NOI_INTEGRATED,
 };
 
+enum SN_noise_div_t
+{
+	SN_NOI_DIV_512  = 0x0,
+	SN_NOI_DIV_1024 = 0x1,
+	SN_NOI_DIV_2048 = 0x2,
+	SN_NOI_DIV_CH3  = 0x3,
+};
+
 enum SN_noise_fb_t
 {
-	SN_NOI_DIV_512,
-	SN_NOI_DIV_1024,
-	SN_NOI_DIV_2048,
-	SN_NOI_DIV_CH3,
+	SN_NOI_FB_SHORT = 0x0,
+	SN_NOI_FB_LONG  = 0x4,
 };
 
 class CSNNoise final : public CSN76489Channel
@@ -92,20 +105,22 @@ public:
 	~CSNNoise();
 
 	void	Reset() override final;
-	void	Write(uint16 Address, uint8 Value) override final;
 	void	Process(uint32 Time) override final;
+
+	void	SetControlMode(uint8 Value);
 
 	void	CachePeriod(uint16 Period);
 
 private:
-	uint8	m_iFeedbackMode;
-	bool	m_bShortNoise;
-	uint8	m_iAttenuation;
-	
-	bool	m_bSqaureActive;
+	uint32	m_iSquareCounter;
 	uint16	m_iLFSRState;
 	uint16	m_iCH3Period;
-	uint32	m_iSquareCounter;
+
+	bool	m_bSqaureActive;
+
+	SN_noise_div_t	m_iNoiseFreq;
+	SN_noise_fb_t	m_iNoiseFeedback;
+
 	static const uint16 LFSR_INIT;
 };
 
@@ -126,12 +141,15 @@ public:
 
 	// TODO: CExternal should become a composite of CExChannel
 	void	SetVGMWriter(const CVGMWriterBase *pWrite);
-	
+
 	static const size_t CHANNEL_COUNT = 4;
 	static const uint16 STEREO_PORT;
 	static const uint16 VOLUME_TABLE[16];
 
 private:
+	CSNSquare *GetSquare(uint8 ID) const;
+	CSNNoise *GetNoise() const;
+
 	void	UpdateNoisePeriod() const;
 
 private:

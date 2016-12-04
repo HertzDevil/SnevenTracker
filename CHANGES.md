@@ -1,5 +1,10 @@
 # Change Log
 
+### Version 0.2.2
+
+- SN76489 VGM logger now eliminates extra register writes that have no side effects
+- Extended VGM header size so that it will not be misinterpreted by certain players
+
 ### Version 0.2.1
 
 - Overloaded `Nxx` for Game Gear stereo control

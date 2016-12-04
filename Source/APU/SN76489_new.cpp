@@ -29,20 +29,36 @@ const uint16 CSNSquare::CUTOFF_PERIOD = /* 0x01 */ 0x06;
 
 
 
+void CSN76489Channel::Reset()
+{
+	SetStereo(true, true);
+	SetAttenuation(0xF);
+}
+
+void CSN76489Channel::SetVGMWriter(const CVGMWriterBase *pWrite)
+{
+	m_pVGMWriter = pWrite;
+}
+
 void CSN76489Channel::SetStereo(bool Left, bool Right)
 {
 	m_bLeft = Left;
 	m_bRight = Right;
 }
 
-bool CSN76489Channel::GetLeftOutput() const
+void CSN76489Channel::SetAttenuation(uint8 Value)
 {
-	return m_bLeft;
+	Value &= 0xF;
+	if (Value != m_iAttenuation) {
+		if (m_pVGMWriter != nullptr)
+			m_pVGMWriter->WriteReg(0, 0x90 | (m_iChanId << 5) | Value);
+		m_iAttenuation = Value;
+	}
 }
 
-bool CSN76489Channel::GetRightOutput() const
+int32 CSN76489Channel::GetVolume() const
 {
-	return m_bRight;
+	return CSN76489::VOLUME_TABLE[m_iAttenuation];
 }
 
 
@@ -58,49 +74,61 @@ CSNSquare::~CSNSquare()
 
 void CSNSquare::Reset()
 {
-	m_iSquarePeriod = 0;
-	m_iAttenuation = 0xF;
+	CSN76489Channel::Reset();
+	
+	SetPeriodLo(0);
+	SetPeriodHi(0);
 
 	m_iSquareCounter = 0;
 	m_bSqaureActive = true;
-
-	SetStereo(true, true);
-}
-
-void CSNSquare::Write(uint16 Address, uint8 Value)
-{
-	// they don't correspond to real addressable registers
-	// but neither do the built-in 2A03 channel classes
-	switch (Address) {
-	case 0:
-		m_iSquarePeriod = (m_iSquarePeriod & 0x3F0) | (Value & 0x00F); break;
-	case 1:
-		m_iSquarePeriod = (m_iSquarePeriod & 0x00F) | ((Value & 0x3F) << 4); break;
-	case 2:
-		m_iAttenuation = Value & 0x0F; break;
-	}
 }
 
 void CSNSquare::Process(uint32 Time)
 {
-	uint16 Period = m_iSquarePeriod ? m_iSquarePeriod : 1;
+	uint16 Period = GetPeriod();
+	if (!Period)
+		Period = 1; // or 0x400 according to one of the vgm flags
 
 	while (Time >= m_iSquareCounter) {
 		Time -= m_iSquareCounter;
 		m_iTime += m_iSquareCounter;
 		m_iSquareCounter = Period << 4;
 		m_bSqaureActive = Period > CUTOFF_PERIOD ? !m_bSqaureActive : 0;
-		int32 Vol = m_bSqaureActive ? CSN76489::VOLUME_TABLE[m_iAttenuation] : 0;
-		Mix(GetLeftOutput() ? Vol : 0, GetRightOutput() ? Vol : 0);
+		int32 Vol = m_bSqaureActive ? GetVolume() : 0;
+		Mix(m_bLeft ? Vol : 0, m_bRight ? Vol : 0);
 	}
 
 	m_iSquareCounter -= Time;
 	m_iTime += Time;
 }
 
+void CSNSquare::SetPeriodLo(uint8 Value)
+{
+	m_iPrevPeriod = GetPeriod();
+	m_iSquarePeriodLo = Value & 0xF;
+}
+
+void CSNSquare::SetPeriodHi(uint8 Value)
+{
+	m_iSquarePeriodHi = Value & 0x3F;
+	FlushPeriod();
+}
+
+void CSNSquare::FlushPeriod() const
+{
+	if (m_pVGMWriter == nullptr)
+		return;
+	uint16 NewPeriod = GetPeriod();
+	if (NewPeriod == m_iPrevPeriod)
+		return;
+	m_pVGMWriter->WriteReg(0, 0x80 | (m_iChanId << 5) | m_iSquarePeriodLo);
+	if (m_iSquarePeriodHi != (m_iPrevPeriod >> 4))
+		m_pVGMWriter->WriteReg(0, m_iSquarePeriodHi);
+}
+
 uint16 CSNSquare::GetPeriod() const
 {
-	return m_iSquarePeriod;
+	return m_iSquarePeriodLo | (m_iSquarePeriodHi << 4);
 }
 
 
@@ -118,37 +146,23 @@ CSNNoise::~CSNNoise()
 
 void CSNNoise::Reset()
 {
-	m_iFeedbackMode = SN_NOI_DIV_512;
-	m_bShortNoise = false;
-	m_iAttenuation = 0xF;
+	CSN76489Channel::Reset();
 
-	m_iLFSRState = LFSR_INIT;
+	SetControlMode(SN_NOI_DIV_512 | (SN_NOI_FB_LONG << 2));
+
 	m_iSquareCounter = 0;
 	m_bSqaureActive = true;
-
-	SetStereo(true, true);
-}
-
-void CSNNoise::Write(uint16 Address, uint8 Value)
-{
-	switch (Address) {
-	case 0:
-		m_iFeedbackMode = Value & 0x03;
-		m_bShortNoise = (Value & 0x04) == 0;
-		m_iLFSRState = LFSR_INIT; break;
-	case 2:
-		m_iAttenuation = Value & 0x0F; break;
-	}
 }
 
 void CSNNoise::Process(uint32 Time)
 {
 	uint16 Period;
-	switch (m_iFeedbackMode) {
+	switch (m_iNoiseFreq) {
 	case SN_NOI_DIV_512:  Period = 0x10; break;
 	case SN_NOI_DIV_1024: Period = 0x20; break;
 	case SN_NOI_DIV_2048: Period = 0x40; break;
 	case SN_NOI_DIV_CH3:  Period = m_iCH3Period ? m_iCH3Period : 1; break;
+	default: assert(false);
 	}
 	
 	while (Time >= m_iSquareCounter) {
@@ -157,18 +171,29 @@ void CSNNoise::Process(uint32 Time)
 		m_iSquareCounter = Period << 4;
 		if ((m_bSqaureActive = !m_bSqaureActive)) {
 			int Feedback = m_iLFSRState;
-			if (m_bShortNoise)
-				Feedback &= 1;
-			else
-				Feedback = ((Feedback & 0x0009) && ((Feedback & 0x0009) ^ 0x0009));
+			switch (m_iNoiseFeedback) {
+			case SN_NOI_FB_SHORT: Feedback &= 1; break;
+			case SN_NOI_FB_LONG:  Feedback = ((Feedback & 0x0009) && ((Feedback & 0x0009) ^ 0x0009)); break;
+			default: assert(false);
+			}
 			m_iLFSRState = (m_iLFSRState >> 1) | (Feedback << (16 - 1));
-			int32 Vol = (m_iLFSRState & 1) ? CSN76489::VOLUME_TABLE[m_iAttenuation] : 0;
-			Mix(GetLeftOutput() ? Vol : 0, GetRightOutput() ? Vol : 0);
+			int32 Vol = (m_iLFSRState & 1) ? GetVolume() : 0;
+			Mix(m_bLeft ? Vol : 0, m_bRight ? Vol : 0);
 		}
 	}
 
 	m_iSquareCounter -= Time;
 	m_iTime += Time;
+}
+
+void CSNNoise::SetControlMode(uint8 Value)
+{
+	Value &= 0x7;
+	m_iNoiseFreq = static_cast<SN_noise_div_t>(Value & 0x03);
+	m_iNoiseFeedback = static_cast<SN_noise_fb_t>(Value & 0x04);
+	m_iLFSRState = LFSR_INIT;
+	if (m_pVGMWriter != nullptr)
+		m_pVGMWriter->WriteReg(0, 0xE0 | Value);
 }
 
 void CSNNoise::CachePeriod(uint16 Period)
@@ -180,9 +205,9 @@ void CSNNoise::CachePeriod(uint16 Period)
 
 CSN76489::CSN76489(CMixer *pMixer) : CExternal(pMixer)
 {
-	for (int i = 0; i < 3; ++i)
+	for (int i = CHANID_SQUARE1; i <= CHANID_SQUARE3; ++i)
 		m_pChannels[i] = new CSNSquare(pMixer, i);
-	m_pChannels[3] = new CSNNoise(pMixer);
+	m_pChannels[CHANID_NOISE] = new CSNNoise(pMixer);
 }
 
 CSN76489::~CSN76489()
@@ -207,6 +232,8 @@ void CSN76489::Process(uint32 Time)
 
 void CSN76489::EndFrame()
 {
+	for (int i = CHANID_SQUARE1; i <= CHANID_SQUARE3; ++i)
+		GetSquare(i)->FlushPeriod();
 	for (auto &x : m_pChannels)
 		x->EndFrame();
 }
@@ -215,40 +242,32 @@ void CSN76489::Write(uint16 Address, uint8 Value)
 {
 	switch (Address) {
 	case 0: case 2: case 4:
-		Value &= 0x0F;
 		m_iAddressLatch = (uint8)Address;
-		m_pChannels[Address / 2]->Write(0, Value);
+		GetSquare(Address / 2)->SetPeriodLo(Value);
 		break;
 	case 1: case 3: case 5: case 7:
-		Value &= 0x0F;
-		m_pChannels[Address / 2]->Write(2, Value);
+		GetSquare(m_iAddressLatch / 2)->FlushPeriod();
+		m_pChannels[Address / 2]->SetAttenuation(Value);
 		break;
 	case 6:
-		Value &= 0x07;
-		m_pChannels[CHANID_NOISE]->Write(0, Value);
+		GetSquare(m_iAddressLatch / 2)->FlushPeriod();
+		GetNoise()->SetControlMode(Value);
 		break;
 	case STEREO_PORT:
 		if (m_pVGMWriter != nullptr)
 			m_pVGMWriter->WriteReg(0, Value, 0x06);
-		for (int i = 0; i < CHANNEL_COUNT; ++i) {
-			m_pChannels[i]->SetStereo((Value & 0x10) != 0, (Value & 0x01) != 0);
+		for (const auto &x : m_pChannels) {
+			x->SetStereo((Value & 0x10) != 0, (Value & 0x01) != 0);
 			Value >>= 1;
 		}
-		return;
+		break;
 	default:
-		Value &= 0x3F;
-		m_pChannels[m_iAddressLatch / 2]->Write(1, Value & 0x3F);
+		GetSquare(m_iAddressLatch / 2)->SetPeriodHi(Value);
 		if (m_iAddressLatch / 2 == CHANID_SQUARE3)
 			UpdateNoisePeriod();
-		if (m_pVGMWriter != nullptr)
-			m_pVGMWriter->WriteReg(0, Value);
 	}
 
-	if (Address != -1)
-		if (m_pVGMWriter != nullptr)
-			m_pVGMWriter->WriteReg(0, 0x80 | (Address << 4) | Value);
-
-	if (Address == 4 || Address == 5)
+	if (Address / 2 == CHANID_SQUARE3)
 		UpdateNoisePeriod();
 }
 
@@ -259,12 +278,24 @@ uint8 CSN76489::Read(uint16 Address, bool &Mapped)
 
 void CSN76489::SetVGMWriter(const CVGMWriterBase *pWrite)
 {
-	m_pVGMWriter = pWrite; // do not propagate to channel classes i guess
+	for (const auto &x : m_pChannels)
+		x->SetVGMWriter(pWrite);
+	m_pVGMWriter = pWrite;
+}
+
+CSNSquare *CSN76489::GetSquare(uint8 ID) const
+{
+	assert(ID <= 2u && m_pChannels[ID] != nullptr);
+	return static_cast<CSNSquare*>(m_pChannels[ID]);
+}
+
+CSNNoise *CSN76489::GetNoise() const
+{
+	assert(m_pChannels[CHANID_NOISE] != nullptr);
+	return static_cast<CSNNoise*>(m_pChannels[CHANID_NOISE]);
 }
 
 void CSN76489::UpdateNoisePeriod() const
 {
-	auto Square = static_cast<CSNSquare*>(m_pChannels[CHANID_SQUARE3]);
-	auto Noise = static_cast<CSNNoise*>(m_pChannels[CHANID_NOISE]);
-	Noise->CachePeriod(Square->GetPeriod());
+	GetNoise()->CachePeriod(GetSquare(CHANID_SQUARE3)->GetPeriod());
 }
