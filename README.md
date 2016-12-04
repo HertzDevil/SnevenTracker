@@ -9,14 +9,10 @@ provide insight into eventually supporting them in
 
 As in 0CC-FT, all changes to the source code are marked with `// // //`.
 
-### Notes
+See `NOTES.md` for a brief overview of the stuffs actually added.
 
-- Replaces 2A03 with SN76489, removes all expansion chips
-- Tracker functionality chiefly based on MOD2PSG2
-- Produces `.snm` files, zero compatibility with FamiTracker or 0CC-FT except
-  for clipboard formats
-- Should support multiple master clock rates and both versions of the LFSR,
-  also Game Gear stereo functionality
+### To-do
+
+- Should support multiple master clock rates and both versions of the LFSR
 - Should support two instances of the SN76489, plus an extra sound chip
-- Should support VGM logging (may be backported from 0CC-FamiTracker), KSS
-  export is planned
+- KSS export is planned, but low priority
