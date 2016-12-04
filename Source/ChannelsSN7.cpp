@@ -29,8 +29,6 @@
 #include "Settings.h"
 #include "SoundGen.h"
 
-//#define NOISE_PITCH_SCALE
-
 int CChannelHandlerSN7::m_iRegisterPos[] = {
 	CHANID_SQUARE1, CHANID_SQUARE2, CHANID_SQUARE3
 };		// // //
@@ -151,7 +149,7 @@ int CChannelHandlerSN7::CalculateVolume() const		// // //
 	// Volume calculation
 	int Volume = (m_iVolume >> VOL_COLUMN_SHIFT) + m_iSeqVolume - 15 - GetTremolo();
 
-	if (m_iSeqVolume > 0 && m_iVolume > 0 && Volume == 0)
+	if (m_iSeqVolume > 0 && m_iVolume > 0 && Volume <= 0)
 		Volume = 1;
 
 	if (!m_bGate || Volume < 0)
@@ -210,24 +208,13 @@ void CSquareChan::ClearRegisters()
 
 CNoiseChan::CNoiseChan() : CChannelHandlerSN7() 
 { 
-	m_iDefaultDuty = 0; 
-	/*
-#ifdef NOISE_PITCH_SCALE
-	SetMaxPeriod(0xFF); 
-#else
-	SetMaxPeriod(0x0F); 
-#endif
-	*/
+	m_iDefaultDuty = 0;
 }
 
 void CNoiseChan::HandleNote(int Note, int Octave)
 {
 	int NewNote = MIDI_NOTE(Octave, Note);
 	int NesFreq = TriggerNote(NewNote);
-
-	NesFreq = (NesFreq & 0x03);		// // //
-	if (!(NesFreq & 0x01))
-		NesFreq ^= 0x02;
 
 //	NewNote &= 0x0F;
 
@@ -270,12 +257,6 @@ void CNoiseChan::RefreshChannel()
 	int Volume = CalculateVolume();
 	char NoiseMode = !(m_iDutyPeriod & 0x01);		// // //
 
-#ifdef NOISE_PITCH_SCALE
-	Period = (Period >> 4) & 0x0F;
-#else
-	Period = Period & 0x03;
-#endif
-
 	int newCtrl = (NoiseMode << 2) | Period;		// // //
 	if (newCtrl != m_iLastCtrl) {
 		WriteRegister(0x06, newCtrl);
@@ -305,11 +286,7 @@ int CNoiseChan::TriggerNote(int Note)
 
 //	Note &= 0x0F;
 
-#ifdef NOISE_PITCH_SCALE
-	return (Note ^ 0x0F) << 4;
-#else
-	return Note;		// // //
-#endif
+	return (2 - Note) & 0x03;		// // //
 }
 
 // // //
