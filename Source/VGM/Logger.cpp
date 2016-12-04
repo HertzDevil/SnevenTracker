@@ -30,7 +30,7 @@ const int CVGMLogger::Header::VER_MAJ = 1;
 const int CVGMLogger::Header::VER_MIN = 6;
 const int CVGMLogger::Header::VER_REV = 1;
 
-CVGMLogger::Header::Header() : m_cData(0xC0)
+CVGMLogger::Header::Header() : m_cData(0x100)
 {
 	for (int i = 0; i < sizeof(IDENT); ++i)
 		WriteAt<char>((size_t)CVGMLogger::HEADER_POS::Tag + i, IDENT[i]);
@@ -154,7 +154,7 @@ bool CVGMLogger::Commit()
 		!m_bLooped ? 0x00000000 :
 			((uint32_t)Size - m_cCommands.size() - 1 - (size_t)CVGMLogger::HEADER_POS::LoopOffset));
 	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::LoopSamples,
-		(uint32_t)m_fCurrentTime - m_iIntroSamples);
+		!m_bLooped ? 0x00000000 : ((uint32_t)m_fCurrentTime - m_iIntroSamples));
 	m_Header.WriteAt<uint32_t>(CVGMLogger::HEADER_POS::DataOffset,
 		m_Header.GetData().size() + m_cGD3Tag.size() - (size_t)CVGMLogger::HEADER_POS::DataOffset);
 	for (const auto &x : m_pWriters)
