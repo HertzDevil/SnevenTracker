@@ -512,7 +512,7 @@ bool CSoundGen::ResetAudioDevice()
 
 	m_pAPU->SetChipLevel(CHIP_LEVEL_SN7L, float(pSettings->ChipLevels.iLevelSN7L / 10.0f));
 	m_pAPU->SetChipLevel(CHIP_LEVEL_SN7R, float(pSettings->ChipLevels.iLevelSN7R / 10.0f));
-	m_pAPU->SetChipLevel(CHIP_LEVEL_SN7Sep, float(pSettings->ChipLevels.iLevelSN7Sep / 100.0f));		// // //
+	m_pAPU->SetStereoSeparation(float(pSettings->ChipLevels.iLevelSN7Sep / 100.0f));		// // //
 
 	// Update blip-buffer filtering 
 	m_pAPU->SetupMixer(pSettings->Sound.iBassFilter, pSettings->Sound.iTrebleFilter,  pSettings->Sound.iTrebleDamping, pSettings->Sound.iMixVolume);
@@ -947,11 +947,17 @@ void CSoundGen::VGMStartLogging(const char *Filename)		// // //
 {
 	SAFE_RELEASE(m_pVGMWriter);
 	SAFE_RELEASE(m_pVGMLogger);
-	m_pVGMLogger = new CVGMLogger {Filename};
-	m_pVGMLogger->SetFrequency(m_pDocument->GetFrameRate());
-	m_pVGMLogger->SetGD3Tag(VGMMakeGD3Tag());
-	m_pVGMWriter = new CVGMWriterSN76489 {*m_pVGMLogger};
-	m_bVGMLogRequest = true;
+	try {
+		m_pVGMLogger = new CVGMLogger {Filename};
+		m_pVGMLogger->SetFrequency(m_pDocument->GetFrameRate());
+		m_pVGMLogger->SetGD3Tag(VGMMakeGD3Tag());
+		m_pVGMWriter = new CVGMWriterSN76489 {*m_pVGMLogger};
+		m_bVGMLogRequest = true;
+	}
+	catch (std::runtime_error &) {
+		// do nothing
+		AfxMessageBox(IDS_FILE_OPEN_ERROR);
+	}
 }
 
 bool CSoundGen::VGMStopLogging()		// // //
@@ -1315,6 +1321,12 @@ void CSoundGen::EvaluateGlobalEffects(stChanNote *NoteData, int EffColumns)
 					++m_iFramesPlayed;
 					m_bRequestRenderStop = true;
 				}
+				break;
+
+			// // // NCx: SN76489 channel swap
+			case EF_SN_CONTROL:
+				if (EffParam >= 0xC1 && EffParam <= 0xC3)
+					CChannelHandlerSN7::SwapChannels(EffParam - 0xC1);
 				break;
 		}
 	}

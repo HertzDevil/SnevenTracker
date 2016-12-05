@@ -75,14 +75,6 @@ void CChannelHandlerSN7::HandleCustomEffects(int EffNum, int EffParam)
 				SetStereo(EffParam && EffParam <= 0x10, EffParam >= 0x10);
 				break;
 			}
-			if (EffParam >= 0xC1 && EffParam <= 0xC3) {
-				EffParam -= 0xC1;
-				m_iRegisterPos[CHANID_SQUARE1] = CHANID_SQUARE1;
-				m_iRegisterPos[CHANID_SQUARE2] = CHANID_SQUARE2;
-				m_iRegisterPos[CHANID_SQUARE3] = EffParam;
-				m_iRegisterPos[EffParam] = CHANID_SQUARE3;
-				break;
-			}
 			break;
 		case EF_DUTY_CYCLE:
 			m_iDefaultDuty = m_iDutyPeriod = EffParam;
@@ -191,6 +183,14 @@ void CChannelHandlerSN7::ResetChannel()
 	CChannelHandler::ResetChannel();
 }
 
+void CChannelHandlerSN7::SwapChannels(int ID)		// // //
+{
+	m_iRegisterPos[CHANID_SQUARE1] = CHANID_SQUARE1;
+	m_iRegisterPos[CHANID_SQUARE2] = CHANID_SQUARE2;
+	m_iRegisterPos[CHANID_SQUARE3] = ID;
+	m_iRegisterPos[ID] = CHANID_SQUARE3;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Square 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -289,7 +289,7 @@ void CNoiseChan::RefreshChannel()
 
 void CNoiseChan::ClearRegisters()
 {
-	m_iLastCtrl = 0;		// // //
+	m_iLastCtrl = -1;		// // //
 	WriteRegister(0x06, 0);
 	WriteRegister(0x07, 0xF);
 	SetStereo(true, true);

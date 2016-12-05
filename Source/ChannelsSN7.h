@@ -30,6 +30,8 @@ public:
 	virtual void ProcessChannel();
 	virtual void ResetChannel();
 
+	static void SwapChannels(int ID);
+
 protected:
 	virtual void HandleNoteData(stChanNote *pNoteData, int EffColumns);
 	virtual void HandleCustomEffects(int EffNum, int EffParam);

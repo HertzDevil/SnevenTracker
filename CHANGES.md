@@ -5,6 +5,7 @@
 - Added SN76489 stereo separation to mixer menu
 - SN76489 VGM logger now eliminates extra register writes that have no side effects
 - Extended VGM header size so that it will not be misinterpreted by certain players
+- Renamed `NCx` to "Channel swap"
 
 ### Version 0.2.1
 

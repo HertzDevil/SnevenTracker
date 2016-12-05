@@ -30,9 +30,9 @@ _(TODO)_
 
 #### NCx
 
-- **Name:** Noise channel rebind
+- **Name:** Channel swap
 - **Target:** SN76489
-- **Description:** Rebinds Square `x` to SN76489 channel 3. This allows any square channel to control the pitch of the noise channel. Doing so will cause a pop in the audio output as it essentially tells the chip to swap two channels. Default is `NC3`.
+- **Description:** Exchanges Square `x` with Square 3. This allows any square channel to control the pitch of the noise channel. Doing so will cause a pop in the audio output as it essentially tells the chip to swap two channels. Default is `NC3`, where no swapping occurs.
 
 ## New features
 
