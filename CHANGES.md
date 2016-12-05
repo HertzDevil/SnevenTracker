@@ -7,6 +7,7 @@
 - Extended VGM header size so that it will not be misinterpreted by certain players
 - Fixed text export and import (for SN7T only)
 - Renamed `NCx` to "Channel swap"
+- Samples are now properly downmixed to mono for visualizers
 
 ### Version 0.2.1
 

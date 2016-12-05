@@ -137,6 +137,8 @@ void CVisualizerWnd::FlushSamples(short *pSamples, int Count)
 	if (!m_bThreadRunning)
 		return;
 
+	Count /= 2;		// // // stereo support
+
 	if (Count != m_iBufferSize) {
 		m_csBuffer.Lock();
 		SAFE_RELEASE_ARRAY(m_pBuffer1);
@@ -149,7 +151,11 @@ void CVisualizerWnd::FlushSamples(short *pSamples, int Count)
 	}
 
 	m_csBufferSelect.Lock();
-	memcpy(m_pFillBuffer, pSamples, sizeof(short) * Count);
+	for (int i = 0; i < Count; ++i) {		// // // downmix
+		short x = *pSamples++;
+		x += *pSamples++;
+		m_pFillBuffer[i] = x / 2;
+	}
 	m_csBufferSelect.Unlock();
 
 	SetEvent(m_hNewSamples);
