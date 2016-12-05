@@ -249,6 +249,7 @@ void CNoiseChan::HandleNote(int Note, int Octave)
 		m_iPeriod = NesFreq;
 
 	m_bGate = true;
+	m_bTrigger = true;		// // //
 
 	m_iNote			= NewNote;
 	m_iDutyPeriod	= m_iDefaultDuty;
@@ -280,11 +281,26 @@ void CNoiseChan::RefreshChannel()
 	char NoiseMode = !(m_iDutyPeriod & 0x01);		// // //
 
 	int newCtrl = (NoiseMode << 2) | Period;		// // //
-	if (newCtrl != m_iLastCtrl) {
+	if ((m_bTrigger && m_bNoiseReset) || newCtrl != m_iLastCtrl) {
 		WriteRegister(0x06, newCtrl);
 		m_iLastCtrl = newCtrl;
 	}
 	WriteRegister(0x07, 0xF ^ Volume);
+
+	m_bTrigger = false;
+}
+
+void CNoiseChan::HandleCustomEffects(int EffNum, int EffParam)
+{
+	switch (EffNum) {
+	case EF_SN_CONTROL:
+		switch (EffParam) {
+		case 0xE0: m_bNoiseReset = false; return;
+		case 0xE1: m_bNoiseReset = m_bTrigger = true; return;
+		}
+	}
+
+	return CChannelHandlerSN7::HandleCustomEffects(EffNum, EffParam);
 }
 
 void CNoiseChan::ClearRegisters()
@@ -293,6 +309,7 @@ void CNoiseChan::ClearRegisters()
 	WriteRegister(0x06, 0);
 	WriteRegister(0x07, 0xF);
 	SetStereo(true, true);
+	m_bNoiseReset = false;
 }
 
 int CNoiseChan::TriggerNote(int Note)

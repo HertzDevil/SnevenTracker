@@ -73,6 +73,7 @@ public:
 	CNoiseChan();
 	virtual void RefreshChannel();
 protected:
+	virtual void HandleCustomEffects(int EffNum, int EffParam);
 	virtual void ClearRegisters();
 	virtual void HandleNote(int Note, int Octave);
 	virtual void SetupSlide(int Type, int EffParam);
@@ -81,6 +82,8 @@ protected:
 
 private:
 	int m_iLastCtrl;		// // //
+	bool m_bNoiseReset;		// // //
+	bool m_bTrigger;		// // // 0CC-FT has this built-in
 };
 
 // // //
