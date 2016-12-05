@@ -88,6 +88,10 @@ static const TCHAR* CT[CT_COUNT] =
 	_T("ROW"),
 };
 
+static const TCHAR NOISE_PITCH[] = {		// // //
+	_T('L'), _T('M'), _T('H'), _T('C')
+};
+
 // =============================================================================
 
 class Tokenizer
@@ -324,6 +328,19 @@ static bool ImportHex(CString& sToken, int& i, int line, int column, CString& sR
 	return true;
 }
 
+static bool ImportNoise(CString& sToken, int& i, int line, int column, CString& sResult)		// // //
+{
+	TCHAR c = sToken.MakeUpper().GetAt(0);
+	for (int h = 0; h < sizeof(NOISE_PITCH) / sizeof(*NOISE_PITCH); ++h)
+		if (c == NOISE_PITCH[h]) {
+			i = h;
+			return true;
+		}
+
+	sResult.Format(_T("Line %d column %d: SN76489 noise name expected, '%s' found."), line, column, sToken);
+	return false;
+}
+
 CString ExportString(const CString& s)
 {
 	// puts " at beginning and end of string, replace " with ""
@@ -358,7 +375,7 @@ static bool ImportCellText(
 	Cell.Vol = 0x10;
 
 	CString sNote = t.ReadToken();
-	if      (sNote == _T("...")) { Cell.Note = 0; }
+	if      (sNote == _T("...")) { Cell.Note = NONE; }
 	else if (sNote == _T("---")) { Cell.Note = HALT; }
 	else if (sNote == _T("===")) { Cell.Note = RELEASE; }
 	else
@@ -369,10 +386,10 @@ static bool ImportCellText(
 			return false;
 		}
 
-		if (channel == 3) // noise
+		if (channel == CHANID_NOISE) // noise
 		{
 			int h;
-			if (!ImportHex(sNote.Left(1), h, t.line, t.GetColumn(), sResult))
+			if (!ImportNoise(sNote.Left(1), h, t.line, t.GetColumn(), sResult))		// // //
 				return false;
 			Cell.Note = (h % 12) + 1;
 			Cell.Octave = h / 12;
@@ -493,7 +510,7 @@ static const CString& ExportCellText(const stChanNote& stCell, unsigned int nEff
 	static CString s;
 	CString tmp;
 
-	static const char* TEXT_NOTE[HALT+1] = {
+	static const TCHAR* TEXT_NOTE[HALT+1] = {
 		_T("..."),
 		_T("C-?"), _T("C#?"), _T("D-?"), _T("D#?"), _T("E-?"), _T("F-?"),
 		_T("F#?"), _T("G-?"), _T("G#?"), _T("A-?"), _T("A#?"), _T("B-?"),
@@ -504,8 +521,8 @@ static const CString& ExportCellText(const stChanNote& stCell, unsigned int nEff
 	{
 		if (bNoise)
 		{
-			char nNoiseFreq = (stCell.Note - 1 + stCell.Octave * 12) & 0x0F;
-			s.Format(_T("%01X-#"), nNoiseFreq);
+			char nNoiseFreq = (stCell.Note - 1 + stCell.Octave * 12) & 0x03;		// // //
+			s.Format(_T("%c-#"), NOISE_PITCH[nNoiseFreq]);
 		}
 		else
 		{
@@ -877,7 +894,7 @@ const CString& CTextExport::ExportFile(LPCTSTR FileName, CFamiTrackerDoc *pDoc)
 	// // //
 
 	f.WriteString(_T("# Macros\n"));
-	for (int c=0; c<4; ++c)
+	for (int c=0; c<1; ++c)		// // //
 	{
 		int chip = SNDCHIP_NONE;		// // //
 
