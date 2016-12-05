@@ -4,13 +4,23 @@
 
 ## Sound Chips
 
-#### Texas Instruments SN76489 (PSG)
+#### Texas Instruments SN76489
 
-_(TODO)_
+- Square channel, 4-bit volume, 10-bit pitch (x3)
+- Noise channel, 4-bit volume, 3 pitches or pitch follows channel 3, long/short periodic noise with phase reset (x1)
+
+###### Variants
+
+- _(TODO)_
+
+#### Game Gear (PSG)
+
+- Same as SN76489, except all channels have L/R hardpanning
 
 #### T6W28 (NGP)
 
-_(TODO)_
+- Square channel, 4-bit L/R volume, 10-bit pitch (x3)
+- Noise channel, 4-bit L/R volume, 10-bit pitch, long/short periodic noise with phase reset (x1)
 
 #### Yamaha YM2413 (OPLL)
 
@@ -55,6 +65,10 @@ _(TODO)_
 #### VGM Logging
 
 Under the **Tracker** menu is a new option called "Log VGM File...". Select it to save a VGM file, then play any song to start logging all audio events, and stop the player to finish logging.
+
+#### Stereo Separation
+
+The mixer menu can now configure the volume of each SN76489 output channel, as well as the stereo separation between them; 0% is effectively the same as mono audio, 100% is the default separation.
 
 ## Compatibility
 

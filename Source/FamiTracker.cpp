@@ -203,7 +203,7 @@ BOOL CFamiTrackerApp::InitInstance()
 	// Skip this if in wip/beta mode
 #if /*!defined(WIP) &&*/ !defined(_DEBUG)
 	// Add shell options
-	// // // RegisterShellFileTypes(TRUE);
+	RegisterShellFileTypes(TRUE);
 	// Add an option to play files
 	CString strPathName, strTemp, strFileTypeId;
 	AfxGetModuleShortFileName(AfxGetInstanceHandle(), strPathName);

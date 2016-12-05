@@ -2,8 +2,9 @@
 
 ### Version 0.2.2
 
+- Overloaded `NE0` / `NE1` for noise reset enable effect
 - Added SN76489 stereo separation to mixer menu
-- Added `NE0` / `NE1` noise reset enable effect
+- Re-added file association
 - SN76489 VGM logger now eliminates extra register writes that have no side effects
 - Extended VGM header size so that it will not be misinterpreted by certain players
 - Fixed text export and import (for SN7T only)
@@ -12,7 +13,7 @@
 
 ### Version 0.2.1
 
-- Overloaded `Nxx` for Game Gear stereo control
+- Overloaded `N00` - `N1F` for Game Gear stereo control
 - Channels no longer reduce to zero volume when the mixed volume is less than 0 (to match 0CC-FT's 5B behaviour)
 - Fixed arpeggio on noise channel now maps 0 to `L-#` and 2 to `H-#` **(backward-incompatible change, modify your modules accordingly)**
 - Fixed VGM logs putting 0 in the sample count fields
