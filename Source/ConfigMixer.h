@@ -38,9 +38,9 @@ public:
 	static const int LEVEL_SCALE;
 
 private:
-	int m_iLevelAPU1;
-	int m_iLevelAPU2;
-	// // //
+	int m_iLevelSN7L;
+	int m_iLevelSN7R;
+	int m_iLevelSN7Sep;		// // //
 
 protected:
 	void SetupSlider(int nID) const;

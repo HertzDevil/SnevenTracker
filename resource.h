@@ -355,11 +355,13 @@
 #define IDC_LEVEL_APU1                  1273
 #define IDC_LEVEL_APU2                  1274
 #define IDC_LEVEL_N163                  1275
+#define IDC_LEVEL_APU3                  1275
 #define IDC_LEVEL_S5B                   1276
 #define IDC_SLIDER2                     1279
 #define IDC_SLIDER_APU2                 1279
 #define IDC_SLIDER3                     1280
 #define IDC_SLIDER_VRC6                 1280
+#define IDC_SLIDER_STEREO               1280
 #define IDC_SLIDER4                     1281
 #define IDC_SLIDER_VRC7                 1281
 #define IDC_SLIDER5                     1282

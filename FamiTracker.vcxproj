@@ -785,9 +785,6 @@ makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\
     <None Include="..\nsf driver\vrc7.s" />
     <None Include="LICENSE.txt" />
     <None Include="README.md" />
-    <None Include="res\export_report.htm">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="res\FamiTracker.manifest">

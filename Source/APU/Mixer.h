@@ -28,6 +28,7 @@
 enum chip_level_t {
 	CHIP_LEVEL_SN7L,
 	CHIP_LEVEL_SN7R,
+	CHIP_LEVEL_SN7Sep,
 	// // //
 };
 
@@ -38,7 +39,7 @@ public:
 	~CMixer();
 
 	void	ExternalSound(int Chip);
-	void	AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCycles, bool Right);		// // //
+	void	AddValue(int ChanID, int Chip, int Left, int Right, int FrameCycles);		// // //
 	void	UpdateSettings(int LowCut,	int HighCut, int HighDamp, float OverallVol);
 
 	bool	AllocateBuffer(unsigned int Size, uint32 SampleRate, uint8 NrChannels);
@@ -66,8 +67,8 @@ private:
 
 private:
 	// Blip buffer synths
-	Blip_Synth<blip_good_quality, -3000>		SynthSN76489Left;		// // //
-	Blip_Synth<blip_good_quality, -3000>		SynthSN76489Right;
+	Blip_Synth<blip_good_quality, 5000>		SynthSN76489Left;		// // //
+	Blip_Synth<blip_good_quality, 5000>		SynthSN76489Right;
 	// // //
 	
 	// Blip buffer object
@@ -77,7 +78,8 @@ private:
 	double		m_dSumSS;
 	double		m_dSumTND;
 
-	int32		m_iChannels[CHANNELS];
+	int32		m_iChannelsLeft[CHANNELS];		// // //
+	int32		m_iChannelsRight[CHANNELS];		// // //
 	uint8		m_iExternalChip;
 	uint32		m_iSampleRate;
 
@@ -91,6 +93,8 @@ private:
 
 	float		m_fLevelSN7Left;		// // //
 	float		m_fLevelSN7Right;		// // //
+	float		m_fLevelSN7SepHi;		// // //
+	float		m_fLevelSN7SepLo;		// // //
 };
 
 #endif /* MIXER_H */

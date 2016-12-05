@@ -287,12 +287,17 @@ void CAPU::Log()
 }
 #endif
 
-void CAPU::SetChipLevel(chip_level_t Chip, float Level)
+void CAPU::SetChipLevel(chip_level_t Chip, float Level) const
 {
 	float fLevel = powf(10, Level / 20.0f);		// Convert dB to linear
 
 	// // //
 	m_pMixer->SetChipLevel(Chip, fLevel);
+}
+
+void CAPU::SetStereoSeparation(float Sep) const		// // //
+{
+	m_pMixer->SetChipLevel(CHIP_LEVEL_SN7Sep, Sep);
 }
 
 void CAPU::SetVGMWriter(VGMChip Chip, const CVGMWriterBase *pWrite)		// // //

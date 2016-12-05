@@ -162,9 +162,9 @@ void CSettings::SetupSettings()
 	SETTING_STRING("Paths", "Instrument menu", "", &InstrumentMenuPath);
 
 	// Mixing
-	SETTING_INT("Mixer", "APU1", 0, &ChipLevels.iLevelAPU1);
-	SETTING_INT("Mixer", "APU2", 0, &ChipLevels.iLevelAPU2);
-	// // //
+	SETTING_INT("Mixer", "SN76489 left", 0, &ChipLevels.iLevelSN7L);
+	SETTING_INT("Mixer", "SN76489 right", 0, &ChipLevels.iLevelSN7R);
+	SETTING_INT("Mixer", "SN76489 stereo", 0, &ChipLevels.iLevelSN7Sep);		// // //
 }
 
 template<class T> void CSettings::AddSetting(LPCTSTR pSection, LPCTSTR pEntry, T tDefault, T* pVariable)

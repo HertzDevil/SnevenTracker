@@ -40,9 +40,9 @@ void CConfigMixer::DoDataExchange(CDataExchange* pDX)
 {
 	CPropertyPage::DoDataExchange(pDX);
 
-	DDX_Slider(pDX, IDC_SLIDER_APU1, m_iLevelAPU1);
-	DDX_Slider(pDX, IDC_SLIDER_APU2, m_iLevelAPU2);
-	// // //
+	DDX_Slider(pDX, IDC_SLIDER_APU1, m_iLevelSN7L);
+	DDX_Slider(pDX, IDC_SLIDER_APU2, m_iLevelSN7R);
+	DDX_Slider(pDX, IDC_SLIDER_STEREO, m_iLevelSN7Sep);		// // //
 
 	UpdateLevels();
 }
@@ -61,13 +61,17 @@ BOOL CConfigMixer::OnInitDialog()
 {
 	const CSettings *pSettings = theApp.GetSettings();
 
-	m_iLevelAPU1 = -pSettings->ChipLevels.iLevelAPU1;
-	m_iLevelAPU2 = -pSettings->ChipLevels.iLevelAPU2;
-	// // //
+	m_iLevelSN7L = -pSettings->ChipLevels.iLevelSN7L;
+	m_iLevelSN7R = -pSettings->ChipLevels.iLevelSN7R;
+	m_iLevelSN7Sep = 100 - pSettings->ChipLevels.iLevelSN7Sep;		// // //
 
 	SetupSlider(IDC_SLIDER_APU1);
 	SetupSlider(IDC_SLIDER_APU2);
-	// // //
+
+	CSliderCtrl *pSlider = static_cast<CSliderCtrl*>(GetDlgItem(IDC_SLIDER_STEREO));		// // //
+	pSlider->SetRange(0, 100);
+	pSlider->SetTicFreq(10);
+	pSlider->SetPageSize(5);
 
 	CPropertyPage::OnInitDialog();
 
@@ -79,9 +83,9 @@ BOOL CConfigMixer::OnApply()
 {
 	CSettings *pSettings = theApp.GetSettings();
 
-	pSettings->ChipLevels.iLevelAPU1 = -m_iLevelAPU1;
-	pSettings->ChipLevels.iLevelAPU2 = -m_iLevelAPU2;
-	// // //
+	pSettings->ChipLevels.iLevelSN7L = -m_iLevelSN7L;
+	pSettings->ChipLevels.iLevelSN7R = -m_iLevelSN7R;
+	pSettings->ChipLevels.iLevelSN7Sep = 100 - m_iLevelSN7Sep;		// // //
 
 	theApp.LoadSoundConfig();
 
@@ -105,9 +109,14 @@ void CConfigMixer::SetupSlider(int nID) const
 
 void CConfigMixer::UpdateLevels()
 {
-	UpdateLevel(IDC_LEVEL_APU1, m_iLevelAPU1);
-	UpdateLevel(IDC_LEVEL_APU2, m_iLevelAPU2);
+	UpdateLevel(IDC_LEVEL_APU1, m_iLevelSN7L);
+	UpdateLevel(IDC_LEVEL_APU2, m_iLevelSN7R);
 	// // //
+	CString str, str2;
+	str.Format(_T("%d%%"), 100 - m_iLevelSN7Sep);
+	GetDlgItemText(IDC_SLIDER_STEREO, str2);
+	if (str.Compare(str2) != 0)
+		SetDlgItemText(IDC_LEVEL_APU3, str);
 }
 
 void CConfigMixer::UpdateLevel(int nID, int Level)

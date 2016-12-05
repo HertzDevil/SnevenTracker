@@ -60,7 +60,8 @@ public:
 	// // //
 	uint8	GetReg(int Chip, int Reg) const;
 
-	void	SetChipLevel(chip_level_t Chip, float Level);
+	void	SetChipLevel(chip_level_t Chip, float Level) const;
+	void	SetStereoSeparation(float Sep) const;		// // //
 
 	void	SetVGMWriter(VGMChip Chip, const CVGMWriterBase *pWrite);		// // //
 

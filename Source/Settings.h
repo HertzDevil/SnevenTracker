@@ -178,9 +178,9 @@ public:
 	bool FollowMode;
 
 	struct {
-		int		iLevelAPU1;
-		int		iLevelAPU2;
-		// // //
+		int		iLevelSN7L;
+		int		iLevelSN7R;
+		int		iLevelSN7Sep;		// // //
 	} ChipLevels;
 
 	CString InstrumentMenuPath;

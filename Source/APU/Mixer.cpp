@@ -67,13 +67,15 @@ static const int   LEVEL_FALL_OFF_DELAY = 3;
 
 CMixer::CMixer()
 {
-	memset(m_iChannels, 0, sizeof(int32) * CHANNELS);
+	memset(m_iChannelsLeft, 0, sizeof(int32) * CHANNELS);		// // //
+	memset(m_iChannelsRight, 0, sizeof(int32) * CHANNELS);		// // //
 	memset(m_fChannelLevels, 0, sizeof(float) * CHANNELS);
 	memset(m_iChanLevelFallOff, 0, sizeof(uint32) * CHANNELS);
 
 	m_fLevelSN7Left = 1.0f;
 	m_fLevelSN7Right = 1.0f;
-	// // //
+	m_fLevelSN7SepHi = 1.0f;		// // //
+	m_fLevelSN7SepLo = 0.0f;		// // //
 
 	m_iExternalChip = 0;
 	m_iSampleRate = 0;
@@ -107,7 +109,10 @@ void CMixer::SetChipLevel(chip_level_t Chip, float Level)
 		case CHIP_LEVEL_SN7R:
 			m_fLevelSN7Right = Level;
 			break;
-		// // //
+		case CHIP_LEVEL_SN7Sep:		// // //
+			m_fLevelSN7SepHi = .5f + Level / 2.f;
+			m_fLevelSN7SepLo = .5f - Level / 2.f;
+			break;
 	}
 }
 
@@ -217,29 +222,43 @@ int CMixer::FinishBuffer(int t)
 
 // // //
 
-void CMixer::AddValue(int ChanID, int Chip, int Value, int AbsValue, int FrameCycles, bool Right)		// // //
+void CMixer::AddValue(int ChanID, int Chip, int Left, int Right, int FrameCycles)		// // //
 {
 	// Add sound to mixer
 	//
 	
-	int Delta = Value - m_iChannels[ChanID];
-	StoreChannelLevel(ChanID, AbsValue);
-	m_iChannels[ChanID] = Value;
+	StoreChannelLevel(ChanID, (int)sqrt((Left * Left + Right * Right) / 2));		// // //
 
-	switch (Chip) {
+	if (int Delta = Left - m_iChannelsLeft[ChanID]) {		// // //
+		m_iChannelsLeft[ChanID] = Left;
+		switch (Chip) {
 		case SNDCHIP_NONE:
 			switch (ChanID) {
-				case CHANID_SQUARE1:
-				case CHANID_SQUARE2:
-				case CHANID_SQUARE3:
-				case CHANID_NOISE:
-					if (Right)		// // //
-						SynthSN76489Right.offset(FrameCycles, Value, &BlipBufferRight);
-					else
-						SynthSN76489Left.offset(FrameCycles, Value, &BlipBufferLeft);
+			case CHANID_SQUARE1:
+			case CHANID_SQUARE2:
+			case CHANID_SQUARE3:
+			case CHANID_NOISE:
+				SynthSN76489Left.offset(FrameCycles, (int)(Delta * m_fLevelSN7SepHi), &BlipBufferLeft);
+				SynthSN76489Right.offset(FrameCycles, (int)(Delta * m_fLevelSN7SepLo), &BlipBufferRight);
 			}
 			break;
-		// // //
+		}
+	}
+
+	if (int Delta = Right - m_iChannelsRight[ChanID]) {		// // //
+		m_iChannelsRight[ChanID] = Right;
+		switch (Chip) {
+		case SNDCHIP_NONE:
+			switch (ChanID) {
+			case CHANID_SQUARE1:
+			case CHANID_SQUARE2:
+			case CHANID_SQUARE3:
+			case CHANID_NOISE:
+				SynthSN76489Left.offset(FrameCycles, (int)(Delta * m_fLevelSN7SepLo), &BlipBufferLeft);
+				SynthSN76489Right.offset(FrameCycles, (int)(Delta * m_fLevelSN7SepHi), &BlipBufferRight);
+			}
+			break;
+		}
 	}
 }
 
