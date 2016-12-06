@@ -12,10 +12,11 @@
 ###### Variants
 
 - _(TODO)_
+<!-- https://github.com/mamedev/mame/blob/master/src/devices/sound/sn76496.cpp -->
 
 #### Game Gear (PSG)
 
-- Same as SN76489, except all channels have L/R hardpanning
+- Same as SN76489, except all channels have L/R hardpanning, and noise generation is slightly different
 
 #### T6W28 (NGP)
 
@@ -35,7 +36,7 @@ _(TODO)_
 #### N00 - N1F
 
 - **Name:** Panning setting
-- **Target:** SN76489, ~~T6W28~~
+- **Target:** PSG, ~~T6W28~~
 - **Default:** `N10`
 - **Description:** Changes the volume balance for the left and right output channels. `N01` is left, `N10` is center, `N1F` is right. The special `N00` silences both output channels. ~~Intermediate values are supported only by the T6W28 chip; it effectively decreases the output volume in one of the output channels, but never silences it unless `N01` or `N1F` is used.~~
 
