@@ -164,6 +164,7 @@
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <ObjectFileName>obj/$(IntDir)/%(RelativeDir)/</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -235,6 +236,7 @@
       <AssemblerOutput />
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ObjectFileName>obj/$(IntDir)/%(RelativeDir)/</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -384,30 +386,9 @@
     <ClCompile Include="Source\CommandLineExport.cpp" />
     <ClCompile Include="Source\CommentsDlg.cpp" />
     <ClCompile Include="Source\Compiler.cpp" />
-    <ClCompile Include="Source\ConfigAppearance.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="Source\ConfigGeneral.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="Source\ConfigMIDI.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-    </ClCompile>
+    <ClCompile Include="Source\ConfigAppearance.cpp" />
+    <ClCompile Include="Source\ConfigGeneral.cpp" />
+    <ClCompile Include="Source\ConfigMIDI.cpp" />
     <ClCompile Include="Source\ConfigMixer.cpp" />
     <ClCompile Include="Source\ConfigShortcuts.cpp" />
     <ClCompile Include="Source\ConfigSound.cpp" />
@@ -421,22 +402,8 @@
     <ClCompile Include="Source\ExportDialog.cpp" />
     <ClCompile Include="Source\ExportTest\ExportTest.cpp" />
     <ClCompile Include="Source\FamiTracker.cpp" />
-    <ClCompile Include="Source\FamiTrackerDoc.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="Source\FamiTrackerView.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-    </ClCompile>
+    <ClCompile Include="Source\FamiTrackerDoc.cpp" />
+    <ClCompile Include="Source\FamiTrackerView.cpp" />
     <ClCompile Include="Source\FFT\Fft.cpp" />
     <ClCompile Include="Source\FrameAction.cpp" />
     <ClCompile Include="Source\FrameEditor.cpp" />
@@ -444,34 +411,13 @@
     <ClCompile Include="Source\Graphics.cpp" />
     <ClCompile Include="Source\Instrument.cpp" />
     <ClCompile Include="Source\Instrument2A03.cpp" />
-    <ClCompile Include="Source\InstrumentEditDlg.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-    </ClCompile>
+    <ClCompile Include="Source\InstrumentEditDlg.cpp" />
     <ClCompile Include="Source\InstrumentEditor2A03.cpp" />
     <ClCompile Include="Source\InstrumentEditPanel.cpp" />
     <ClCompile Include="Source\InstrumentFileTree.cpp" />
     <ClCompile Include="Source\InstrumentListCtrl.cpp" />
-    <ClCompile Include="Source\MainFrm.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="Source\MIDI.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-    </ClCompile>
+    <ClCompile Include="Source\MainFrm.cpp" />
+    <ClCompile Include="Source\MIDI.cpp" />
     <ClCompile Include="Source\ModuleImportDlg.cpp" />
     <ClCompile Include="Source\ModulePropertiesDlg.cpp" />
     <ClCompile Include="Source\PatternAction.cpp" />
@@ -479,45 +425,17 @@
     <ClCompile Include="Source\PatternData.cpp" />
     <ClCompile Include="Source\PatternEditor.cpp" />
     <ClCompile Include="Source\PatternEditorTypes.cpp" />
-    <ClCompile Include="Source\PerformanceDlg.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-    </ClCompile>
+    <ClCompile Include="Source\PerformanceDlg.cpp" />
     <ClCompile Include="Source\resampler\resample.cpp" />
     <ClCompile Include="Source\resampler\sinc.cpp" />
     <ClCompile Include="Source\Sequence.cpp" />
     <ClCompile Include="Source\SequenceEditor.cpp" />
     <ClCompile Include="Source\SequenceSetting.cpp" />
-    <ClCompile Include="Source\Settings.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-    </ClCompile>
+    <ClCompile Include="Source\Settings.cpp" />
     <ClCompile Include="Source\SizeEditor.cpp" />
     <ClCompile Include="Source\SoundGen.cpp" />
-    <ClCompile Include="Source\SpeedDlg.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="Source\stdafx.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-    </ClCompile>
+    <ClCompile Include="Source\SpeedDlg.cpp"/>
+    <ClCompile Include="Source\stdafx.cpp" />
     <ClCompile Include="Source\TextExporter.cpp" />
     <ClCompile Include="Source\TrackerChannel.cpp" />
     <ClCompile Include="Source\vgmtools\chip_cmp.c" />
@@ -533,122 +451,7 @@
     <ClCompile Include="Source\WavProgressDlg.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="resource.h">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Generating map file for help compiler...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">echo // Generated Help Map file.  Used by FamiTracker.HHP. &gt; "hlp\HTMLDefines.h"
-echo. &gt; "hlp\HTMLDefines.h"
-echo // Commands (ID_* and IDM_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Prompts (IDP_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDP_,HIDP_,0x30000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Resources (IDR_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDR_,HIDR_,0x20000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Dialogs (IDD_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDD_,HIDD_,0x20000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Frame Controls (IDW_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">hlp\HTMLDefines.h;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating map file for help compiler...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">echo // Generated Help Map file.  Used by FamiTracker.HHP. &gt; "hlp\HTMLDefines.h"
-echo. &gt; "hlp\HTMLDefines.h"
-echo // Commands (ID_* and IDM_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Prompts (IDP_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDP_,HIDP_,0x30000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Resources (IDR_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDR_,HIDR_,0x20000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Dialogs (IDD_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDD_,HIDD_,0x20000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Frame Controls (IDW_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">hlp\HTMLDefines.h;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">Generating map file for help compiler...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">echo // Generated Help Map file.  Used by FamiTracker.HHP. &gt; "hlp\HTMLDefines.h"
-echo. &gt; "hlp\HTMLDefines.h"
-echo // Commands (ID_* and IDM_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Prompts (IDP_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDP_,HIDP_,0x30000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Resources (IDR_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDR_,HIDR_,0x20000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Dialogs (IDD_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDD_,HIDD_,0x20000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Frame Controls (IDW_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'">hlp\HTMLDefines.h;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">Generating map file for help compiler...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">echo // Generated Help Map file.  Used by FamiTracker.HHP. &gt; "hlp\HTMLDefines.h"
-echo. &gt; "hlp\HTMLDefines.h"
-echo // Commands (ID_* and IDM_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Prompts (IDP_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDP_,HIDP_,0x30000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Resources (IDR_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDR_,HIDR_,0x20000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Dialogs (IDD_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDD_,HIDD_,0x20000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Frame Controls (IDW_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">hlp\HTMLDefines.h;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Generating map file for help compiler...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">echo // Generated Help Map file.  Used by FamiTracker.HHP. &gt; "hlp\HTMLDefines.h"
-echo. &gt; "hlp\HTMLDefines.h"
-echo // Commands (ID_* and IDM_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Prompts (IDP_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDP_,HIDP_,0x30000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Resources (IDR_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDR_,HIDR_,0x20000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Dialogs (IDD_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDD_,HIDD_,0x20000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Frame Controls (IDW_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">hlp\HTMLDefines.h;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating map file for help compiler...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">echo // Generated Help Map file.  Used by FamiTracker.HHP. &gt; "hlp\HTMLDefines.h"
-echo. &gt; "hlp\HTMLDefines.h"
-echo // Commands (ID_* and IDM_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h ID_,HID_,0x10000 IDM_,HIDM_,0x10000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Prompts (IDP_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDP_,HIDP_,0x30000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Resources (IDR_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDR_,HIDR_,0x20000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Dialogs (IDD_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h IDD_,HIDD_,0x20000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-echo. &gt;&gt; "hlp\HTMLDefines.h"
-echo // Frame Controls (IDW_*) &gt;&gt; "hlp\HTMLDefines.h"
-makehm /h /a afxhh.h IDW_,HIDW_,0x50000 "%(Filename)%(Extension)" &gt;&gt; "hlp\HTMLDefines.h"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">hlp\HTMLDefines.h;%(Outputs)</Outputs>
-    </CustomBuild>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Source\AboutDlg.h" />
     <ClInclude Include="Source\Accelerator.h" />
     <ClInclude Include="Source\Action.h" />
