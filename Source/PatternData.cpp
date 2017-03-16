@@ -151,9 +151,69 @@ void CPatternData::ClearPattern(unsigned int Channel, unsigned int Pattern)
 	}
 }
 
+unsigned int CPatternData::GetPatternLength() const		// // //
+{
+	return m_iPatternLength;
+}
+
+unsigned int CPatternData::GetFrameCount() const
+{
+	return m_iFrameCount;
+}
+
+unsigned int CPatternData::GetSongSpeed() const
+{
+	return m_iSongSpeed;
+}
+
+unsigned int CPatternData::GetSongTempo() const
+{
+	return m_iSongTempo;
+}
+
+int CPatternData::GetEffectColumnCount(int Channel) const
+{
+	return m_iEffectColumns[Channel];
+}
+
 unsigned int CPatternData::GetFramePattern(unsigned int Frame, unsigned int Channel) const
 { 
 	return m_iFrameList[Frame][Channel]; 
+}
+
+unsigned int CPatternData::GetSecondRowHighlight() const
+{
+	return m_iRowHighlight1;
+}
+
+unsigned int CPatternData::GetFirstRowHighlight() const
+{
+	return m_iRowHighlight2;
+}
+
+void CPatternData::SetPatternLength(unsigned int Length)
+{
+	m_iPatternLength = Length;
+}
+
+void CPatternData::SetFrameCount(unsigned int Count)
+{
+	m_iFrameCount = Count;
+}
+
+void CPatternData::SetSongSpeed(unsigned int Speed)
+{
+	m_iSongSpeed = Speed;
+}
+
+void CPatternData::SetSongTempo(unsigned int Tempo)
+{
+	m_iSongTempo = Tempo;
+}
+
+void CPatternData::SetEffectColumnCount(int Channel, int Count)
+{
+	m_iEffectColumns[Channel] = Count;
 }
 
 void CPatternData::SetFramePattern(unsigned int Frame, unsigned int Channel, unsigned int Pattern)
@@ -165,14 +225,4 @@ void CPatternData::SetHighlight(unsigned int First, unsigned int Second)
 {
 	m_iRowHighlight1 = First;
 	m_iRowHighlight2 = Second;
-}
-
-unsigned int CPatternData::GetSecondRowHighlight() const
-{
-	return m_iRowHighlight1;
-}
-
-unsigned int CPatternData::GetFirstRowHighlight() const
-{
-	return m_iRowHighlight2;
 }

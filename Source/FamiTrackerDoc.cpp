@@ -848,6 +848,7 @@ bool CFamiTrackerDoc::WriteBlock_Patterns(CDocumentFile *pDocFile) const
 #endif
 
 	for (unsigned t = 0; t < m_iTrackCount; ++t) {
+		CPatternData *pTrack = GetTrack(t);		// // //
 		for (unsigned i = 0; i < m_iChannelsAvailable; ++i) {
 			for (unsigned x = 0; x < MAX_PATTERN; ++x) {
 				unsigned Items = 0;
@@ -858,7 +859,7 @@ bool CFamiTrackerDoc::WriteBlock_Patterns(CDocumentFile *pDocFile) const
 				
 				// Get the number of items in this pattern
 				for (unsigned y = 0; y < PatternLen; ++y) {
-					if (!m_pTracks[t]->IsCellFree(i, x, y))
+					if (!pTrack->IsCellFree(i, x, y))		// // //
 						Items++;
 				}
 
@@ -869,19 +870,20 @@ bool CFamiTrackerDoc::WriteBlock_Patterns(CDocumentFile *pDocFile) const
 					pDocFile->WriteBlockInt(Items);	// Number of items
 
 					for (unsigned y = 0; y < PatternLen; y++) {
-						if (!m_pTracks[t]->IsCellFree(i, x, y)) {
+						if (!pTrack->IsCellFree(i, x, y)) {		// // //
 							pDocFile->WriteBlockInt(y);
 
-							pDocFile->WriteBlockChar(m_pTracks[t]->GetNote(i, x, y));
-							pDocFile->WriteBlockChar(m_pTracks[t]->GetOctave(i, x, y));
-							pDocFile->WriteBlockChar(m_pTracks[t]->GetInstrument(i, x, y));
-							pDocFile->WriteBlockChar(m_pTracks[t]->GetVolume(i, x, y));
+							stChanNote &note = *pTrack->GetPatternData(i, x, y);
+							pDocFile->WriteBlockChar(note.Note);
+							pDocFile->WriteBlockChar(note.Octave);
+							pDocFile->WriteBlockChar(note.Instrument);
+							pDocFile->WriteBlockChar(note.Vol);
 
 							int EffColumns = (m_pTracks[t]->GetEffectColumnCount(i) + 1);
 
 							for (int n = 0; n < EffColumns; n++) {
-								pDocFile->WriteBlockChar(m_pTracks[t]->GetEffect(i, x, y, n));
-								pDocFile->WriteBlockChar(m_pTracks[t]->GetEffectParam(i, x, y, n));
+								pDocFile->WriteBlockChar(note.EffNumber[n]);
+								pDocFile->WriteBlockChar(note.EffParam[n]);
 							}
 						}
 					}
