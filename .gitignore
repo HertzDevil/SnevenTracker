@@ -26,3 +26,4 @@ hlp/
 *.db
 *.opendb
 *.sdf
+.vs/*
