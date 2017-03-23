@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnevenTracker", "FamiTracker.vcxproj", "{92FE0690-CE4F-4CCF-A52C-23265AE7429F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests", "UnitTests\UnitTests.vcxproj", "{E520B69D-9ADE-4CB5-A44D-7345ECC40ACD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{92FE0690-CE4F-4CCF-A52C-23265AE7429F} = {92FE0690-CE4F-4CCF-A52C-23265AE7429F}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +32,18 @@ Global
 		{92FE0690-CE4F-4CCF-A52C-23265AE7429F}.Release|Win32.Build.0 = Release|Win32
 		{92FE0690-CE4F-4CCF-A52C-23265AE7429F}.Release|x64.ActiveCfg = Release|x64
 		{92FE0690-CE4F-4CCF-A52C-23265AE7429F}.Release|x64.Build.0 = Release|x64
+		{E520B69D-9ADE-4CB5-A44D-7345ECC40ACD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E520B69D-9ADE-4CB5-A44D-7345ECC40ACD}.Debug|Win32.Build.0 = Debug|Win32
+		{E520B69D-9ADE-4CB5-A44D-7345ECC40ACD}.Debug|x64.ActiveCfg = Debug|x64
+		{E520B69D-9ADE-4CB5-A44D-7345ECC40ACD}.Debug|x64.Build.0 = Debug|x64
+		{E520B69D-9ADE-4CB5-A44D-7345ECC40ACD}.Release 64|Win32.ActiveCfg = Release|Win32
+		{E520B69D-9ADE-4CB5-A44D-7345ECC40ACD}.Release 64|Win32.Build.0 = Release|Win32
+		{E520B69D-9ADE-4CB5-A44D-7345ECC40ACD}.Release 64|x64.ActiveCfg = Release|x64
+		{E520B69D-9ADE-4CB5-A44D-7345ECC40ACD}.Release 64|x64.Build.0 = Release|x64
+		{E520B69D-9ADE-4CB5-A44D-7345ECC40ACD}.Release|Win32.ActiveCfg = Release|Win32
+		{E520B69D-9ADE-4CB5-A44D-7345ECC40ACD}.Release|Win32.Build.0 = Release|Win32
+		{E520B69D-9ADE-4CB5-A44D-7345ECC40ACD}.Release|x64.ActiveCfg = Release|x64
+		{E520B69D-9ADE-4CB5-A44D-7345ECC40ACD}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
