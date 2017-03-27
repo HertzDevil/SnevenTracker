@@ -1612,6 +1612,8 @@ public:
 // clang-format off
 #define DOCTEST_SCENARIO(name)  TEST_CASE("  Scenario: " name)
 #define DOCTEST_GIVEN(name)     SUBCASE("   Given: " name)
+// // // and given
+#define DOCTEST_AND_GIVEN(name) SUBCASE("     And: " name)
 #define DOCTEST_WHEN(name)      SUBCASE("    When: " name)
 #define DOCTEST_AND_WHEN(name)  SUBCASE("And when: " name)
 #define DOCTEST_THEN(name)      SUBCASE("    Then: " name)
@@ -1644,6 +1646,8 @@ public:
 
 #define SCENARIO DOCTEST_SCENARIO
 #define GIVEN DOCTEST_GIVEN
+// // // and given
+#define AND_GIVEN DOCTEST_AND_GIVEN
 #define WHEN DOCTEST_WHEN
 #define AND_WHEN DOCTEST_AND_WHEN
 #define THEN DOCTEST_THEN
